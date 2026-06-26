@@ -9,7 +9,7 @@ import { getProduct } from "@/lib/products";
 import { getWorkflow } from "@/lib/content";
 import { getTerm, getTemplate } from "@/lib/library";
 import { pageMetadata } from "@/lib/seo";
-import { JsonLd, breadcrumbLd } from "@/lib/jsonld";
+import { JsonLd, breadcrumbLd, faqLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
   return tools.map((t) => ({ slug: t.slug }));
@@ -34,7 +34,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <JsonLd data={breadcrumbLd(crumbs)} />
+      <JsonLd data={[breadcrumbLd(crumbs), ...(t.faqs.length ? [faqLd(t.faqs)] : [])]} />
       <Container className="py-12">
         <Breadcrumbs items={crumbs} />
         <div className="grid items-start gap-12 lg:grid-cols-2">

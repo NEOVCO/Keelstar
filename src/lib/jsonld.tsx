@@ -6,6 +6,7 @@ export function organizationLd() {
     "@type": "Organization",
     name: site.name,
     url: site.url,
+    logo: `${site.url}/favicon.png`,
     description: site.description,
     sameAs: [] as string[],
   };
@@ -60,6 +61,18 @@ export function articleLd(a: { title: string; description: string; path: string;
     dateModified: a.updated,
     author: { "@type": "Organization", name: a.author, url: site.url },
     mainEntityOfPage: `${site.url}${a.path}`,
+  };
+}
+
+export function faqLd(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 }
 

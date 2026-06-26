@@ -9,7 +9,7 @@ import { getWorkflow } from "@/lib/content";
 import { getTool } from "@/lib/tools";
 import { getTerm, getTemplate, getCompare } from "@/lib/library";
 import { pageMetadata } from "@/lib/seo";
-import { JsonLd, softwareApplicationLd, breadcrumbLd } from "@/lib/jsonld";
+import { JsonLd, softwareApplicationLd, breadcrumbLd, faqLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
   return allProducts.map((p) => ({ slug: p.slug }));
@@ -47,6 +47,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         data={[
           softwareApplicationLd({ name: p.name, description: p.sub, path: `/products/${p.slug}/` }),
           breadcrumbLd(crumbs),
+          ...(p.faqs.length ? [faqLd(p.faqs)] : []),
         ]}
       />
 

@@ -16,13 +16,31 @@ export const metadata: Metadata = {
   description: site.description,
   applicationName: "Keelstar",
   alternates: { canonical: "/" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
   openGraph: {
     type: "website",
     siteName: "Keelstar",
+    locale: "en_US",
     title: "Keelstar — Operational Workflow Platform",
     description: site.description,
     url: site.url,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Keelstar — Operational Workflow Platform" }],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Keelstar — Operational Workflow Platform",
+    description: site.description,
+    images: ["/opengraph-image"],
+  },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  category: "business",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

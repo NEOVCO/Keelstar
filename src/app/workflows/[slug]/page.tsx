@@ -9,7 +9,7 @@ import { getTool } from "@/lib/tools";
 import { getTerm, getTemplate } from "@/lib/library";
 import { getGuide } from "@/lib/guides";
 import { pageMetadata } from "@/lib/seo";
-import { JsonLd, breadcrumbLd } from "@/lib/jsonld";
+import { JsonLd, breadcrumbLd, faqLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
   return workflows.map((w) => ({ slug: w.slug }));
@@ -35,7 +35,7 @@ export default function WorkflowPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <JsonLd data={breadcrumbLd(crumbs)} />
+      <JsonLd data={[breadcrumbLd(crumbs), ...(w.faqs.length ? [faqLd(w.faqs)] : [])]} />
       <Container className="pb-10 pt-12">
         <Breadcrumbs items={crumbs} />
         <div className="max-w-3xl">
