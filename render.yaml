@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: keelstar-web
+    runtime: node
+    plan: starter
+    repo: https://github.com/NEOVCO/Keelstar
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "20"

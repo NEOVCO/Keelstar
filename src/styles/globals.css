@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* color */
+  --color-bg: #fbfaf8;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #f5f3ef;
+  --color-text-primary: #1a1c1e;
+  --color-text-secondary: #5b6068;
+  --color-text-tertiary: #8a8f97;
+  --color-border: #e8e4dc;
+  --color-border-strong: #d6d1c7;
+  --color-accent: #1f3a5f;
+  --color-accent-hover: #16304f;
+  --color-accent-subtle: #eef2f7;
+  --color-success: #2f6b4f;
+  --color-success-subtle: #eaf2ed;
+  --color-warning: #8a6a1e;
+  --color-warning-subtle: #f6f0e2;
+  --color-error: #8e3b36;
+  --color-error-subtle: #f6eae9;
+  --color-ink: #15171a;
+  --color-ink-text: #d9d5cd;
+  --color-ink-border: #2a2d31;
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv05", "ss01", "tnum";
+  }
+  ::selection {
+    background-color: var(--color-accent-subtle);
+    color: var(--color-accent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  h1, h2, h3, h4 {
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 64px);
+  }
+  .prose-keel {
+    max-width: 720px;
+  }
+  .prose-keel p {
+    color: var(--color-text-secondary);
+    margin-block: 1rem;
+    line-height: 1.7;
+  }
+  .prose-keel h2 {
+    font-size: 1.5rem;
+    letter-spacing: -0.012em;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .prose-keel h3 {
+    font-size: 1.1875rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .prose-keel ul {
+    margin-block: 1rem;
+    padding-left: 1.1rem;
+    list-style: disc;
+    color: var(--color-text-secondary);
+  }
+  .prose-keel li {
+    margin-block: 0.35rem;
+  }
+  .prose-keel a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
