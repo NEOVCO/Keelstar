@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { JsonLd, organizationLd } from "@/lib/jsonld";
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <GoogleAnalytics />
         <JsonLd data={organizationLd()} />
         <Header />
         <main id="main">{children}</main>

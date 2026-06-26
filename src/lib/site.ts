@@ -10,6 +10,7 @@ export const site = {
     "Keelstar is the operational workflow platform for collecting, approving, monitoring, and auditing the business documents that keep companies running.",
   email: "hello@keelstar.com",
   securityEmail: "security@keelstar.com",
+  googleAnalyticsId: "G-STYT1K3X3W",
 };
 
 export type NavLink = { label: string; href: string; desc?: string; badge?: string };
@@ -36,7 +37,7 @@ export const productsMenu: NavGroup[] = [
   {
     label: "HR Compliance",
     links: [
-      { label: "Policy Acknowledgement Tracker", href: "/products/policy-acknowledgement-tracker/", desc: "Collect acknowledgements, keep versions." },
+      { label: "Policy Acknowledgment Tracker", href: "/products/policy-acknowledgment-tracker/", desc: "Collect acknowledgments, keep versions." },
       { label: "Training Record Tracker", href: "/products/training-record-tracker/", desc: "Track training and certification expirations." },
     ],
   },

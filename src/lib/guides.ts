@@ -137,7 +137,7 @@ const coreGuides: Guide[] = [
     "why-spreadsheets-fail-for-compliance-tracking",
     "Why Spreadsheets Fail for Compliance Tracking",
     "Spreadsheets are great for analysis and poor for monitoring. Here's the difference.",
-    "Spreadsheets don't remind you, don't validate input, don't record who changed what, and don't notify anyone when a date passes. For recurring compliance work — expirations, renewals, acknowledgements — those gaps are exactly the job. That's why monitored workflows replace them.",
+    "Spreadsheets don't remind you, don't validate input, don't record who changed what, and don't notify anyone when a date passes. For recurring compliance work — expirations, renewals, acknowledgments — those gaps are exactly the job. That's why monitored workflows replace them.",
     "platform",
     "replace-spreadsheets-with-operational-workflows",
     [
@@ -169,7 +169,7 @@ function makeGuideFiller(): Guide[] {
     { product: "contract-renewal-tracker", workflow: "monitor-contract-renewals", titles: ["How to Avoid Accidental Auto-Renewals", "How to Read a Contract Term and Renewal Clause", "How to Build a Contract Renewal Calendar", "How to Give Notice of Non-Renewal", "What an Evergreen Contract Means", "How to Track Notice Periods Across a Portfolio", "How to Prepare for a Contract Renegotiation"] },
     { product: "contract-risk-scanner", workflow: "review-contract-risk", titles: ["How to Review a Contract Before Signing", "What to Look for in an Indemnification Clause", "How to Read a Limitation of Liability Clause", "How to Spot Risk in a Termination Clause", "What Governing Law Means in a Contract", "How to Review a Statement of Work"] },
     { product: "simple-signer", workflow: "send-documents-for-signature", titles: ["How to Send a Document for Signature", "Are Electronic Signatures Legally Valid", "How to Store Signed Documents", "How to Chase a Pending Signature"] },
-    { product: "policy-acknowledgement-tracker", workflow: "send-policy-acknowledgements", titles: ["How to Collect Policy Acknowledgements", "How to Handle Policy Version Changes", "How to Prove Employees Read a Policy", "How to Roll Out a New Policy"] },
+    { product: "policy-acknowledgment-tracker", workflow: "send-policy-acknowledgments", titles: ["How to Collect Policy Acknowledgments", "How to Handle Policy Version Changes", "How to Prove Employees Read a Policy", "How to Roll Out a New Policy"] },
     { product: "training-record-tracker", workflow: "track-training-records", titles: ["How to Track Certification Expirations", "How to Build a Training Record System", "How to Prepare Training Records for an Audit", "How to Set Certification Renewal Reminders"] },
     { product: "invoice-approval", workflow: "route-invoice-approvals", titles: ["How to Design an Approval Matrix", "What Segregation of Duties Means in AP", "How to Reduce Invoice Approval Delays", "How to Audit Invoice Approvals", "How to Handle Out-of-Policy Invoices"] },
     { product: "exclusion-monitor", workflow: "screen-vendors-against-exclusion-lists", titles: ["How to Screen Vendors Against the OIG List", "What OFAC Screening Requires", "How to Screen Employees for Exclusions", "How to Document Exclusion Screening", "How Often to Re-screen for Exclusions"] },

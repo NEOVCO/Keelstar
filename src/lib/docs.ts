@@ -37,7 +37,7 @@ export const docsNav: DocSection[] = [
       d("contract-renewal-tracker", "Contract Renewal Tracker", "Monitor renewals and notice periods.", ["Extract renewal and notice dates, calculate the decision deadline, and get reminded in time."]),
       d("contract-risk-scanner", "Contract Risk Scanner", "Review contract risk.", ["Surface the clauses that carry commercial risk and produce a consistent review."]),
       d("simple-signer", "Simple Signer", "Send documents for signature.", ["Send documents for signature and keep the executed copy with its audit trail."]),
-      d("policy-acknowledgement-tracker", "Policy Acknowledgement Tracker", "Collect acknowledgements.", ["Distribute policies, collect acknowledgements, and keep version history."]),
+      d("policy-acknowledgment-tracker", "Policy Acknowledgment Tracker", "Collect acknowledgments.", ["Distribute policies, collect acknowledgments, and keep version history."]),
       d("training-record-tracker", "Training Record Tracker", "Track certifications.", ["Record training and certifications and monitor expirations."]),
       d("invoice-approval", "Invoice Approval", "Route approvals.", ["Route invoices through your approval matrix and keep the audit trail."]),
     ],

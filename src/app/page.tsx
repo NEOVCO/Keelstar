@@ -22,7 +22,7 @@ const intentTiles = [
   { label: "Monitor contract renewals", href: "/workflows/monitor-contract-renewals/", icon: CalendarClock },
   { label: "Search exclusion lists", href: "/workflows/screen-vendors-against-exclusion-lists/", icon: ScanSearch },
   { label: "Route invoice approvals", href: "/workflows/route-invoice-approvals/", icon: CheckSquare },
-  { label: "Send policy acknowledgements", href: "/workflows/send-policy-acknowledgements/", icon: FileSignature },
+  { label: "Send policy acknowledgments", href: "/workflows/send-policy-acknowledgments/", icon: FileSignature },
 ];
 
 const stripTools = ["w9-request-generator", "acord-analyzer", "oig-search", "ofac-search", "sam-search", "contract-renewal-extractor"];
@@ -43,7 +43,7 @@ export default function HomePage() {
           <h1 className="text-balance text-h1 sm:text-display">{site.tagline}</h1>
           <p className="mt-5 max-w-2xl text-body-lg text-secondary">
             Collect, approve, monitor, and audit the documents that keep your business running — from W-9s and
-            certificates of insurance to contracts, invoices, and policy acknowledgements.
+            certificates of insurance to contracts, invoices, and policy acknowledgments.
           </p>
           <div className="mt-8">
             <HeroSearch />
