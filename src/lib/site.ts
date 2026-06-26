@@ -11,6 +11,7 @@ export const site = {
   email: "hello@keelstar.com",
   securityEmail: "security@keelstar.com",
   googleAnalyticsId: "G-STYT1K3X3W",
+  clarityProjectId: "xd3e0j7fsb",
 };
 
 export type NavLink = { label: string; href: string; desc?: string; badge?: string };
