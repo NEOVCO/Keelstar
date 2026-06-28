@@ -8,9 +8,14 @@ import {
   FileSignature,
   ArrowRight,
 } from "lucide-react";
+import { Check } from "lucide-react";
 import { Container, Eyebrow, Button, Card, Badge } from "@/components/ui";
 import { Section, WorkflowSpine, TrustCallouts, CtaBand, RelatedGrid } from "@/components/sections";
 import { HeroSearch } from "@/components/HeroSearch";
+import { HomeProductPreview } from "@/components/HomeProductPreview";
+import { SocialProof } from "@/components/SocialProof";
+import { Testimonials } from "@/components/Testimonials";
+import { Faq } from "@/components/Faq";
 import { allProducts } from "@/lib/products";
 import { tools } from "@/lib/tools";
 import { site } from "@/lib/site";
@@ -27,7 +32,7 @@ const intentTiles = [
 
 const stripTools = ["w9-request-generator", "acord-analyzer", "oig-search", "ofac-search", "sam-search", "contract-renewal-extractor"];
 
-const clusters = ["Vendor Compliance", "Contract Operations", "HR Compliance", "Finance Operations"] as const;
+const clusters = ["Vendor Compliance", "Contract Operations", "HR Compliance", "Finance Operations", "Platform"] as const;
 
 export default function HomePage() {
   const freeTools = stripTools.map((s) => tools.find((t) => t.slug === s)!).filter(Boolean);
@@ -36,35 +41,70 @@ export default function HomePage() {
     <>
       <JsonLd data={[websiteLd(), organizationLd()]} />
 
-      {/* 1 — Hero */}
-      <Container className="pb-12 pt-16 sm:pb-16 sm:pt-24">
-        <div className="max-w-3xl">
-          <Eyebrow className="mb-4">Operational Workflow Platform</Eyebrow>
-          <h1 className="text-balance text-h1 sm:text-display">{site.tagline}</h1>
-          <p className="mt-5 max-w-2xl text-body-lg text-secondary">
-            Collect, approve, monitor, and audit the documents that keep your business running — from W-9s and
-            certificates of insurance to contracts, invoices, and policy acknowledgments.
-          </p>
-          <div className="mt-8">
-            <HeroSearch />
+      {/* 1 — Hero banner */}
+      <section className="relative overflow-hidden border-b border-border bg-bg">
+        {/* Banner backdrop: locally-hosted, license-clean texture asset
+            (/public/hero-texture.svg) — paper grain + faint ledger lines + dot grid +
+            soft accent wash. Masked so it fades out before the content below. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: "url('/hero-texture.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center top",
+            WebkitMaskImage: "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.55) 60%, transparent 100%)",
+            maskImage: "linear-gradient(180deg, #000 0%, rgba(0,0,0,0.55) 60%, transparent 100%)",
+          }}
+        />
+        <Container className="relative pb-14 pt-14 sm:pb-20 sm:pt-20">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+          <div>
+            <Eyebrow className="mb-4">Operational Workflow Platform</Eyebrow>
+            <h1 className="text-balance text-h1 sm:text-display">
+              Stop chasing compliance documents through email and spreadsheets.
+            </h1>
+            <p className="mt-5 max-w-xl text-body-lg text-secondary">
+              <span className="font-medium text-primary">{site.tagline}</span> Collect, approve, monitor, and audit the
+              documents that keep your business running — from W-9s and certificates of insurance to contracts,
+              invoices, and policy acknowledgments.
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              <Button href={`${site.appUrl}/sign-up`} size="lg">
+                Start free
+              </Button>
+              <Button href="/tools/" variant="secondary" size="lg">
+                Try a free tool
+              </Button>
+              <Link href="/workflows/" className="px-1 text-body-sm font-medium text-accent hover:underline">
+                Explore workflows →
+              </Link>
+            </div>
+            <ul className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-body-sm text-secondary">
+              {["Free tools, no account", "Monitored workflows from $49 / module / mo", "No implementation project"].map((x) => (
+                <li key={x} className="flex items-center gap-1.5">
+                  <Check className="h-4 w-4 text-success" aria-hidden />
+                  {x}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 max-w-xl">
+              <HeroSearch />
+            </div>
           </div>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <Button href="/tools/" size="lg">
-              Try a free tool
-            </Button>
-            <Button href="/workflows/" variant="secondary" size="lg">
-              Explore workflows
-            </Button>
+            <div className="lg:pl-4">
+              <HomeProductPreview />
+            </div>
           </div>
-          <p className="mt-6 text-body-sm text-secondary">
-            Collect W-9s without email chains. Track COI expirations before they become a problem. Route invoice
-            approvals and keep the audit trail.
-          </p>
-        </div>
-      </Container>
+        </Container>
+      </section>
+
+      {/* Social proof — 650+ companies + logo strip */}
+      <SocialProof />
 
       {/* 2 — Intent tiles */}
-      <Container className="pb-8">
+      <Container className="pb-12 pt-16 sm:pb-16 sm:pt-20">
+        <Eyebrow className="mb-5">Jump straight to a common job</Eyebrow>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {intentTiles.map((t) => {
             const Icon = t.icon;
@@ -86,7 +126,7 @@ export default function HomePage() {
       </Container>
 
       {/* 3 — Free tools strip */}
-      <Section tone="sunken">
+      <Section tone="sunken" className="border-t border-border">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-xl">
             <Eyebrow className="mb-3">Start in seconds, no account</Eyebrow>
@@ -96,24 +136,25 @@ export default function HomePage() {
             All free tools →
           </Link>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-3">
           {freeTools.map((t) => (
-            <Card
-              key={t.slug}
-              title={t.name}
-              desc={t.outcome}
-              footer={
-                <Button href={`/tools/${t.slug}/`} variant="secondary" size="md">
-                  Open tool
-                </Button>
-              }
-            />
+            <div key={t.slug} className="min-w-[78%] shrink-0 snap-start sm:min-w-0 sm:shrink">
+              <Card
+                title={t.name}
+                desc={t.outcome}
+                footer={
+                  <Button href={`/tools/${t.slug}/`} variant="secondary" size="md">
+                    Open tool
+                  </Button>
+                }
+              />
+            </div>
           ))}
         </div>
       </Section>
 
       {/* 4 — Workflow map */}
-      <Section>
+      <Section tone="surface" className="border-t border-border">
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <Eyebrow className="mb-3">One platform. Five jobs.</Eyebrow>
           <h2 className="text-h2">Every document, accounted for</h2>
@@ -126,14 +167,30 @@ export default function HomePage() {
       </Section>
 
       {/* 5 — Product clusters */}
-      <Section tone="surface">
+      <Section tone="sunken" className="border-t border-border">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-xl">
+          <div className="max-w-2xl">
             <Eyebrow className="mb-3">11 applications, one platform</Eyebrow>
-            <h2 className="text-h2">Pick the workflow you need today</h2>
+            <h2 className="text-h2">Pick one module, or several. It&apos;s up to you.</h2>
+            <p className="mt-4 text-body-lg text-secondary">
+              Every application is priced on its own. Start with the single workflow you need today and add more only
+              when you want them — you never pay for modules you don&apos;t use, and there&apos;s no all-or-nothing
+              bundle.
+            </p>
           </div>
           <Link href="/products/" className="text-body-sm font-medium text-accent hover:underline">
             All products →
+          </Link>
+        </div>
+        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 rounded-md border border-border bg-bg px-4 py-3">
+          {["Choose any module", "From $49 / module / month", "Add or remove anytime"].map((x) => (
+            <span key={x} className="flex items-center gap-1.5 text-body-sm font-medium text-primary">
+              <Check className="h-4 w-4 text-success" aria-hidden />
+              {x}
+            </span>
+          ))}
+          <Link href="/pricing/" className="ml-auto text-body-sm font-medium text-accent hover:underline">
+            See pricing →
           </Link>
         </div>
         <div className="mt-10 space-y-10">
@@ -155,8 +212,11 @@ export default function HomePage() {
         </div>
       </Section>
 
+      {/* Testimonials */}
+      <Testimonials />
+
       {/* 6 — Trust */}
-      <Section tone="sunken">
+      <Section tone="sunken" className="border-t border-border">
         <div className="mb-10 max-w-2xl">
           <Eyebrow className="mb-3">Built to be standardized on</Eyebrow>
           <h2 className="text-h2">Monitoring and auditability, by default</h2>
@@ -178,7 +238,7 @@ export default function HomePage() {
       </Section>
 
       {/* 7 — Resources rail */}
-      <Section>
+      <Section tone="surface" className="border-t border-border">
         <div className="mb-10 max-w-xl">
           <Eyebrow className="mb-3">Learn the work, not just the tool</Eyebrow>
           <h2 className="text-h2">Resources for operators</h2>
@@ -223,10 +283,28 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* 8 — Final CTA */}
+      {/* 8 — FAQ (objection handling) */}
+      <Section tone="sunken" className="border-t border-border">
+        <div className="grid gap-12 lg:grid-cols-[1fr_2fr]">
+          <div>
+            <Eyebrow className="mb-3">Before you start</Eyebrow>
+            <h2 className="text-h2">Questions teams ask first</h2>
+          </div>
+          <Faq
+            items={[
+              { q: "Do I have to buy every module?", a: "No. Keelstar is one platform made of focused applications, and each is priced on its own. Start with a single module — say W-9 Collector or COI Tracker — and add others only when you need them." },
+              { q: "Is there an implementation project?", a: "No. Keelstar is self-serve and live the same day. There are no consultants, no setup fees, and no rollout project — you create an account and start your first workflow." },
+              { q: "Can I use it without signing up?", a: "Yes. Every free tool works with no account. You only create an account when you want a workflow monitored — with reminders and an audit trail." },
+              { q: "Can I export my data?", a: "Always. Every workflow supports exporting records and their full history. Your evidence is portable by design, so there's no lock-in." },
+            ]}
+          />
+        </div>
+      </Section>
+
+      {/* 9 — Final CTA */}
       <CtaBand
         title="Replace the spreadsheet. Keep the audit trail."
-        body="Start with one workflow today. Add the rest when you need them."
+        body="Start with one module today. Add the rest when you need them — and pay only for what you use."
         primary={{ label: "Start free", href: `${site.appUrl}/sign-up` }}
         secondary={{ label: "Try a free tool", href: "/tools/" }}
       />
