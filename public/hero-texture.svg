@@ -1,0 +1,46 @@
+<svg viewBox="0 0 1600 760" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="presentation">
+  <defs>
+    <!-- organic paper grain -->
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="saturate" values="0" result="g"/>
+      <feComponentTransfer in="g">
+        <feFuncA type="linear" slope="0.05"/>
+      </feComponentTransfer>
+    </filter>
+    <!-- faint dot grid -->
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="1.2" cy="1.2" r="1.1" fill="#1F3A5F" fill-opacity="0.05"/>
+    </pattern>
+    <!-- soft accent wash from the top -->
+    <linearGradient id="wash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1F3A5F" stop-opacity="0.07"/>
+      <stop offset="0.55" stop-color="#1F3A5F" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- canvas -->
+  <rect width="1600" height="760" fill="#FBFAF8"/>
+  <rect width="1600" height="760" fill="url(#dots)"/>
+
+  <!-- faint ledger / form hairlines, evoking the documents Keelstar manages -->
+  <g stroke="#1F3A5F" stroke-opacity="0.045" stroke-width="1">
+    <line x1="0" y1="120" x2="1600" y2="120"/>
+    <line x1="0" y1="190" x2="1600" y2="190"/>
+    <line x1="0" y1="260" x2="1600" y2="260"/>
+    <line x1="0" y1="330" x2="1600" y2="330"/>
+    <line x1="0" y1="400" x2="1600" y2="400"/>
+    <line x1="0" y1="470" x2="1600" y2="470"/>
+    <line x1="0" y1="540" x2="1600" y2="540"/>
+    <line x1="0" y1="610" x2="1600" y2="610"/>
+  </g>
+
+  <!-- two faint structural verticals, a quiet nod to the keel motif -->
+  <g stroke="#1F3A5F" stroke-opacity="0.04" stroke-width="1">
+    <line x1="533" y1="0" x2="533" y2="760"/>
+    <line x1="1066" y1="0" x2="1066" y2="760"/>
+  </g>
+
+  <rect width="1600" height="760" fill="url(#wash)"/>
+  <rect width="1600" height="760" filter="url(#grain)"/>
+</svg>
