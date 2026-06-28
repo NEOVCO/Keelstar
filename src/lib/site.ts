@@ -1,7 +1,7 @@
 export const site = {
   name: "Keelstar",
   domain: "keelstar.com",
-  url: "https://keelstar.com",
+  url: "https://www.keelstar.com",
   appUrl: "https://app.keelstar.com",
   statusUrl: "https://status.keelstar.com",
   category: "Operational Workflow Platform",
