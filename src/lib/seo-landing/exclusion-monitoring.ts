@@ -1,4 +1,9 @@
 import type { SeoLandingPageData } from "./types";
+import {
+  exclusionMonitoringSections,
+  exclusionMonitoringWhoItsFor,
+} from "./content/exclusion-monitoring";
+import { exclusionMonitoringFaqs } from "./content/exclusion-monitoring-faqs";
 
 export const exclusionMonitoring: SeoLandingPageData = {
   path: "/exclusion-monitoring/",
@@ -13,6 +18,12 @@ export const exclusionMonitoring: SeoLandingPageData = {
   problemTitle: "Why continuous screening matters",
   problem:
     "A clean OIG exclusion search today does not prove compliance next month. Healthcare providers, government contractors, and staffing firms need recurring SAM exclusion search—not a one-time spreadsheet note.",
+  problemBullets: [
+    "One-time OIG exclusion search at onboarding does not satisfy recurring screening requirements",
+    "SAM exclusion records change; annual checks miss months of exposure",
+    "Spreadsheet logs lack disposition history when potential matches appear",
+    "Vendor compliance programs treat screening separately from W-9 and insurance records",
+  ],
   howTitle: "What we are building",
   how: [
     {
@@ -35,24 +46,9 @@ export const exclusionMonitoring: SeoLandingPageData = {
     "Scheduled re-checks with reminders",
     "Dated audit records for every screen",
   ],
-  faqs: [
-    {
-      q: "Is live OIG exclusion search available?",
-      a: "Not yet. Join the waitlist below. We do not show fake search results or simulated matches.",
-    },
-    {
-      q: "What is the OIG exclusion list?",
-      a: "The HHS Office of Inspector General maintains a list of individuals and entities excluded from participating in federal healthcare programs. Many providers must screen vendors and staff against it.",
-    },
-    {
-      q: "What is SAM exclusion search?",
-      a: "SAM.gov includes parties excluded from receiving federal contracts. Government contractors and their subcontractors often screen vendors against SAM as part of supplier compliance.",
-    },
-    {
-      q: "What can I use today?",
-      a: "Keelstar already supports W-9 collection, certificate of insurance tracking, and vendor compliance records. Create a free workspace while exclusion monitoring is in development.",
-    },
-  ],
+  sections: exclusionMonitoringSections,
+  whoItsFor: exclusionMonitoringWhoItsFor,
+  faqs: exclusionMonitoringFaqs,
   ctaTitle: "Join the waitlist",
   ctaBody: "We will notify you when exclusion monitoring ships.",
   comingSoon: true,

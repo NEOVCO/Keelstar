@@ -1,4 +1,10 @@
 import type { SeoLandingPageData } from "./types";
+import {
+  w9CollectionSections,
+  w9CollectionWhoItsFor,
+  w9CollectionChecklist,
+} from "./content/w9-collection";
+import { w9CollectionFaqs } from "./content/w9-collection-faqs";
 
 export const w9Collection: SeoLandingPageData = {
   path: "/w9-collection/",
@@ -13,6 +19,12 @@ export const w9Collection: SeoLandingPageData = {
   problemTitle: "The common problem",
   problem:
     "AP teams chase W-9s over email. Incomplete forms slip through. When year-end arrives, missing or outdated tax IDs create reporting risk and payment delays.",
+  problemBullets: [
+    "Vendors delay or ignore generic W-9 request emails with no secure submission path",
+    "Incomplete forms accepted into vendor files create 1099 and backup withholding risk",
+    "Entity changes after mergers leave outdated legal names on tax records",
+    "January scramble to collect hundreds of W-9s that should have been current all year",
+  ],
   howTitle: "How W-9 collection works",
   how: [
     {
@@ -35,28 +47,15 @@ export const w9Collection: SeoLandingPageData = {
     "Full audit trail for tax and finance reviews",
     "Free email template if you are not ready for tracked collection",
   ],
-  faqs: [
-    {
-      q: "How do I request a W-9 from a vendor?",
-      a: "Send a Keelstar secure link that walks the vendor through Form W-9, or use our free W-9 request generator to draft a professional email.",
-    },
-    {
-      q: "What is a vendor W-9?",
-      a: "Form W-9 is the IRS document vendors complete to provide their legal name, tax classification, and taxpayer identification number for 1099 reporting.",
-    },
-    {
-      q: "When should we re-collect a W-9?",
-      a: "When a vendor changes legal entity, address, or tax ID—or when your records are older than your policy allows. Keelstar can flag stale W-9s automatically.",
-    },
-    {
-      q: "Does Keelstar file 1099s?",
-      a: "No. Keelstar collects and stores W-9 records. Your accounting system or payroll provider handles 1099 filing.",
-    },
-  ],
+  sections: w9CollectionSections,
+  whoItsFor: w9CollectionWhoItsFor,
+  checklist: w9CollectionChecklist,
+  faqs: w9CollectionFaqs,
   ctaTitle: "Collect your first W-9",
   ctaBody: "Start free. Go live the same day.",
   relatedLinks: [
     { label: "W-9 Collector", href: "/products/w9-collector/" },
     { label: "W-9 request generator", href: "/tools/w9-request-generator/" },
+    { label: "Vendor onboarding", href: "/vendor-onboarding/" },
   ],
 };

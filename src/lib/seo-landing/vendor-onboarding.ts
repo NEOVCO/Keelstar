@@ -1,4 +1,10 @@
 import type { SeoLandingPageData } from "./types";
+import {
+  vendorOnboardingSections,
+  vendorOnboardingWhoItsFor,
+  vendorOnboardingChecklist,
+} from "./content/vendor-onboarding";
+import { vendorOnboardingFaqs } from "./content/vendor-onboarding-faqs";
 
 export const vendorOnboarding: SeoLandingPageData = {
   path: "/vendor-onboarding/",
@@ -13,6 +19,12 @@ export const vendorOnboarding: SeoLandingPageData = {
   problemTitle: "The common problem",
   problem:
     "Vendors submit partial packets and onboarding stalls with no clear owner. W-9s arrive without insurance certificates. Banking details show up weeks after the vendor is already working. Supplier registration should not depend on who remembers to follow up.",
+  problemBullets: [
+    "No single checklist—each department requests documents ad hoc over email",
+    "Partial submissions marked complete because someone stopped chasing",
+    "Vendor master data in the ERP does not match documents on file",
+    "Renewals and re-certifications restart the same manual chase every year",
+  ],
   howTitle: "How onboarding works",
   how: [
     {
@@ -31,32 +43,19 @@ export const vendorOnboarding: SeoLandingPageData = {
   benefitsTitle: "Benefits",
   benefits: [
     "Faster time-to-pay for approved vendors",
-    "Consistent onboarding process across suppliers",
-    "Clear handoff from procurement to AP",
-    "Ongoing monitoring after day one",
+    "Consistent onboarding process across suppliers and locations",
+    "Clear handoff from procurement to AP with one vendor record",
+    "Ongoing monitoring after day one for expirations and re-certifications",
   ],
-  faqs: [
-    {
-      q: "What is vendor onboarding?",
-      a: "Vendor onboarding is the process of collecting required documents and setup information before or shortly after you engage a new supplier—tax forms, insurance, contacts, and payment details.",
-    },
-    {
-      q: "What documents are typically required?",
-      a: "Most packets include a W-9, certificate of insurance, vendor information form, and banking details. Regulated industries may add exclusion screening or additional attestations.",
-    },
-    {
-      q: "How does vendor registration work in Keelstar?",
-      a: "You create a vendor record, define required documents, and send a secure link. Vendors submit through the link; your team tracks completion without manual follow-up.",
-    },
-    {
-      q: "Can we reuse onboarding for annual renewals?",
-      a: "Yes. The same workflow re-collects updated W-9s and insurance certificates when records expire.",
-    },
-  ],
+  sections: vendorOnboardingSections,
+  whoItsFor: vendorOnboardingWhoItsFor,
+  checklist: vendorOnboardingChecklist,
+  faqs: vendorOnboardingFaqs,
   ctaTitle: "Onboard your next vendor",
   ctaBody: "Start with W-9 collection or a full vendor packet.",
   relatedLinks: [
     { label: "W-9 collection", href: "/w9-collection/" },
     { label: "Vendor information form template", href: "/tools/vendor-information-form-template/" },
+    { label: "Vendor portal", href: "/vendor-portal/" },
   ],
 };

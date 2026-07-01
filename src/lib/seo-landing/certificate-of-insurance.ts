@@ -1,4 +1,10 @@
 import type { SeoLandingPageData } from "./types";
+import {
+  certificateOfInsuranceSections,
+  certificateOfInsuranceWhoItsFor,
+  certificateOfInsuranceChecklist,
+} from "./content/certificate-of-insurance";
+import { certificateOfInsuranceFaqs } from "./content/certificate-of-insurance-faqs";
 
 export const certificateOfInsurance: SeoLandingPageData = {
   path: "/certificate-of-insurance/",
@@ -13,6 +19,12 @@ export const certificateOfInsurance: SeoLandingPageData = {
   problemTitle: "The common problem",
   problem:
     "Certificates expire quietly until someone notices—often too late. Contractors send ACORD forms once at onboarding, and teams have no system to track renewals or inadequate limits.",
+  problemBullets: [
+    "Expiration dates buried in PDFs nobody re-opens until after a lapse",
+    "Coverage limits not compared against contract minimums",
+    "Brokers and vendors cc'd on email with no central record of what is current",
+    "Auditors ask for proof of insurance on a date—and teams cannot produce it quickly",
+  ],
   howTitle: "How tracking works",
   how: [
     {
@@ -35,24 +47,10 @@ export const certificateOfInsurance: SeoLandingPageData = {
     "Automated renewal reminders",
     "Export evidence for contracts and audits",
   ],
-  faqs: [
-    {
-      q: "What is a certificate of insurance?",
-      a: "A certificate of insurance is a summary document—often ACORD 25—that shows a vendor's liability coverage, policy numbers, and expiration dates. It is not the policy itself.",
-    },
-    {
-      q: "What is an ACORD certificate of insurance?",
-      a: "ACORD 25 is the standard form brokers use to evidence general liability, auto, workers compensation, and umbrella coverage. Keelstar stores the document and key dates from each submission.",
-    },
-    {
-      q: "How often should we collect updated certificates?",
-      a: "At minimum before expiration. Many teams also require updated certificates when coverage limits change or when a vendor starts work at a new location.",
-    },
-    {
-      q: "Can we track contractor insurance certificates the same way?",
-      a: "Yes. The same workflow applies to contractors, subcontractors, and any vendor where you need proof of insurance on file.",
-    },
-  ],
+  sections: certificateOfInsuranceSections,
+  whoItsFor: certificateOfInsuranceWhoItsFor,
+  checklist: certificateOfInsuranceChecklist,
+  faqs: certificateOfInsuranceFaqs,
   ctaTitle: "Track certificates of insurance",
   ctaBody: "Start with one vendor. Scale when ready.",
   relatedLinks: [

@@ -2,13 +2,17 @@ import Link from "next/link";
 import { appSignupUrl } from "@/lib/site";
 
 const fields = [
-  "Vendor name (DBA and legal entity)",
-  "Tax ID (EIN or SSN)",
+  "Vendor name (DBA and trade name)",
+  "Legal entity name (as it appears on tax and insurance documents)",
+  "Federal tax ID (EIN or SSN — often collected via W-9)",
+  "Business address and remit-to address if different",
   "Primary contact name, email, and phone",
-  "Business address",
-  "Certificate of insurance on file (Y/N)",
-  "W-9 on file (Y/N)",
-  "Payment terms and banking details",
+  "Accounts payable contact if different from primary",
+  "Certificate of insurance on file (Y/N) and expiration date if known",
+  "W-9 on file (Y/N) and date last collected",
+  "Payment terms (Net 30, Net 45, etc.)",
+  "Banking details for approved vendors (routing and account or ACH instructions)",
+  "Contract or purchase order reference if applicable",
 ];
 
 export function VendorInformationFormTemplate() {

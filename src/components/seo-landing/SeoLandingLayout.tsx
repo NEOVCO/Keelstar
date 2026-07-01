@@ -6,6 +6,7 @@ import type { SeoLandingPageData } from "@/lib/seo-landing/pages";
 import { appSignupUrl } from "@/lib/site";
 import { JsonLd, breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { WaitlistForm } from "./WaitlistForm";
+import { SeoContentSections } from "./SeoContentSections";
 
 type Props = { page: SeoLandingPageData };
 
@@ -52,6 +53,15 @@ export function SeoLandingLayout({ page }: Props) {
       <Section tone="surface">
         <h2 className="text-h2">{page.problemTitle}</h2>
         <p className="mt-4 max-w-3xl text-body-lg text-secondary">{page.problem}</p>
+        {page.problemBullets && page.problemBullets.length > 0 && (
+          <ul className="mt-6 max-w-3xl space-y-3">
+            {page.problemBullets.map((item) => (
+              <li key={item} className="text-body text-secondary">
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
       </Section>
 
       <Section>
@@ -76,6 +86,12 @@ export function SeoLandingLayout({ page }: Props) {
           ))}
         </ul>
       </Section>
+
+      <SeoContentSections
+        sections={page.sections}
+        whoItsFor={page.whoItsFor}
+        checklist={page.checklist}
+      />
 
       {page.comingSoon && (
         <Section>
