@@ -61,7 +61,10 @@ export async function scheduleContractReminders(input: {
 
   const pipelines: Array<{
     anchorDate: Date;
-    windows: typeof CONTRACT_RENEWAL_REMINDER_WINDOWS;
+    windows: ReadonlyArray<
+      | (typeof CONTRACT_RENEWAL_REMINDER_WINDOWS)[number]
+      | (typeof CONTRACT_NOTICE_REMINDER_WINDOWS)[number]
+    >;
   }> = [
     { anchorDate: input.renewalDate, windows: CONTRACT_RENEWAL_REMINDER_WINDOWS },
   ];

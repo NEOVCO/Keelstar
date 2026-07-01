@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils/cn";
 import { StatusBadge } from "@/components/ui/badge";
 
 export function VendorPacketPortal({
@@ -71,9 +72,14 @@ export function VendorPacketPortal({
                   if (file) uploadItem(item.key, file);
                 }}
               />
-              <Button size="sm" variant="secondary" disabled={uploading === item.key} asChild>
-                <span>{uploading === item.key ? "Uploading…" : "Upload"}</span>
-              </Button>
+              <span
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "sm" }),
+                  uploading === item.key && "pointer-events-none opacity-50"
+                )}
+              >
+                {uploading === item.key ? "Uploading…" : "Upload"}
+              </span>
             </label>
           ) : (
             <span className="text-caption text-success">Submitted</span>
