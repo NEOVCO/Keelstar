@@ -1,0 +1,22 @@
+# Exclusion Monitoring — Audit Events
+
+- exclusion_subject.created
+- exclusion_subject.updated
+- exclusion_subject.archived
+- exclusion_check.started
+- exclusion_check.completed
+- exclusion_check.failed
+- exclusion_result.no_match
+- exclusion_result.potential_match
+- exclusion_result.not_configured
+- exclusion_match.review_started
+- exclusion_match.cleared
+- exclusion_match.confirmed
+- exclusion_monitor.created
+- exclusion_monitor.paused
+- exclusion_monitor.resumed
+- exclusion_monitor.run
+- exclusion_monitor.failed
+- exclusion_alert.sent
+- exclusion_evidence.exported
+- exclusion_billing.limit_reached

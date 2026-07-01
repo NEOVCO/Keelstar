@@ -22,7 +22,9 @@
     "worker:notifications": "tsx --tsconfig workers/tsconfig.json workers/notification-sender/index.ts",
     "worker:cleanup": "tsx --tsconfig workers/tsconfig.json workers/external-link-cleanup/index.ts",
     "worker:reminders": "tsx --tsconfig workers/tsconfig.json workers/reminder-sender/index.ts",
-    "worker:coi-monitor": "tsx --tsconfig workers/tsconfig.json workers/coi-expiration-monitor/index.ts"
+    "worker:coi-monitor": "tsx --tsconfig workers/tsconfig.json workers/coi-expiration-monitor/index.ts",
+    "seo:sync": "tsx scripts/seo-sync.ts",
+    "seo:seed": "tsx scripts/seo-sync.ts seed-catalog"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.0",
@@ -39,6 +41,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "driver.js": "^1.6.0",
+    "googleapis": "^173.0.0",
     "lucide-react": "^0.408.0",
     "next": "14.2.5",
     "react": "18.3.1",
@@ -51,6 +54,7 @@
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "@types/node": "20.14.10",
+    "@types/pg": "^8.20.0",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.19",

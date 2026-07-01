@@ -12,6 +12,7 @@ import { EditVendorForm } from "@/components/vendors/EditVendorForm";
 import { RequestW9Form } from "@/components/vendors/RequestW9Form";
 import { RequestCoiForm } from "@/components/coi/RequestCoiForm";
 import { CreateVendorPacketForm } from "@/components/vendor-packets/CreateVendorPacketForm";
+import { VendorExclusionSection } from "@/components/exclusions/VendorExclusionSection";
 import { defaultDueDate, W9_WORKFLOW_TYPE } from "@/lib/w9/constants";
 import { defaultCoiDueDate, COI_WORKFLOW_TYPE } from "@/lib/coi/constants";
 import { defaultPacketDueDate, VENDOR_PACKET_WORKFLOW_TYPE, ACTIVE_VENDOR_PACKET_STATUSES } from "@/lib/vendor-packets/constants";
@@ -141,6 +142,8 @@ export default async function AppVendorDetailPage({ params }: { params: { id: st
               />
             </CardContent>
           </Card>
+
+          <VendorExclusionSection vendorId={vendor.id} vendorName={vendor.name} />
 
           <Card>
             <CardHeader>

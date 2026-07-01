@@ -3,6 +3,7 @@ import { ModulePageShell } from "@/components/workflows/ModulePageShell";
 import { CoiModulePage } from "@/components/coi/CoiModulePage";
 import { ContractsModulePage } from "@/components/contracts/ContractsModulePage";
 import { VendorPacketModulePage } from "@/components/vendor-packets/VendorPacketModulePage";
+import { ExclusionsModulePage } from "@/components/exclusions/ExclusionsModulePage";
 import { getModuleBySlug, MODULES } from "@/lib/modules/modules";
 
 export function generateStaticParams() {
@@ -17,5 +18,6 @@ export default function ModuleAppPage({ params }: { params: { slug: string } }) 
   if (params.slug === "coi") return <CoiModulePage />;
   if (params.slug === "contracts") return <ContractsModulePage />;
   if (params.slug === "vendor-packets") return <VendorPacketModulePage />;
+  if (params.slug === "exclusions") return <ExclusionsModulePage />;
   return <ModulePageShell module={mod} />;
 }

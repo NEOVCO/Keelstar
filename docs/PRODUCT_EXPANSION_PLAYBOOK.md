@@ -8,7 +8,7 @@
 
 ## Reference vertical slices
 
-Keelstar has three complete reference vertical slices. All module documentation, patterns, and implementation conventions must follow the same structure and reuse shared primitives proven in these slices.
+Keelstar has five complete reference vertical slices. All module documentation, patterns, and implementation conventions must follow the same structure and reuse shared primitives proven in these slices.
 
 ### W-9 Collection (collection-centric)
 
@@ -40,6 +40,14 @@ Keelstar has three complete reference vertical slices. All module documentation,
 
 ```
 /docs/modules/vendor-packet-portal/
+```
+
+### Exclusion Monitoring (screening-centric, internal-only)
+
+**Exclusion Monitoring** — fifth reference slice. Internal-only compliance screening with dedicated result tables, provider abstraction (demo/live OIG, SAM `not_configured`), match review workflow, and monthly `exclusion_monitoring` monitors.
+
+```
+/docs/modules/exclusion-monitoring/
 ```
 
 Future modules must follow the same documentation structure (12 mandatory files) and reuse the shared primitives proven in these slices.

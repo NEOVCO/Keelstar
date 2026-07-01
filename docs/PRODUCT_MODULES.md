@@ -99,19 +99,21 @@
 
 ## Exclusion Monitor
 
-**Job-to-be-done:** Monitor vendor and employee names against OIG/SAM exclusion lists.
+> **Fifth reference vertical slice** — full module documentation at [`docs/modules/exclusion-monitoring/`](./modules/exclusion-monitoring/)
 
-**Free utility:** Search a name against exclusion databases at `/tools/oig-search`.
+**Job-to-be-done:** Screen vendors and people against OIG LEIE and SAM exclusion lists, review potential matches, and maintain recurring monitored screening with audit-ready evidence.
 
-**Paid workflow:** Maintain vendor/employee roster, schedule periodic exclusion checks, alert on matches, track resolution, audit all checks.
+**Free utility:** One-off name search against exclusion databases at `/tools/oig-search`.
 
-**Shared primitives:** organizations, workflows (type: `exclusion_monitoring`), monitors, monitor_runs, tasks, notifications, audit_logs.
+**Paid workflow:** Add vendors or people as screening subjects, run ad hoc or scheduled checks via `exclusion_screening` workflows, review potential matches (clear or confirm with notes), enable monthly `exclusion_monitoring` monitors, alert on matches, export CSV evidence.
 
-**Future entities:** `exclusion_checks` (check results with match details), `exclusion_sources` (OIG, SAM, state lists).
+**Shared primitives:** organizations, vendors, workflows (type: `exclusion_screening`), monitors (`exclusion_monitoring`), monitor_runs, notifications, audit_logs.
 
-**MVP scope:** Add names to monitor, daily check placeholder (always clear), audit check runs.
+**Dedicated entities:** `screening_subjects`, `screening_runs`, `screening_results`, `screening_matches` — tenant-scoped with RLS.
 
-**Exclusions:** Real-time OIG/SAM API integration (future), automated clearing, healthcare-specific workflows.
+**MVP scope:** Provider abstraction with `EXCLUSION_DATA_MODE=demo|live`; OIG demo dataset or live LEIE lookup; SAM returns `not_configured` without `SAM_API_KEY`; subject status transitions (`active` → `review_needed` | `cleared` | `monitoring` | `matched`); monthly monitors; billing limits; CSV evidence export.
+
+**Exclusions:** Legal/compliance determinations, official government certification, state Medicaid lists, OFAC, bulk upload, fuzzy matching beyond normalized exact match, payment blocking, case management beyond review status.
 
 ---
 
