@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import "../styles/globals.css";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/MicrosoftClarity";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { RootChrome } from "@/components/layout/RootChrome";
 import { JsonLd, organizationLd } from "@/lib/jsonld";
 import { site } from "@/lib/site";
 
@@ -50,9 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GoogleAnalytics />
         <MicrosoftClarity />
         <JsonLd data={organizationLd()} />
-        <Header />
-        <main id="main">{children}</main>
-        <Footer />
+        <RootChrome>{children}</RootChrome>
       </body>
     </html>
   );

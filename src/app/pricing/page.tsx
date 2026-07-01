@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { Container, Eyebrow, Button, Badge } from "@/components/ui";
 import { Section, Breadcrumbs, CtaBand } from "@/components/sections";
 import { Faq } from "@/components/Faq";
+import { appSignupUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -27,7 +28,7 @@ const plans = [
     price: "$49",
     cadence: "per workflow / month",
     for: "A team adopting one or two workflows.",
-    cta: { label: "Start free", href: "https://app.keelstar.com/sign-up" },
+    cta: { label: "Start free", href: appSignupUrl() },
     featured: true,
     features: ["One application, fully monitored", "Reminders before every deadline", "Audit trail and version history", "Role-based permissions", "Exports on demand", "Up to 10 seats"],
   },
@@ -110,7 +111,7 @@ export default function PricingPage() {
 
       <CtaBand
         title="Start with one workflow today"
-        primary={{ label: "Start free", href: "https://app.keelstar.com/sign-up" }}
+        primary={{ label: "Start free", href: appSignupUrl() }}
         secondary={{ label: "Try a free tool", href: "/tools/" }}
       />
     </>

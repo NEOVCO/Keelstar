@@ -9,7 +9,8 @@ import { getWorkflow } from "@/lib/content";
 import { getTool } from "@/lib/tools";
 import { getTerm, getTemplate, getCompare } from "@/lib/library";
 import { pageMetadata } from "@/lib/seo";
-import { JsonLd, softwareApplicationLd, breadcrumbLd, faqLd } from "@/lib/jsonld";
+import { appSignupUrl } from "@/lib/site";
+import { JsonLd, breadcrumbLd, softwareApplicationLd, faqLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
   return allProducts.map((p) => ({ slug: p.slug }));
@@ -63,7 +64,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             <h1 className="text-h1">{p.job}</h1>
             <p className="mt-5 text-body-lg text-secondary">{p.sub}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button href={`${"https://app.keelstar.com"}/sign-up`} size="lg">
+              <Button href={appSignupUrl()} size="lg">
                 Start free
               </Button>
               {p.utility && (
@@ -186,7 +187,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <CtaBand
         title={`Start with ${p.name} today`}
         body="Live the same day. No consultants, no implementation project."
-        primary={{ label: "Start free", href: "https://app.keelstar.com/sign-up" }}
+        primary={{ label: "Start free", href: appSignupUrl() }}
         secondary={{ label: "See pricing", href: "/pricing/" }}
       />
     </>

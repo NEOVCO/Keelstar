@@ -10,6 +10,8 @@ import {
   industriesMenu,
   resourcesMenu,
   site,
+  appSignupUrl,
+  appLoginUrl,
 } from "@/lib/site";
 import { SearchModal } from "./SearchModal";
 
@@ -102,11 +104,11 @@ export function Header() {
             <span>Search</span>
             <kbd className="rounded border border-border bg-sunken px-1 text-caption">⌘K</kbd>
           </button>
-          <Link href={`${site.appUrl}/sign-in`} className="hidden rounded-sm px-3 py-2 text-body-sm font-medium text-secondary hover:text-primary md:block">
+          <Link href={appLoginUrl()} className="hidden rounded-sm px-3 py-2 text-body-sm font-medium text-secondary hover:text-primary md:block">
             Sign in
           </Link>
           <Link
-            href={`${site.appUrl}/sign-up`}
+            href={appSignupUrl()}
             className="hidden rounded-sm bg-accent px-4 py-2 text-body-sm font-semibold text-white hover:bg-accent-hover md:block"
           >
             Start free
@@ -260,7 +262,7 @@ function MobileNav({ onClose, onSearch }: { onClose: () => void; onSearch: () =>
         ))}
       </div>
       <div className="fixed inset-x-0 bottom-0 space-y-2 border-t border-border bg-surface p-4">
-        <Link href={`${site.appUrl}/sign-up`} className="block rounded-sm bg-accent py-2.5 text-center font-semibold text-white">
+        <Link href={appSignupUrl()} className="block rounded-sm bg-accent py-2.5 text-center font-semibold text-white">
           Start free
         </Link>
         <Link href="/tools/" onClick={onClose} className="block rounded-sm border border-border-strong py-2.5 text-center font-medium">

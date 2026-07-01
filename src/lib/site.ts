@@ -1,8 +1,29 @@
+const defaultAppUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://app.keelstar.com";
+
+/** App origin for auth links (marketing → app). Uses NEXT_PUBLIC_APP_URL when set. */
+export function getAppUrl(): string {
+  const fromEnv = process.env.NEXT_PUBLIC_APP_URL ?? process.env.APP_URL;
+  return (fromEnv ?? defaultAppUrl).replace(/\/$/, "");
+}
+
+export function appSignupUrl(): string {
+  return `${getAppUrl()}/signup`;
+}
+
+export function appLoginUrl(): string {
+  return `${getAppUrl()}/login`;
+}
+
 export const site = {
   name: "Keelstar",
   domain: "keelstar.com",
   url: "https://www.keelstar.com",
-  appUrl: "https://app.keelstar.com",
+  get appUrl() {
+    return getAppUrl();
+  },
   statusUrl: "https://status.keelstar.com",
   category: "Operational Workflow Platform",
   tagline: "Operational workflows, without the enterprise suite.",

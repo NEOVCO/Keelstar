@@ -18,7 +18,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { Faq } from "@/components/Faq";
 import { allProducts } from "@/lib/products";
 import { tools } from "@/lib/tools";
-import { site } from "@/lib/site";
+import { site, appSignupUrl } from "@/lib/site";
 import { JsonLd, websiteLd, organizationLd } from "@/lib/jsonld";
 
 const intentTiles = [
@@ -70,7 +70,7 @@ export default function HomePage() {
               invoices, and policy acknowledgments.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Button href={`${site.appUrl}/sign-up`} size="lg">
+              <Button href={appSignupUrl()} size="lg">
                 Start free
               </Button>
               <Button href="/tools/" variant="secondary" size="lg">
@@ -305,7 +305,7 @@ export default function HomePage() {
       <CtaBand
         title="Replace the spreadsheet. Keep the audit trail."
         body="Start with one module today. Add the rest when you need them — and pay only for what you use."
-        primary={{ label: "Start free", href: `${site.appUrl}/sign-up` }}
+        primary={{ label: "Start free", href: appSignupUrl() }}
         secondary={{ label: "Try a free tool", href: "/tools/" }}
       />
     </>

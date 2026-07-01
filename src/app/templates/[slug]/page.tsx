@@ -7,6 +7,7 @@ import { getProduct } from "@/lib/products";
 import { getWorkflow } from "@/lib/content";
 import { getGuide } from "@/lib/guides";
 import { getTerm } from "@/lib/library";
+import { appSignupUrl } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd, breadcrumbLd } from "@/lib/jsonld";
 
@@ -43,7 +44,7 @@ export default function TemplatePage({ params }: { params: { slug: string } }) {
             <p className="mt-5 text-body-lg text-secondary">{t.forWhat}</p>
             <p className="mt-4 text-body-sm text-tertiary">Who should use it: {t.who}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button href="https://app.keelstar.com/sign-up" size="lg">
+              <Button href={appSignupUrl()} size="lg">
                 Download template
               </Button>
               {product && (
@@ -74,7 +75,7 @@ export default function TemplatePage({ params }: { params: { slug: string } }) {
       <CtaBand
         title="From template to monitored workflow"
         body="A template is a starting point. Keelstar keeps it current, reminds you, and keeps the audit trail."
-        primary={{ label: "Start free", href: "https://app.keelstar.com/sign-up" }}
+        primary={{ label: "Start free", href: appSignupUrl() }}
         secondary={{ label: "Browse templates", href: "/templates/" }}
       />
     </>
