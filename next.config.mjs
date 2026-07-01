@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Match sitemap, canonical tags, and internal links (all use trailing slashes).
+  trailingSlash: true,
   images: {
     formats: ["image/avif", "image/webp"],
   },
