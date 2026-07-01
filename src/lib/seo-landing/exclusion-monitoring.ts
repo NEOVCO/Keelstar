@@ -1,0 +1,63 @@
+import type { SeoLandingPageData } from "./types";
+
+export const exclusionMonitoring: SeoLandingPageData = {
+  path: "/exclusion-monitoring/",
+  metaTitle: "OIG & SAM Exclusion Monitoring",
+  metaDescription:
+    "OIG and SAM exclusion monitoring with scheduled screening and dated audit records. Join the waitlist—live search is not available yet.",
+  breadcrumb: "Exclusion Monitoring",
+  eyebrow: "Coming soon",
+  h1: "OIG and SAM exclusion monitoring",
+  hero:
+    "Screen vendors and contractors against OIG and SAM exclusion lists on a schedule—and keep dated records of every check. Live search is not available yet; join the waitlist to get early access.",
+  problemTitle: "Why continuous screening matters",
+  problem:
+    "A clean OIG exclusion search today does not prove compliance next month. Healthcare providers, government contractors, and staffing firms need recurring SAM exclusion search—not a one-time spreadsheet note.",
+  howTitle: "What we are building",
+  how: [
+    {
+      title: "Scheduled screening",
+      body: "Re-run OIG and SAM checks against your vendor and employee lists on a cadence you define.",
+    },
+    {
+      title: "Disposition trail",
+      body: "Record match review decisions so compliance teams can show how potential hits were resolved.",
+    },
+    {
+      title: "Export",
+      body: "Pull dated evidence for audits, contract renewals, and payer inquiries.",
+    },
+  ],
+  benefitsTitle: "Planned capabilities",
+  benefits: [
+    "OIG exclusion list screening",
+    "SAM exclusion search",
+    "Scheduled re-checks with reminders",
+    "Dated audit records for every screen",
+  ],
+  faqs: [
+    {
+      q: "Is live OIG exclusion search available?",
+      a: "Not yet. Join the waitlist below. We do not show fake search results or simulated matches.",
+    },
+    {
+      q: "What is the OIG exclusion list?",
+      a: "The HHS Office of Inspector General maintains a list of individuals and entities excluded from participating in federal healthcare programs. Many providers must screen vendors and staff against it.",
+    },
+    {
+      q: "What is SAM exclusion search?",
+      a: "SAM.gov includes parties excluded from receiving federal contracts. Government contractors and their subcontractors often screen vendors against SAM as part of supplier compliance.",
+    },
+    {
+      q: "What can I use today?",
+      a: "Keelstar already supports W-9 collection, certificate of insurance tracking, and vendor compliance records. Create a free workspace while exclusion monitoring is in development.",
+    },
+  ],
+  ctaTitle: "Join the waitlist",
+  ctaBody: "We will notify you when exclusion monitoring ships.",
+  comingSoon: true,
+  relatedLinks: [
+    { label: "Vendor compliance", href: "/vendor-compliance/" },
+    { label: "Exclusion Monitor (product)", href: "/products/exclusion-monitor/" },
+  ],
+};
