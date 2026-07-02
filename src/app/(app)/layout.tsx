@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { requireOrganization, getUserOrganizationsList } from "@/lib/tenant/context";
 import { AppShell } from "@/components/app-shell";
@@ -7,6 +8,10 @@ import { fetchOrgEntitlements, fetchTasks } from "@/lib/app-queries";
 import { getOrCreateUserProfile } from "@/lib/onboarding/profile";
 import { parseOrgOnboardingSettings } from "@/lib/onboarding/org-settings";
 import { formatRelativeDate } from "@/lib/utils/cn";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+};
 
 export const dynamic = "force-dynamic";
 

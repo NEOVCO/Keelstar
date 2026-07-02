@@ -14,15 +14,15 @@ export const exclusionMonitoringSections: SeoContentSection[] = [
     eyebrow: "Federal contracting",
     paragraphs: [
       "SAM.gov (System for Award Management) includes entities excluded from receiving federal contracts and certain federal financial assistance. Government contractors and subcontractors typically screen vendors and personnel against SAM exclusion records as part of supplier compliance.",
-      "Like OIG screening, SAM exclusion search should be recurring—not a checkbox filed once during vendor registration. Keelstar is building scheduled screening with disposition trails and exportable audit records.",
+      "Like OIG screening, SAM exclusion search should be recurring—not a checkbox filed once during vendor registration. Keelstar supports scheduled screening with disposition trails and exportable audit records when SAM.gov API access is configured.",
     ],
   },
   {
-    title: "What Keelstar is building",
-    eyebrow: "Coming soon",
+    title: "How Keelstar handles exclusion monitoring",
+    eyebrow: "Available now",
     paragraphs: [
-      "Exclusion monitoring is in development. We are not offering live OIG or SAM search on this page—doing so would imply functionality that does not exist yet. Join the waitlist to get notified when scheduled screening ships.",
-      "Today, Keelstar supports W-9 collection, certificate of insurance tracking, and vendor compliance records—the document layer most teams need before adding exclusion screening to the same vendor record.",
+      "Keelstar Exclusion Monitor screens subjects against the official OIG LEIE database, flags potential matches for review, and stores a dated record of every check. Scheduled re-screens run automatically so a clean result from last quarter does not pass for compliance today.",
+      "Screening lives alongside W-9 collection and certificate of insurance tracking in the same vendor record—so finance, procurement, and compliance teams work from one system of record instead of separate spreadsheets and inbox searches.",
     ],
   },
 ];
