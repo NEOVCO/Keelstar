@@ -35,10 +35,6 @@ export const metadata: Metadata = {
     description: site.description,
     images: ["/opengraph-image"],
   },
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
   category: "business",
 };
 

@@ -6,7 +6,7 @@ export function organizationLd() {
     "@type": "Organization",
     name: site.name,
     url: site.url,
-    logo: `${site.url}/favicon.png`,
+    logo: `${site.url}/apple-icon`,
     description: site.description,
     sameAs: [] as string[],
   };
