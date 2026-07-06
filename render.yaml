@@ -5,10 +5,15 @@ services:
     plan: starter
     repo: https://github.com/NEOVCO/Keelstar
     branch: main
-    buildCommand: npm install && npm run build
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm ci && npm run build && test -f .next/BUILD_ID
     startCommand: npm run start
-    healthCheckPath: /
+    healthCheckPath: /api/health
     autoDeployTrigger: commit
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: NODE_ENV
+        value: production
+      # Starter plan has 512 MB RAM; Next.js build needs a capped heap.
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=460

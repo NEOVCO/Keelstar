@@ -31,7 +31,7 @@
 | Branch | `main` |
 | Root Directory | `.` |
 | Runtime | Node |
-| Build Command | `npm install && npm run build` |
+| Build Command | `NPM_CONFIG_PRODUCTION=false npm ci && npm run build` |
 | Start Command | `npm start` |
 | Plan | Starter (scale as needed) |
 
@@ -238,6 +238,33 @@ Workers log heartbeat every poll cycle:
 ```
 
 Monitor via Render logs. Set up alerts on error log patterns.
+
+---
+
+## Troubleshooting deploys
+
+### `Could not find a production build in the '.next' directory`
+
+`next start` only works after a successful `next build`. Common causes on Render:
+
+1. **Build command missing in the dashboard** — `render.yaml` is not applied automatically unless the service was created from a Blueprint. In **Settings → Build & Deploy**, set:
+   - **Build Command:** `NPM_CONFIG_PRODUCTION=false npm ci && npm run build && test -f .next/BUILD_ID`
+   - **Start Command:** `npm run start`
+   - **Root Directory:** `.` (repo root)
+
+2. **`NODE_ENV=production` during install** — npm skips `devDependencies` (TypeScript, Tailwind, PostCSS), so `next build` fails. The `NPM_CONFIG_PRODUCTION=false` prefix forces dev deps to install during the build phase.
+
+3. **Build OOM on Starter (512 MB)** — set env var `NODE_OPTIONS=--max-old-space-size=460`, or upgrade the plan.
+
+4. **Crash restart without rebuild** — if the web process restarts after a failed deploy, logs may show only `npm run start`. Fix the build step and trigger a **Manual Deploy** (not just restart).
+
+In deploy logs you should see the build phase before start:
+
+```
+==> Running build command 'NPM_CONFIG_PRODUCTION=false npm ci && npm run build'...
+```
+
+If that line is absent, the dashboard build command is empty or overridden.
 
 ---
 
