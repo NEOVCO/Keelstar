@@ -11,7 +11,8 @@ import {
 import { findDemoOigMatches } from "@/lib/exclusions/providers/demo-data";
 import { parseCsvLine, parseLeieCsv } from "@/lib/exclusions/providers/oig-leie";
 import { findLeieMatches } from "@/lib/exclusions/providers/oig-leie-match";
-import { namesMatch, normalizeName } from "@/lib/exclusions/matchScoring";
+import { namesMatch, normalizeName, namesMatchFlexible } from "@/lib/exclusions/matchScoring";
+import { parseBulkImportCsv } from "@/lib/exclusions/bulkImportCsv";
 import { FREE_TIER_LIMITS } from "@/lib/billing/limits";
 import { PERMISSIONS } from "@/lib/rbac/permissions";
 
@@ -78,6 +79,12 @@ describe("name normalization", () => {
     expect(normalizeName("Jane-Doe, Inc.")).toBe("JANEDOE INC");
     expect(namesMatch("jane doe", "JANE DOE")).toBe(true);
   });
+
+  it("matches person names with minor first-name typo", () => {
+    expect(namesMatchFlexible("Debhanma AAKER", "DEBHANNA AAKER")).toBe(true);
+    expect(namesMatchFlexible("DEBHANNA AAKER", "AAKER DEBHANNA")).toBe(true);
+    expect(namesMatchFlexible("Jane Doe", "JOHN SMITH")).toBe(false);
+  });
 });
 
 describe("SAM configuration", () => {
@@ -116,5 +123,23 @@ describe("review note requirement", () => {
         reviewNotes: "ab",
       })
     ).rejects.toThrow();
+  });
+});
+
+describe("bulk import CSV", () => {
+  it("parses headered CSV rows", () => {
+    const rows = parseBulkImportCsv(
+      "subject_type,display_name,first_name,last_name\nemployee,Jane Smith,Jane,Smith"
+    );
+    expect(rows).toHaveLength(1);
+    expect(rows[0].display_name).toBe("Jane Smith");
+    expect(rows[0].subject_type).toBe("employee");
+  });
+
+  it("parses single-column name lines as people", () => {
+    const rows = parseBulkImportCsv("DEBHANNA AAKER\nAcme Medical LLC");
+    expect(rows).toHaveLength(2);
+    expect(rows[0].subject_type).toBe("person");
+    expect(rows[0].display_name).toBe("DEBHANNA AAKER");
   });
 });

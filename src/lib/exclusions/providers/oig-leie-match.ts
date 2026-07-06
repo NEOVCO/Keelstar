@@ -4,7 +4,9 @@ import {
   formatLeieDate,
   isValidLeieNpi,
   namesMatch,
+  namesMatchFlexible,
   normalizeName,
+  cleanLeieNamePart,
 } from "../matchScoring";
 
 function recordDisplayName(record: LeieRecord): string {
@@ -13,8 +15,12 @@ function recordDisplayName(record: LeieRecord): string {
 }
 
 function personNames(record: LeieRecord): string[] {
-  const first = record.firstName.trim();
-  const last = record.lastName.trim();
+  let first = cleanLeieNamePart(record.firstName);
+  let last = cleanLeieNamePart(record.lastName);
+  const mid = cleanLeieNamePart(record.midName);
+
+  if (!last && mid) last = mid;
+
   if (!first && !last) return [];
   return [
     `${first} ${last}`.trim(),
@@ -68,7 +74,7 @@ export function findLeieMatches(
     if (!matched) {
       for (const personName of personNames(record)) {
         for (const candidate of candidates) {
-          if (namesMatch(candidate, personName)) {
+          if (namesMatchFlexible(candidate, personName)) {
             matched = true;
             matchReason = `Name match: "${candidate}" ↔ "${normalizeName(personName)}"`;
             break;

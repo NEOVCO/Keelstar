@@ -1,5 +1,29 @@
 import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { extendTailwindMerge } from "tailwind-merge";
+
+/** Keelstar typography utilities must not override text color utilities (e.g. text-white on buttons). */
+const twMerge = extendTailwindMerge({
+  extend: {
+    classGroups: {
+      "font-size": [
+        {
+          text: [
+            "overline",
+            "caption",
+            "body-sm",
+            "body",
+            "body-lg",
+            "h4",
+            "h3",
+            "h2",
+            "h1",
+            "display",
+          ],
+        },
+      ],
+    },
+  },
+});
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

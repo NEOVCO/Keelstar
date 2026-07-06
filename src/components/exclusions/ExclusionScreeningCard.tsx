@@ -45,19 +45,19 @@ export function ExclusionScreeningCard({
               <StatusBadge status={latestResult.result_status} />
               <StatusBadge status={latestResult.review_status} />
             </p>
-            <Link href={`/app/exclusions/results/${latestResult.id}`}>
-              <Button size="sm" variant="secondary">
-                View result
-              </Button>
-            </Link>
+            <Button asChild size="sm" variant="secondary">
+              <Link href={`/app/exclusions/results/${latestResult.id}`}>View result</Link>
+            </Button>
           </>
         ) : (
           <p className="text-secondary">No exclusion screening yet.</p>
         )}
         {canRun && (
-          <Link href={`/app/apps/exclusions?vendor=${vendorId}&name=${encodeURIComponent(vendorName)}`}>
-            <Button size="sm">Run check</Button>
-          </Link>
+          <Button asChild size="sm">
+            <Link href={`/app/apps/exclusions?vendor=${vendorId}&name=${encodeURIComponent(vendorName)}`}>
+              Run check
+            </Link>
+          </Button>
         )}
       </CardContent>
     </Card>

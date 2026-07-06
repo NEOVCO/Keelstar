@@ -26,9 +26,9 @@ export function DashboardAttentionPanel({ items }: { items: AttentionItem[] }) {
                     <DueDateCell date={item.dueDate} overdue={item.status === "overdue"} />
                   </div>
                 </div>
-                <Link href={item.href}>
-                  <Button size="sm">{item.action}</Button>
-                </Link>
+                <Button asChild size="sm">
+                  <Link href={item.href}>{item.action}</Link>
+                </Button>
               </li>
             ))}
           </ul>
