@@ -10,7 +10,6 @@ export const config = {
     "/app/:path*",
     "/dashboard/:path*",
     "/documents/:path*",
-    "/workflows/:path*",
     "/tasks/:path*",
     "/monitors/:path*",
     "/audit/:path*",

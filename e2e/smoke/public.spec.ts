@@ -23,4 +23,10 @@ test.describe("Public marketing", () => {
     await page.goto("/app");
     await expect(page).toHaveURL(/\/login/);
   });
+
+  test("public workflow page is not behind auth", async ({ page }) => {
+    await page.goto("/workflows/collect-w9s/");
+    await expect(page).toHaveURL(/\/workflows\/collect-w9s\/?/);
+    await expect(page.getByRole("heading").first()).toBeVisible();
+  });
 });
