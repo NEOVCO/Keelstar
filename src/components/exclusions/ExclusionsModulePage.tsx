@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/badge";
 import { EmptyState, DataTable } from "@/components/ui/empty-state";
 import { RunScreeningForm } from "@/components/exclusions/RunScreeningForm";
+import { BulkImportSubjectsForm } from "@/components/exclusions/BulkImportSubjectsForm";
 import { requireOrganization } from "@/lib/tenant/context";
 import { createClient } from "@/lib/supabase/server";
 import { formatRelativeDate } from "@/lib/utils/cn";
@@ -111,9 +112,15 @@ export async function ExclusionsModulePage() {
         </div>
       </div>
       <div className="mb-8 grid gap-6 lg:grid-cols-2">
-        <div>
-          <h2 className="mb-3 text-h4 text-primary">Run exclusion check</h2>
-          <RunScreeningForm vendors={vendors ?? []} />
+        <div className="space-y-6">
+          <div>
+            <h2 className="mb-3 text-h4 text-primary">Run exclusion check</h2>
+            <RunScreeningForm vendors={vendors ?? []} />
+          </div>
+          <div>
+            <h2 className="mb-3 text-h4 text-primary">Bulk import subjects</h2>
+            <BulkImportSubjectsForm vendorCount={(vendors ?? []).length} />
+          </div>
         </div>
         <div>
           <h2 className="mb-3 text-h4 text-primary">Recent activity</h2>
