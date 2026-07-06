@@ -5,7 +5,7 @@ services:
     plan: starter
     repo: https://github.com/NEOVCO/Keelstar
     branch: main
-    buildCommand: NPM_CONFIG_PRODUCTION=false npm ci && npm run build && test -f .next/BUILD_ID
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm ci && NODE_OPTIONS=--max-old-space-size=460 npm run build && test -f .next/BUILD_ID
     startCommand: npm run start
     healthCheckPath: /api/health
     autoDeployTrigger: commit
