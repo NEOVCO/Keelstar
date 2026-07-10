@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/empty-states/EmptyState";
 import { requireOrganization } from "@/lib/tenant/context";
 import { fetchDocuments } from "@/lib/app-queries";
 import { formatDate } from "@/lib/utils/cn";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
 export default async function DocumentsPage() {
   const ctx = await requireOrganization();
@@ -46,14 +47,18 @@ export default async function DocumentsPage() {
       <PageHeader
         title="Documents"
         description="All documents across workflows and modules."
-        action={<Button disabled>Upload document</Button>}
+        action={
+          <Link href="/app/documents/upload">
+            <Button>Upload document</Button>
+          </Link>
+        }
       />
       {!documents.length ? (
         <EmptyState
           title="No documents yet"
           description="Upload a document to extract key fields, create reminders, and keep an audit trail."
           primaryAction={{ label: "Request W-9", href: "/app/apps/w9" }}
-          secondaryAction={{ label: "View vendors", href: "/app/vendors" }}
+          secondaryAction={{ label: `View ${DIRECTORY.nav.toLowerCase()}`, href: "/app/vendors" }}
         />
       ) : (
         <ResponsiveTable mobileCards={mobileCards}>

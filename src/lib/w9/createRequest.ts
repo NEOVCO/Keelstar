@@ -125,9 +125,9 @@ export async function createW9Request(input: z.infer<typeof createW9RequestSchem
   return { workflow, document, task, vendor, recipientEmail };
 }
 
-export async function sendW9Request(workflowId: string) {
+export async function sendW9Request(workflowId: string, options?: { ccMe?: boolean }) {
   const { sendW9RequestEmail } = await import("./sendRequest");
-  return sendW9RequestEmail(workflowId);
+  return sendW9RequestEmail(workflowId, options);
 }
 
 export { createW9RequestSchema };

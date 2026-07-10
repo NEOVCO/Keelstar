@@ -9,14 +9,7 @@ export const exclusionMonitoringSections: SeoContentSection[] = [
       "A one-time OIG exclusion search at onboarding does not satisfy most compliance programs. Exclusions are added continuously. Continuous OIG exclusion monitoring means re-screening on a schedule and retaining dated records of each check.",
     ],
   },
-  {
-    title: "SAM exclusion search for government contractors",
-    eyebrow: "Federal contracting",
-    paragraphs: [
-      "SAM.gov (System for Award Management) includes entities excluded from receiving federal contracts and certain federal financial assistance. Government contractors and subcontractors typically screen vendors and personnel against SAM exclusion records as part of supplier compliance.",
-      "Like OIG screening, SAM exclusion search should be recurring—not a checkbox filed once during vendor registration. Keelstar supports scheduled screening with disposition trails and exportable audit records when SAM.gov API access is configured.",
-    ],
-  },
+  // SAM exclusion section — disabled (not implementing)
   {
     title: "How Keelstar handles exclusion monitoring",
     eyebrow: "Available now",
@@ -31,7 +24,7 @@ export const exclusionMonitoringWhoItsFor = {
   title: "Who needs exclusion monitoring",
   items: [
     "Healthcare providers screening vendors and contractors against OIG",
-    "Government contractors requiring SAM exclusion checks for subcontractors",
+    // "Government contractors requiring SAM exclusion checks for subcontractors",
     "Staffing firms placing workers at regulated client sites",
     "Compliance teams replacing annual spreadsheet screens with continuous monitoring",
   ],

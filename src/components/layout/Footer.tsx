@@ -33,7 +33,12 @@ export function Footer() {
         </div>
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-ink-border pt-6 text-caption text-ink-text/60 sm:flex-row sm:items-center">
           <p>© {new Date().getFullYear()} Keelstar. All rights reserved.</p>
-          <p>{site.tagline}</p>
+          <div className="flex flex-col gap-1 sm:items-end">
+            <a href={`mailto:${site.contactEmail}`} className="hover:text-white">
+              {site.contactEmail}
+            </a>
+            <p>{site.tagline}</p>
+          </div>
         </div>
       </div>
     </footer>

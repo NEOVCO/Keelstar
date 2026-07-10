@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { ObjectHeader, ObjectMetadataGrid, ObjectRightRail } from "@/components/objects";
 import { MonitorTimeline } from "@/components/monitors";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { MonitorRunNowButton } from "@/components/monitors/MonitorRunNowButton";
 import { requireOrganization } from "@/lib/tenant/context";
 import { fetchMonitor } from "@/lib/app-queries";
 import { formatDate } from "@/lib/utils/cn";
@@ -21,7 +21,7 @@ export default async function MonitorDetailPage({ params }: { params: { id: stri
         }
         title={monitor.name}
         status={monitor.status}
-        primaryAction={<Button disabled>Run now</Button>}
+        primaryAction={<MonitorRunNowButton monitorId={monitor.id} />}
       />
 
       <div className="grid gap-6 lg:grid-cols-3">

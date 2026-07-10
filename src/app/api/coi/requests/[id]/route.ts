@@ -11,14 +11,14 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { action, ...payload } = await request.json();
+    const { action, ccMe, ...payload } = await request.json();
     const workflowId = params.id;
 
     switch (action) {
       case "send":
-        return apiSuccess(await sendCoiRequestEmail(workflowId));
+        return apiSuccess(await sendCoiRequestEmail(workflowId, { ccMe }));
       case "resend":
-        return apiSuccess(await resendCoiRequest(workflowId));
+        return apiSuccess(await resendCoiRequest(workflowId, { ccMe }));
       case "revoke":
         return apiSuccess(await revokeCoiMagicLink(workflowId));
       case "save_fields":

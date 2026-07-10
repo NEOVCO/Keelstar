@@ -4,6 +4,7 @@ import { DataTable } from "@/components/tables";
 import { DueDateCell } from "@/components/tables";
 import { ResponsiveTable } from "@/components/tables/RowActions";
 import { StatusBadge } from "@/components/ui/badge";
+import { TaskCompleteButton } from "@/components/workflows/TaskCompleteButton";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-states/EmptyState";
 import { requireOrganization } from "@/lib/tenant/context";
@@ -29,11 +30,14 @@ export default async function InboxPage() {
       due: t.due_date ? <DueDateCell date={t.due_date} overdue={t.status === "overdue"} /> : "—",
       workflow: wf?.title ?? "—",
       actions: (
-        <Link href={`/app/workflows/${t.workflow_instance_id}`}>
-          <Button variant="ghost" size="sm">
-            Open
-          </Button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <TaskCompleteButton taskId={t.id} />
+          <Link href={`/app/workflows/${t.workflow_instance_id}`}>
+            <Button variant="ghost" size="sm">
+              Open
+            </Button>
+          </Link>
+        </div>
       ),
     };
   });

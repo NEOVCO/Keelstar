@@ -25,6 +25,7 @@ import {
   getFirstActionRouteForSlug,
   getGoalModule,
 } from "@/lib/onboarding/checklist";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
 export default async function AppHomePage() {
   const ctx = await requireOrganization();
@@ -78,7 +79,7 @@ export default async function AppHomePage() {
 
   if (workflows.length === 0) {
     const firstActionHref = getFirstActionRouteForSlug(onboardingSettings.first_goal);
-    const primaryLabel = goalModule?.primaryAction ?? "Add vendor";
+    const primaryLabel = goalModule?.primaryAction ?? DIRECTORY.addQuickAction;
     const secondaryLabel = goalModule ? `Open ${goalModule.name}` : "W-9 Collector";
     const secondaryHref = goalModule?.routes.app ?? "/app/apps/w9";
 

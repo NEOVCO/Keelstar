@@ -10,10 +10,15 @@ import { trackEvent } from "@/lib/analytics/track";
 import { scheduleCoiRequestReminders } from "./scheduleReminders";
 import { COI_MAGIC_LINK_PURPOSE, COI_MAGIC_LINK_EXPIRY_DAYS } from "./constants";
 import { buildCoiExternalUrl, saveWorkflowMagicLinkUrl } from "./magicLinkUrl";
+import {
+  resolveVendorOutboundCc,
+  withStoredCc,
+  type VendorOutboundEmailOptions,
+} from "@/lib/email/outboundCc";
 
 export async function sendCoiRequestEmail(
   workflowId: string,
-  options?: { userId?: string; skipAuth?: boolean }
+  options?: VendorOutboundEmailOptions
 ) {
   let organizationId: string;
   let userId: string;
@@ -49,8 +54,8 @@ export async function sendCoiRequestEmail(
   if (error || !workflow) throw new Error("COI request not found");
 
   const vendor = workflow.vendors as { id: string; name: string; email: string | null } | null;
-  const metadata = workflow.metadata as Record<string, string | null>;
-  const recipientEmail = metadata.recipient_email ?? vendor?.email;
+  const metadata = workflow.metadata as Record<string, unknown>;
+  const recipientEmail = (metadata.recipient_email as string) ?? vendor?.email;
   if (!recipientEmail) throw new Error("Recipient email required");
 
   const { data: task } = await supabase
@@ -125,10 +130,12 @@ export async function sendCoiRequestEmail(
     organizationName: org?.name ?? "Organization",
     vendorName: vendor?.name ?? "Vendor",
     dueDate: workflow.due_date ? new Date(workflow.due_date).toLocaleDateString() : "—",
-    message: metadata.message ?? undefined,
+    message: (metadata.message as string) ?? undefined,
     magicLinkUrl: coiUrl,
-    requesterName: metadata.requester_name ?? undefined,
+    requesterName: (metadata.requester_name as string) ?? undefined,
   });
+
+  const cc = resolveVendorOutboundCc(metadata, options, userEmail);
 
   await sendEmail({
     organizationId,
@@ -141,10 +148,11 @@ export async function sendCoiRequestEmail(
       dueDate: workflow.due_date ?? "",
       actionUrl: coiUrl,
       magicLinkUrl: coiUrl,
-      message: metadata.message ?? "",
+      message: (metadata.message as string) ?? "",
     },
     recipientType: "external",
     recipientId: externalParticipantId,
+    cc,
   });
 
   const sentAt = new Date().toISOString();
@@ -152,7 +160,11 @@ export async function sendCoiRequestEmail(
     .from("workflow_instances")
     .update({
       status: "sent",
-      metadata: { ...metadata, sent_at: sentAt, magic_link_url: coiUrl, magic_link_updated_at: sentAt },
+      metadata: withStoredCc(
+        { ...metadata, sent_at: sentAt, magic_link_url: coiUrl, magic_link_updated_at: sentAt },
+        options?.ccMe,
+        userEmail
+      ),
     })
     .eq("id", workflowId);
 

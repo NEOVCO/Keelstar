@@ -49,7 +49,7 @@ export const PRODUCT_TOUR_STEPS: ProductTourStep[] = [
     popover: {
       title: "Create",
       description:
-        "Start a workflow, upload a document, add a vendor, or invite a teammate — all from one menu.",
+        "Start a workflow, upload a document, add to your directory, or invite a teammate — all from one menu.",
       side: "bottom",
       align: "end",
     },
@@ -59,7 +59,7 @@ export const PRODUCT_TOUR_STEPS: ProductTourStep[] = [
     popover: {
       title: "Search",
       description:
-        "Jump to workflows, documents, or vendors instantly. Press ⌘K (or Ctrl+K) from anywhere in the app.",
+        "Jump to workflows, documents, or directory entries instantly. Press ⌘K (or Ctrl+K) from anywhere in the app.",
       side: "bottom",
       align: "end",
     },

@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils/cn";
 import { UserMenu } from "@/components/navigation/UserMenu";
 import { NotificationMenu } from "@/components/navigation/NotificationMenu";
 import { TOUR_TARGETS } from "@/lib/onboarding/constants";
+import { DIRECTORY } from "@/lib/terminology/directory";
+import { PEOPLE } from "@/lib/terminology/people";
 
 export function TopBar({
   organizationName,
@@ -24,7 +26,7 @@ export function TopBar({
   onMenuClick?: () => void;
   onSearchClick?: () => void;
   userEmail?: string;
-  notifications?: Array<{ id: string; title: string; href: string; time?: string }>;
+  notifications?: Array<{ id: string; title: string; href: string; time?: string; unread?: boolean }>;
 }) {
   const pathname = usePathname();
 
@@ -88,7 +90,8 @@ function CreateMenu() {
   const items = [
     { label: "Upload document", href: "/app/documents?action=upload" },
     { label: "Start workflow", href: "/app/workflows?action=create" },
-    { label: "Add vendor", href: "/app/vendors/new" },
+    { label: DIRECTORY.addQuickAction, href: "/app/vendors/new" },
+    { label: PEOPLE.add, href: "/app/people/new" },
     { label: "Invite member", href: "/app/settings/members" },
   ];
 

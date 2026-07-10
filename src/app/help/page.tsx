@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Container, Eyebrow, Card } from "@/components/ui";
 import { Breadcrumbs } from "@/components/sections";
 import { pageMetadata } from "@/lib/seo";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
   title: "Help Center",
@@ -29,7 +30,13 @@ export default function HelpHub() {
       <div className="max-w-2xl">
         <Eyebrow className="mb-3">Help Center</Eyebrow>
         <h1 className="text-h1">Quick answers to common questions</h1>
-        <p className="mt-4 text-body-lg text-secondary">High-intent help for getting unblocked. For deeper setup, see the documentation.</p>
+        <p className="mt-4 text-body-lg text-secondary">
+          High-intent help for getting unblocked. For deeper setup, see the documentation. Still stuck? Email{" "}
+          <a href={`mailto:${site.contactEmail}`} className="font-medium text-accent hover:underline">
+            {site.contactEmail}
+          </a>
+          .
+        </p>
       </div>
       <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map(([t, d]) => (

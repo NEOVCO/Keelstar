@@ -2,6 +2,10 @@ import { handleApiError, apiSuccess, apiError } from "@/lib/errors/api";
 import { sendVendorPacket } from "@/lib/vendor-packets/createPacket";
 import { completeVendorPacket, cancelVendorPacket } from "@/lib/vendor-packets/review";
 import { exportVendorPacketEvidence } from "@/lib/vendor-packets/exportEvidence";
+import {
+  resendVendorPacketRequest,
+  revokeVendorPacketMagicLink,
+} from "@/lib/vendor-packets/resendRevoke";
 import { type NextRequest } from "next/server";
 
 export async function POST(
@@ -9,12 +13,16 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { action, ...payload } = await request.json();
+    const { action, ccMe, ...payload } = await request.json();
     const workflowId = params.id;
 
     switch (action) {
       case "send":
-        return apiSuccess(await sendVendorPacket(workflowId));
+        return apiSuccess(await sendVendorPacket(workflowId, { ccMe }));
+      case "resend":
+        return apiSuccess(await resendVendorPacketRequest(workflowId, { ccMe }));
+      case "revoke":
+        return apiSuccess(await revokeVendorPacketMagicLink(workflowId));
       case "complete":
         return apiSuccess(await completeVendorPacket(workflowId));
       case "cancel":

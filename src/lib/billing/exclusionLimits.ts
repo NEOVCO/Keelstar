@@ -33,17 +33,7 @@ async function countActiveExclusionMonitors(organizationId: string): Promise<num
 }
 
 export async function assertExclusionCheckLimit(organizationId: string, actorId?: string) {
-  const entitled =
-    (await checkModuleEntitlement(organizationId, EXCLUSION_ENTITLEMENT)) ||
-    false;
-  const supabase = createServiceClient();
-  const { data: sub } = await supabase
-    .from("subscriptions")
-    .select("status")
-    .eq("organization_id", organizationId)
-    .eq("status", "active")
-    .maybeSingle();
-  if (sub || entitled) return;
+  if (await checkModuleEntitlement(organizationId, EXCLUSION_ENTITLEMENT)) return;
 
   const current = await getUsageCount(organizationId, "exclusion_checks");
   if (current >= FREE_TIER_LIMITS.exclusionChecksPerMonth) {
@@ -85,13 +75,7 @@ export async function incrementExclusionCheckUsage(organizationId: string) {
 }
 
 export async function assertExclusionMonitorLimit(organizationId: string, actorId?: string) {
-  const { data: sub } = await createServiceClient()
-    .from("subscriptions")
-    .select("status")
-    .eq("organization_id", organizationId)
-    .eq("status", "active")
-    .maybeSingle();
-  if (sub) return;
+  if (await checkModuleEntitlement(organizationId, EXCLUSION_ENTITLEMENT)) return;
 
   const current = await countActiveExclusionMonitors(organizationId);
   if (current >= FREE_TIER_LIMITS.exclusionActiveMonitors) {

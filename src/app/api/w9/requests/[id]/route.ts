@@ -11,14 +11,14 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { action, ...payload } = await request.json();
+    const { action, ccMe, ...payload } = await request.json();
     const workflowId = params.id;
 
     switch (action) {
       case "send":
-        return apiSuccess(await sendW9RequestEmail(workflowId));
+        return apiSuccess(await sendW9RequestEmail(workflowId, { ccMe }));
       case "resend":
-        return apiSuccess(await resendW9Request(workflowId));
+        return apiSuccess(await resendW9Request(workflowId, { ccMe }));
       case "revoke":
         return apiSuccess(await revokeW9MagicLink(workflowId));
       case "approve":

@@ -121,6 +121,7 @@ export async function runVendorPacketMonitor(): Promise<{
 
   const templates = await import("@/lib/email/templates/vendor-packets");
   const { sendEmail } = await import("@/lib/email/sendEmail");
+  const { parseStoredCcEmails } = await import("@/lib/email/outboundCc");
 
   for (const reminder of dueReminders ?? []) {
     try {
@@ -177,6 +178,7 @@ export async function runVendorPacketMonitor(): Promise<{
             vendorName: vendor?.name ?? "",
             portalUrl,
           },
+          cc: parseStoredCcEmails(metadata),
         });
       }
 

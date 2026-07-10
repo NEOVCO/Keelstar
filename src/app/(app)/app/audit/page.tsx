@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/navigation/Breadcrumbs";
-import { DataTable, TableToolbar } from "@/components/tables";
-import { Button } from "@/components/ui/button";
+import { AuditLogTable, type AuditLogRow } from "@/components/audit/AuditLogTable";
+import { AuditExportButtons } from "@/components/audit/AuditExportButtons";
 import { EmptyState } from "@/components/empty-states/EmptyState";
 import { requireOrganization } from "@/lib/tenant/context";
 import { fetchAuditLogs, moduleLabelForType } from "@/lib/app-queries";
@@ -16,7 +16,8 @@ export default async function AuditPage() {
     { key: "object", label: "Object" },
   ];
 
-  const rows = logs.map((e) => ({
+  const rows: AuditLogRow[] = logs.map((e) => ({
+    id: e.id,
     time: new Date(e.created_at).toLocaleString(),
     actor: e.actor_email ?? e.actor_type ?? "System",
     action: e.action.replace(/\./g, " "),
@@ -30,7 +31,7 @@ export default async function AuditPage() {
       <PageHeader
         title="Audit log"
         description="Immutable record of important actions across your workspace."
-        action={<Button variant="secondary">Export CSV</Button>}
+        action={<AuditExportButtons />}
       />
       {rows.length === 0 ? (
         <EmptyState
@@ -39,10 +40,7 @@ export default async function AuditPage() {
           primaryAction={{ label: "Go to workflows", href: "/app/workflows" }}
         />
       ) : (
-        <>
-          <TableToolbar searchPlaceholder="Filter audit events…" />
-          <DataTable columns={columns} rows={rows} />
-        </>
+        <AuditLogTable columns={columns} rows={rows} />
       )}
     </div>
   );

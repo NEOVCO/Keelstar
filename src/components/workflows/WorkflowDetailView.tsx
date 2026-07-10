@@ -17,8 +17,29 @@ import { ContractUploadForm } from "@/components/contracts/ContractUploadForm";
 import { CrossSellPanel } from "@/components/onboarding/CrossSellPanel";
 import { VendorPacketWorkflowActions } from "@/components/vendor-packets/VendorPacketWorkflowActions";
 import { VendorPacketChecklistPanel } from "@/components/vendor-packets/VendorPacketChecklistPanel";
+import { PolicyWorkflowActions } from "@/components/policies/PolicyWorkflowActions";
+import { PolicyUploadForm } from "@/components/policies/PolicyUploadForm";
+import { TrainingWorkflowActions } from "@/components/training/TrainingWorkflowActions";
+import { TrainingFieldsForm } from "@/components/training/TrainingFieldsForm";
+import { TrainingUploadForm } from "@/components/training/TrainingUploadForm";
+import { InvoiceWorkflowActions } from "@/components/invoices/InvoiceWorkflowActions";
+import { InvoiceFieldsForm } from "@/components/invoices/InvoiceFieldsForm";
+import { InvoiceUploadForm } from "@/components/invoices/InvoiceUploadForm";
+import { SignerWorkflowActions } from "@/components/signer/SignerWorkflowActions";
+import { SignerUploadForm } from "@/components/signer/SignerUploadForm";
+import { ContractRiskWorkflowActions } from "@/components/contracts-risk/ContractRiskWorkflowActions";
+import { ContractRiskUploadForm } from "@/components/contracts-risk/ContractRiskUploadForm";
+import { RiskFlagsPanel } from "@/components/contracts-risk/RiskFlagsPanel";
 import { VENDOR_PACKET_WORKFLOW_TYPE } from "@/lib/vendor-packets/constants";
+import { POLICY_WORKFLOW_TYPE } from "@/lib/policies/constants";
+import { TRAINING_WORKFLOW_TYPE } from "@/lib/training/constants";
+import { INVOICE_WORKFLOW_TYPE } from "@/lib/invoices/constants";
+import { SIGNER_WORKFLOW_TYPE } from "@/lib/signer/constants";
+import { CONTRACT_RISK_WORKFLOW_TYPE } from "@/lib/contracts-risk/constants";
+import { parseRiskFlagsFromMetadata } from "@/lib/contracts-risk/scanContract";
+import type { RiskFlag } from "@/lib/contracts-risk/constants";
 import { computePacketProgress } from "@/lib/vendor-packets/completion";
+import { DIRECTORY, COI_DIRECTORY } from "@/lib/terminology/directory";
 import { requireOrganization } from "@/lib/tenant/context";
 import {
   fetchWorkflow,
@@ -133,18 +154,33 @@ export async function WorkflowDetailView({ id }: { id: string }) {
               .limit(1)
               .maybeSingle()
               .then((r) => r.data)
-          : Promise.resolve(null),
+          : workflow.type === TRAINING_WORKFLOW_TYPE
+            ? supabase
+                .from("monitors")
+                .select("id, status, monitored_date, next_run_at, last_run_at")
+                .eq("workflow_instance_id", workflow.id)
+                .eq("monitor_type", "training_expiration")
+                .order("created_at", { ascending: false })
+                .limit(1)
+                .maybeSingle()
+                .then((r) => r.data)
+            : Promise.resolve(null),
   ]);
 
   const isW9 = workflow.type === "w9_collection";
   const isCoi = workflow.type === "coi_tracking";
   const isContract = workflow.type === "contract_renewal";
   const isVendorPacket = workflow.type === VENDOR_PACKET_WORKFLOW_TYPE;
+  const isPolicy = workflow.type === POLICY_WORKFLOW_TYPE;
+  const isTraining = workflow.type === TRAINING_WORKFLOW_TYPE;
+  const isInvoice = workflow.type === INVOICE_WORKFLOW_TYPE;
+  const isSigner = workflow.type === SIGNER_WORKFLOW_TYPE;
+  const isContractRisk = workflow.type === CONTRACT_RISK_WORKFLOW_TYPE;
 
   const packetProgress = isVendorPacket ? await computePacketProgress(workflow.id) : null;
 
   const magicLinkUrl =
-    (isW9 || isCoi || isVendorPacket) &&
+    (isW9 || isCoi || isVendorPacket || isPolicy || isSigner) &&
     ["sent", "opened", "needs_correction", "overdue", "in_progress", "review_needed"].includes(workflow.status)
       ? (metadata.magic_link_url as string | null) ?? null
       : null;
@@ -153,6 +189,8 @@ export async function WorkflowDetailView({ id }: { id: string }) {
   const contractFieldMap = isContract ? coiFieldMap : {};
 
   const canApprove = can(ctx.permissions, PERMISSIONS.WORKFLOWS_APPROVE);
+  const canSend = can(ctx.permissions, PERMISSIONS.WORKFLOWS_CREATE);
+  const riskFlags: RiskFlag[] = isContractRisk ? parseRiskFlagsFromMetadata(metadata) : [];
   const moduleLabel = moduleLabelForType(workflow.type);
   const step = stepForStatus(workflow.status);
 
@@ -185,7 +223,7 @@ export async function WorkflowDetailView({ id }: { id: string }) {
                 href={`/app/vendors/${workflow.vendor_id}`}
                 className="inline-flex items-center rounded-md border border-border px-3 py-1.5 text-body-sm hover:bg-sunken"
               >
-                View vendor
+                {DIRECTORY.viewEntry}
               </Link>
             )}
           </div>
@@ -209,7 +247,55 @@ export async function WorkflowDetailView({ id }: { id: string }) {
           <ContractWorkflowActions workflowId={workflow.id} status={workflow.status} canApprove={canApprove} />
         )}
         {isVendorPacket && (
-          <VendorPacketWorkflowActions workflowId={workflow.id} status={workflow.status} canApprove={canApprove} />
+          <VendorPacketWorkflowActions
+            workflowId={workflow.id}
+            status={workflow.status}
+            canSend={canSend}
+            canApprove={canApprove}
+            senderEmail={ctx.user.email}
+          />
+        )}
+        {isPolicy && (
+          <PolicyWorkflowActions
+            workflowId={workflow.id}
+            status={workflow.status}
+            canSend={canSend}
+            hasPolicyDocument={!!latestVersionId}
+            senderEmail={ctx.user.email}
+          />
+        )}
+        {isTraining && (
+          <TrainingWorkflowActions
+            workflowId={workflow.id}
+            status={workflow.status}
+            canApprove={canApprove}
+          />
+        )}
+        {isInvoice && (
+          <InvoiceWorkflowActions
+            workflowId={workflow.id}
+            status={workflow.status}
+            canApprove={canApprove}
+            canSubmit={canSend}
+          />
+        )}
+        {isSigner && (
+          <SignerWorkflowActions
+            workflowId={workflow.id}
+            status={workflow.status}
+            canSend={canSend}
+            hasDocument={!!latestVersionId}
+            senderEmail={ctx.user.email}
+          />
+        )}
+        {isContractRisk && (
+          <ContractRiskWorkflowActions
+            workflowId={workflow.id}
+            status={workflow.status}
+            canApprove={canApprove}
+            canScan={canSend}
+            hasDocument={!!latestVersionId}
+          />
         )}
       </div>
 
@@ -234,7 +320,7 @@ export async function WorkflowDetailView({ id }: { id: string }) {
               <CardTitle>Request details</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-body-sm">
-              <p><span className="text-secondary">Vendor:</span> {vendor?.name ?? "—"}</p>
+              <p><span className="text-secondary">{COI_DIRECTORY.partyColumn}:</span> {vendor?.name ?? "—"}</p>
               <p><span className="text-secondary">Email:</span> {metadata.recipient_email ?? vendor?.email ?? "—"}</p>
               <p><span className="text-secondary">Due:</span> {workflow.due_date ? formatDate(workflow.due_date) : "—"}</p>
               {metadata.expiration_date && (
@@ -242,6 +328,72 @@ export async function WorkflowDetailView({ id }: { id: string }) {
               )}
               {metadata.rejection_reason && (
                 <p><span className="text-secondary">Correction:</span> {metadata.rejection_reason}</p>
+              )}
+              {isPolicy && metadata.policy_title && (
+                <p><span className="text-secondary">Policy:</span> {metadata.policy_title}</p>
+              )}
+              {isPolicy && metadata.policy_version && (
+                <p><span className="text-secondary">Version:</span> {metadata.policy_version}</p>
+              )}
+              {isPolicy && metadata.acknowledged_at && (
+                <>
+                  <p><span className="text-secondary">Acknowledged by:</span> {metadata.acknowledged_name ?? "—"}</p>
+                  <p><span className="text-secondary">Acknowledged at:</span> {formatDate(metadata.acknowledged_at)}</p>
+                </>
+              )}
+              {isTraining && metadata.course_name && (
+                <p><span className="text-secondary">Course:</span> {metadata.course_name}</p>
+              )}
+              {isTraining && metadata.provider && (
+                <p><span className="text-secondary">Provider:</span> {metadata.provider}</p>
+              )}
+              {isTraining && metadata.completion_date && (
+                <p><span className="text-secondary">Completed:</span> {formatDate(metadata.completion_date)}</p>
+              )}
+              {isTraining && metadata.expiration_date && (
+                <p><span className="text-secondary">Expires:</span> {formatDate(metadata.expiration_date)}</p>
+              )}
+              {isInvoice && (metadata.vendor_name || vendor?.name) && (
+                <p><span className="text-secondary">Vendor:</span> {metadata.vendor_name ?? vendor?.name}</p>
+              )}
+              {isInvoice && metadata.invoice_number && (
+                <p><span className="text-secondary">Invoice #:</span> {metadata.invoice_number}</p>
+              )}
+              {isInvoice && metadata.invoice_amount && (
+                <p><span className="text-secondary">Amount:</span> {metadata.invoice_amount}</p>
+              )}
+              {isInvoice && metadata.approved_at && (
+                <p><span className="text-secondary">Approved:</span> {formatDate(metadata.approved_at)}</p>
+              )}
+              {isInvoice && metadata.rejected_at && (
+                <p><span className="text-secondary">Rejected:</span> {formatDate(metadata.rejected_at)}</p>
+              )}
+              {isSigner && metadata.document_title && (
+                <p><span className="text-secondary">Document:</span> {metadata.document_title}</p>
+              )}
+              {isSigner && (metadata.signer_name || metadata.signer_email) && (
+                <p><span className="text-secondary">Signer:</span> {metadata.signer_name ?? "—"} ({metadata.signer_email ?? metadata.recipient_email ?? "—"})</p>
+              )}
+              {isSigner && metadata.signed_at && (
+                <>
+                  <p><span className="text-secondary">Signed by:</span> {metadata.signed_name ?? "—"}</p>
+                  <p><span className="text-secondary">Signed at:</span> {formatDate(metadata.signed_at)}</p>
+                </>
+              )}
+              {isContractRisk && metadata.contract_name && (
+                <p><span className="text-secondary">Contract:</span> {metadata.contract_name}</p>
+              )}
+              {isContractRisk && metadata.counterparty && (
+                <p><span className="text-secondary">Counterparty:</span> {metadata.counterparty}</p>
+              )}
+              {isContractRisk && metadata.risk_summary && (
+                <p><span className="text-secondary">Risk summary:</span> {metadata.risk_summary}</p>
+              )}
+              {isContractRisk && metadata.risk_flag_count != null && (
+                <p><span className="text-secondary">Flags:</span> {metadata.risk_flag_count} ({metadata.risk_high_count ?? 0} high)</p>
+              )}
+              {isContractRisk && metadata.scanned_at && (
+                <p><span className="text-secondary">Scanned:</span> {formatDate(metadata.scanned_at)}</p>
               )}
             </CardContent>
           </Card>
@@ -262,6 +414,121 @@ export async function WorkflowDetailView({ id }: { id: string }) {
               )}
             </CardContent>
           </Card>
+
+          {isPolicy && workflow.status === "draft" && !latestVersionId && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Upload policy document</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PolicyUploadForm workflowId={workflow.id} />
+              </CardContent>
+            </Card>
+          )}
+
+          {isSigner && workflow.status === "draft" && !latestVersionId && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Upload document</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SignerUploadForm workflowId={workflow.id} />
+              </CardContent>
+            </Card>
+          )}
+
+          {isContractRisk && workflow.status === "draft" && !latestVersionId && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Upload contract</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ContractRiskUploadForm workflowId={workflow.id} />
+              </CardContent>
+            </Card>
+          )}
+
+          {isContractRisk && riskFlags.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Risk flags</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RiskFlagsPanel
+                  summary={metadata.risk_summary as string}
+                  flags={riskFlags}
+                  scanSource={metadata.risk_scan_source as string}
+                />
+              </CardContent>
+            </Card>
+          )}
+
+          {(isTraining && ["draft", "review_needed"].includes(workflow.status) && !latestVersionId) && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Upload certificate</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TrainingUploadForm workflowId={workflow.id} />
+              </CardContent>
+            </Card>
+          )}
+
+          {isTraining && latestVersionId && !["cancelled", "renewed"].includes(workflow.status) && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Training details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TrainingFieldsForm
+                  workflowId={workflow.id}
+                  initialFields={{
+                    course_name: (metadata.course_name as string) ?? "",
+                    provider: (metadata.provider as string) ?? "",
+                    certification_number: (metadata.certification_number as string) ?? "",
+                    completion_date: (metadata.completion_date as string)?.slice(0, 10) ?? "",
+                    expiration_date: (metadata.expiration_date as string)?.slice(0, 10) ?? "",
+                    notes: (metadata.notes as string) ?? "",
+                    ...Object.fromEntries(parsedFields.map((f) => [f.field_key, f.field_value ?? ""])),
+                  }}
+                  readOnly={["active_monitoring", "expiring_soon", "expired"].includes(workflow.status)}
+                />
+              </CardContent>
+            </Card>
+          )}
+
+          {(isInvoice && ["draft", "review_needed", "rejected"].includes(workflow.status) && !latestVersionId) && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Upload invoice</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InvoiceUploadForm workflowId={workflow.id} />
+              </CardContent>
+            </Card>
+          )}
+
+          {isInvoice && latestVersionId && !["approved", "cancelled"].includes(workflow.status) && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Invoice details</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <InvoiceFieldsForm
+                  workflowId={workflow.id}
+                  initialFields={{
+                    vendor_name: (metadata.vendor_name as string) ?? vendor?.name ?? "",
+                    invoice_number: (metadata.invoice_number as string) ?? "",
+                    invoice_amount: (metadata.invoice_amount as string) ?? "",
+                    due_date: (metadata.due_date as string)?.slice(0, 10) ?? "",
+                    notes: (metadata.notes as string) ?? "",
+                    ...Object.fromEntries(parsedFields.map((f) => [f.field_key, f.field_value ?? ""])),
+                  }}
+                  readOnly={["submitted", "overdue", "approved"].includes(workflow.status)}
+                />
+              </CardContent>
+            </Card>
+          )}
 
           {isContract && workflow.status === "draft" && (
             <Card>
@@ -351,7 +618,7 @@ export async function WorkflowDetailView({ id }: { id: string }) {
             </Card>
           )}
 
-          {parsedFields.length > 0 && !isCoi && (
+          {parsedFields.length > 0 && !isCoi && !isInvoice && !isContractRisk && (
             <Card>
               <CardHeader>
                 <CardTitle>Extracted fields</CardTitle>
@@ -371,7 +638,7 @@ export async function WorkflowDetailView({ id }: { id: string }) {
             </Card>
           )}
 
-          {(isCoi || isContract || isVendorPacket) && monitor && (
+          {(isCoi || isContract || isVendorPacket || isTraining) && monitor && (
             <Card>
               <CardHeader>
                 <CardTitle>
@@ -420,7 +687,7 @@ export async function WorkflowDetailView({ id }: { id: string }) {
               timestamp: e.created_at,
             }))}
           />
-          {(isW9 || isCoi || isContract || isVendorPacket) && ["completed", "approved", "renewal_monitoring", "notice_window_open", "renewal_approaching", "auto_renew_risk", "active_monitoring", "expiring_soon", "expired", "renewed", "review_needed"].includes(workflow.status) && (
+          {(isW9 || isCoi || isContract || isVendorPacket || isPolicy || isTraining || isInvoice || isSigner || isContractRisk) && ["completed", "approved", "renewal_monitoring", "notice_window_open", "renewal_approaching", "auto_renew_risk", "active_monitoring", "expiring_soon", "expired", "renewed", "review_needed", "submitted", "overdue", "rejected", "processing"].includes(workflow.status) && (
             <div className="mt-6">
               <EvidenceExportPanel
                 workflowId={workflow.id}
@@ -431,7 +698,17 @@ export async function WorkflowDetailView({ id }: { id: string }) {
                       ? `/api/contracts/requests/${workflow.id}`
                       : isVendorPacket
                         ? `/api/vendor-packets/requests/${workflow.id}`
-                        : `/api/w9/requests/${workflow.id}`
+                        : isPolicy
+                          ? `/api/policies/requests/${workflow.id}`
+                          : isTraining
+                            ? `/api/training/records/${workflow.id}`
+                            : isInvoice
+                              ? `/api/invoices/requests/${workflow.id}`
+                              : isSigner
+                                ? `/api/signer/requests/${workflow.id}`
+                                : isContractRisk
+                                  ? `/api/contracts-risk/scans/${workflow.id}`
+                                  : `/api/w9/requests/${workflow.id}`
                 }
               />
             </div>

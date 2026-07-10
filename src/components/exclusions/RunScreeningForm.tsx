@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
 type Vendor = { id: string; name: string };
 
@@ -17,14 +18,12 @@ export function RunScreeningForm({ vendors }: { vendors: Vendor[] }) {
   const [lastName, setLastName] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [npi, setNpi] = useState("");
-  const [includeSam, setIncludeSam] = useState(false);
   const [createMonitor, setCreateMonitor] = useState(false);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    const sources = includeSam ? ["oig", "sam"] : ["oig"];
     const res = await fetch("/api/exclusions/screen", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -36,7 +35,7 @@ export function RunScreeningForm({ vendors }: { vendors: Vendor[] }) {
         lastName: lastName || undefined,
         organizationName: organizationName || undefined,
         npi: npi || undefined,
-        sources,
+        sources: ["oig"],
         createMonthlyMonitor: createMonitor,
       }),
     });
@@ -73,7 +72,7 @@ export function RunScreeningForm({ vendors }: { vendors: Vendor[] }) {
       </div>
       {subjectType === "vendor" && (
         <div>
-          <label className="mb-1 block text-caption font-medium text-secondary">Vendor</label>
+          <label className="mb-1 block text-caption font-medium text-secondary">{DIRECTORY.nav}</label>
           <select
             value={vendorId}
             onChange={(e) => {
@@ -83,7 +82,7 @@ export function RunScreeningForm({ vendors }: { vendors: Vendor[] }) {
             }}
             className="h-10 w-full rounded-md border border-border-strong bg-bg px-3 text-body-sm"
           >
-            <option value="">Select vendor</option>
+            <option value="">Select from directory</option>
             {vendors.map((v) => (
               <option key={v.id} value={v.id}>
                 {v.name}
@@ -111,10 +110,6 @@ export function RunScreeningForm({ vendors }: { vendors: Vendor[] }) {
         <input placeholder="Organization name" value={organizationName} onChange={(e) => setOrganizationName(e.target.value)} className="h-10 w-full rounded-md border border-border-strong bg-bg px-3 text-body-sm" />
       )}
       <input placeholder="NPI (optional)" value={npi} onChange={(e) => setNpi(e.target.value)} className="h-10 w-full rounded-md border border-border-strong bg-bg px-3 text-body-sm" />
-      <label className="flex items-center gap-2 text-body-sm text-secondary">
-        <input type="checkbox" checked={includeSam} onChange={(e) => setIncludeSam(e.target.checked)} />
-        Include SAM (if configured)
-      </label>
       <label className="flex items-center gap-2 text-body-sm text-secondary">
         <input type="checkbox" checked={createMonitor} onChange={(e) => setCreateMonitor(e.target.checked)} />
         Create monthly monitor

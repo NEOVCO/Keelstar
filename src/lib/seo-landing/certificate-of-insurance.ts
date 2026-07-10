@@ -5,6 +5,7 @@ import {
   certificateOfInsuranceChecklist,
 } from "./content/certificate-of-insurance";
 import { certificateOfInsuranceFaqs } from "./content/certificate-of-insurance-faqs";
+import { getHubSolutionLinks } from "./hub-solution-links";
 
 export const certificateOfInsurance: SeoLandingPageData = {
   path: "/certificate-of-insurance/",
@@ -56,5 +57,8 @@ export const certificateOfInsurance: SeoLandingPageData = {
   relatedLinks: [
     { label: "COI Tracker", href: "/products/coi-tracker/" },
     { label: "Vendor compliance", href: "/vendor-compliance/" },
+    { label: "All solutions", href: "/solutions/" },
   ],
+  solutionLinks: getHubSolutionLinks("certificate-of-insurance"),
+  lastUpdated: "2026-07-10",
 };

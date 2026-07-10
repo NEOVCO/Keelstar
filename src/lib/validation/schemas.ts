@@ -13,6 +13,8 @@ export const createWorkflowSchema = z.object({
   type: z.string().min(1),
   title: z.string().min(1).max(200),
   dueDate: z.string().datetime().optional(),
+  vendorId: z.string().uuid().optional(),
+  description: z.string().max(2000).optional(),
   metadata: z.record(z.unknown()).optional(),
 });
 

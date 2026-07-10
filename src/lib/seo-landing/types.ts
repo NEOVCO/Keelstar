@@ -29,5 +29,9 @@ export type SeoLandingPageData = {
   ctaTitle: string;
   ctaBody: string;
   relatedLinks?: { label: string; href: string }[];
+  /** Deep links to /solutions/ guides (hub pages) */
+  solutionLinks?: { label: string; href: string }[];
+  /** ISO date for freshness signals (LLM + search) */
+  lastUpdated?: string;
   comingSoon?: boolean;
 };

@@ -8,6 +8,13 @@ export function organizationLd() {
     url: site.url,
     logo: `${site.url}/apple-icon`,
     description: site.description,
+    email: site.contactEmail,
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: site.contactEmail,
+      url: `${site.url}/contact/`,
+    },
     sameAs: [] as string[],
   };
 }
@@ -61,6 +68,24 @@ export function articleLd(a: { title: string; description: string; path: string;
     dateModified: a.updated,
     author: { "@type": "Organization", name: a.author, url: site.url },
     mainEntityOfPage: `${site.url}${a.path}`,
+  };
+}
+
+export function webPageLd(p: {
+  name: string;
+  description: string;
+  path: string;
+  dateModified?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: p.name,
+    description: p.description,
+    url: `${site.url}${p.path}`,
+    dateModified: p.dateModified,
+    isPartOf: { "@type": "WebSite", name: site.name, url: site.url },
+    publisher: { "@type": "Organization", name: site.name, url: site.url },
   };
 }
 

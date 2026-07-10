@@ -80,7 +80,7 @@ export const tools: Tool[] = [
     ],
   }),
   t("ofac-search", "OFAC Search", "Search the OFAC Specially Designated Nationals (SDN) list for a name.", "search", "Name to screen", "exclusion-monitor", "screen-vendors-against-exclusion-lists", { glossary: ["ofac-sdn-list"], template: "exclusion-screening-log" }),
-  t("sam-search", "SAM Search", "Search SAM.gov exclusions for a name or entity.", "search", "Name or entity to screen", "exclusion-monitor", "screen-vendors-against-exclusion-lists", { glossary: ["sam-exclusion"], template: "exclusion-screening-log" }),
+  // "sam-search" — disabled (not implementing)
   t("exclusion-report-builder", "Exclusion Report Builder", "Compile your exclusion checks into one shareable, dated report.", "form", "Select checks to include", "exclusion-monitor", "build-audit-trails", { glossary: ["audit-trail"], template: "exclusion-screening-log" }),
   t("contract-renewal-extractor", "Contract Renewal Extractor", "Extract the renewal date, term, and notice period from a contract.", "upload", "Upload a contract PDF", "contract-renewal-tracker", "monitor-contract-renewals", {
     fullCopy: true,

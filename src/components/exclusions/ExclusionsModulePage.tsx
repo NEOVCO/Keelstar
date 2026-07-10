@@ -10,7 +10,7 @@ import { requireOrganization } from "@/lib/tenant/context";
 import { createClient } from "@/lib/supabase/server";
 import { formatRelativeDate } from "@/lib/utils/cn";
 import { getModuleBySlug } from "@/lib/modules/modules";
-import { getExclusionDataMode, isSamConfigured, EXCLUSION_MONITOR_TYPE } from "@/lib/exclusions/constants";
+import { getExclusionDataMode, EXCLUSION_MONITOR_TYPE } from "@/lib/exclusions/constants";
 
 type ScreeningResult = {
   id: string;
@@ -71,8 +71,8 @@ export async function ExclusionsModulePage() {
     <div>
       <PageHeader
         breadcrumbs={<Breadcrumbs items={[{ label: "Apps", href: "/app" }, { label: mod.name }]} />}
-        title="OIG & SAM Exclusion Monitoring"
-        description="Screen vendors and people against exclusion sources, review potential matches and keep audit-ready proof."
+        title="OIG Exclusion Monitoring"
+        description="Screen directory entries and people against exclusion sources, review potential matches and keep audit-ready proof."
       />
       <div className="mb-6 flex items-center gap-3 rounded-lg border border-border bg-surface p-4">
         <div className="flex h-10 w-10 items-center justify-center rounded-md bg-accent-subtle">
@@ -107,7 +107,6 @@ export async function ExclusionsModulePage() {
                 .
               </>
             )}
-            {!isSamConfigured() && " SAM: not configured."}
           </p>
         </div>
       </div>

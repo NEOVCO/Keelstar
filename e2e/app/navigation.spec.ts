@@ -8,7 +8,7 @@ test.describe("App shell navigation", () => {
 
   test("vendors list loads", async ({ page }) => {
     await page.goto("/app/vendors");
-    await expect(page.getByRole("heading", { name: "Vendors" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Directory" })).toBeVisible();
   });
 
   test("workflows list loads", async ({ page }) => {

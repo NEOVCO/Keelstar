@@ -5,20 +5,24 @@ import { useRouter } from "next/navigation";
 import { UsageLimitAlert } from "@/components/billing/UsageLimitAlert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CcSenderOption } from "@/components/email/CcSenderOption";
 
 export function RequestW9Form({
   vendorId,
   vendorEmail,
   defaultDueDate,
+  senderEmail,
 }: {
   vendorId: string;
   vendorEmail?: string | null;
   defaultDueDate: string;
+  senderEmail?: string | null;
 }) {
   const router = useRouter();
   const [email, setEmail] = useState(vendorEmail ?? "");
   const [dueDate, setDueDate] = useState(defaultDueDate.slice(0, 10));
   const [message, setMessage] = useState("");
+  const [ccMe, setCcMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [limitError, setLimitError] = useState("");
@@ -41,6 +45,7 @@ export function RequestW9Form({
         dueDate: due.toISOString(),
         message: message || undefined,
         sendImmediately: true,
+        ccMe: ccMe || undefined,
       }),
     });
     const data = await res.json();
@@ -70,6 +75,7 @@ export function RequestW9Form({
         <label className="mb-1 block text-body-sm text-secondary">Message (optional)</label>
         <Input value={message} onChange={(e) => setMessage(e.target.value)} />
       </div>
+      <CcSenderOption checked={ccMe} onChange={setCcMe} senderEmail={senderEmail} />
       {limitError && <UsageLimitAlert message={limitError} />}
       {error && <p className="text-body-sm text-error">{error}</p>}
       <Button type="submit" disabled={loading}>

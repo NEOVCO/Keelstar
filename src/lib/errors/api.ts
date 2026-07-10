@@ -14,7 +14,12 @@ export function handleApiError(err: unknown) {
       return apiError(err.message, 401, "UNAUTHENTICATED");
     }
     if (err.name === "AuthorizationError") {
-      return apiError(err.message, 403, "FORBIDDEN");
+      const code = "code" in err ? String((err as { code?: string }).code) : "FORBIDDEN";
+      const status = code === "NO_ENTITLEMENT" ? 402 : 403;
+      return apiError(err.message, status, code);
+    }
+    if (err.message.includes("Usage limit") || err.message.includes("limit reached")) {
+      return apiError(err.message, 402, "USAGE_LIMIT");
     }
     return apiError(err.message, 500, "INTERNAL_ERROR");
   }

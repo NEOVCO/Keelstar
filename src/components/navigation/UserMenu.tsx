@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, User } from "lucide-react";
+import { LogOut, Mail, Settings, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { site } from "@/lib/site";
 
 export function UserMenu({ email }: { email?: string }) {
   const router = useRouter();
@@ -20,6 +21,12 @@ export function UserMenu({ email }: { email?: string }) {
         <Link href="/app/settings" className="flex items-center gap-2 px-3 py-2 text-body-sm hover:bg-sunken">
           <Settings className="h-4 w-4" /> Settings
         </Link>
+        <a
+          href={`mailto:${site.contactEmail}`}
+          className="flex items-center gap-2 px-3 py-2 text-body-sm hover:bg-sunken"
+        >
+          <Mail className="h-4 w-4" /> Contact support
+        </a>
         <form
           action="/api/auth/signout"
           method="POST"

@@ -2,7 +2,7 @@ export const EXCLUSION_WORKFLOW_TYPE = "exclusion_screening";
 export const EXCLUSION_MONITOR_TYPE = "exclusion_monitoring";
 export const EXCLUSION_ENTITLEMENT = "exclusion_monitor";
 
-export const EXCLUSION_SOURCES = ["oig", "sam"] as const;
+export const EXCLUSION_SOURCES = ["oig"] as const;
 export type ExclusionSource = (typeof EXCLUSION_SOURCES)[number];
 
 export const SUBJECT_TYPES = [
@@ -13,6 +13,7 @@ export const SUBJECT_TYPES = [
   "employee",
   "other",
 ] as const;
+export type SubjectType = (typeof SUBJECT_TYPES)[number];
 
 export const SUBJECT_STATUSES = [
   "active",
@@ -62,6 +63,3 @@ export function getExclusionDataMode(): "live" | "demo" {
   return "live";
 }
 
-export function isSamConfigured(): boolean {
-  return Boolean(process.env.SAM_API_KEY?.trim());
-}

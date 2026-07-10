@@ -4,7 +4,7 @@ import { DataTable } from "@/components/tables";
 import { ResponsiveTable } from "@/components/tables/RowActions";
 import { MonitorCard } from "@/components/monitors";
 import { StatusBadge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { CreateMonitorDialog } from "@/components/monitors/CreateMonitorDialog";
 import { EmptyState } from "@/components/empty-states/EmptyState";
 import { requireOrganization } from "@/lib/tenant/context";
 import { fetchMonitors } from "@/lib/app-queries";
@@ -48,7 +48,7 @@ export default async function MonitorsPage() {
       <PageHeader
         title="Monitors"
         description="Recurring rules that watch documents, contracts, and certificates."
-        action={<Button disabled>Create monitor</Button>}
+        action={<CreateMonitorDialog />}
       />
       {!monitors.length ? (
         <EmptyState

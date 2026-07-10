@@ -58,6 +58,32 @@ export async function selectFieldByLabel(
   await field.selectOption(value);
 }
 
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function vendorIdFromHref(href: string | null): string | null {
+  const id = href?.split("/").filter(Boolean).pop();
+  return id && UUID_RE.test(id) ? id : null;
+}
+
+export async function cleanupE2EVendors(page: Page): Promise<number> {
+  await page.goto("/app/vendors");
+  const links = page.locator('a[href^="/app/vendors/"]');
+  const count = await links.count();
+  let deleted = 0;
+  for (let i = 0; i < count; i++) {
+    const href = await links.nth(i).getAttribute("href");
+    const id = vendorIdFromHref(href);
+    if (!id) continue;
+    const label = (await links.nth(i).textContent())?.trim() ?? "";
+    if (label.startsWith("E2E ")) {
+      await page.request.delete(`/api/vendors/${id}`);
+      deleted++;
+    }
+  }
+  return deleted;
+}
+
 export async function ensureTestVendor(page: Page, name: string, email: string): Promise<string> {
   const attempt = async () => {
     const res = await page.request.post("/api/vendors", { data: { name, email } });
@@ -68,23 +94,31 @@ export async function ensureTestVendor(page: Page, name: string, email: string):
   if (json.success) return json.data.vendor.id as string;
 
   if (res.status() === 402) {
-    await page.goto("/app/vendors");
-    const links = page.locator('a[href^="/app/vendors/"]');
-    const count = await links.count();
-    for (let i = 0; i < count; i++) {
-      const href = await links.nth(i).getAttribute("href");
-      const id = href?.split("/").pop();
-      if (!id || id === "new") continue;
-      const label = (await links.nth(i).textContent())?.trim() ?? "";
-      if (label.startsWith("E2E ")) {
-        await page.request.delete(`/api/vendors/${id}`);
-      }
-    }
+    await cleanupE2EVendors(page);
     ({ res, json } = await attempt());
     if (json.success) return json.data.vendor.id as string;
   }
 
   throw new Error(json.error ?? `Create vendor failed (${res.status()})`);
+}
+
+/** Create a vendor, or reuse an existing one when the org is at the vendor cap. */
+export async function getOrCreateTestVendor(page: Page, name: string, email: string): Promise<string> {
+  try {
+    return await ensureTestVendor(page, name, email);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (!msg.includes("vendor")) throw err;
+  }
+
+  await page.goto("/app/vendors");
+  const links = page.locator('a[href^="/app/vendors/"]');
+  const count = await links.count();
+  for (let i = 0; i < count; i++) {
+    const id = vendorIdFromHref(await links.nth(i).getAttribute("href"));
+    if (id) return id;
+  }
+  throw new Error("No vendors available and cannot create a new one (usage limit reached)");
 }
 
 /** @deprecated Use ensureTestVendor */

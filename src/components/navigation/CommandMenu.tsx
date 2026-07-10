@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { MOCK_DOCUMENTS, MOCK_VENDORS, MOCK_WORKFLOWS } from "@/lib/mock-data";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
 export function CommandMenu({
   open: controlledOpen,
@@ -50,7 +51,7 @@ export function CommandMenu({
     ...MOCK_VENDORS.filter((v) => v.name.toLowerCase().includes(q)).map((v) => ({
       label: v.name,
       href: `/app/vendors/${v.id}`,
-      type: "Vendor",
+      type: DIRECTORY.commandType,
     })),
   ].slice(0, 8);
 
@@ -62,7 +63,7 @@ export function CommandMenu({
           <input
             autoFocus
             className="flex-1 bg-transparent py-3 text-body-sm outline-none"
-            placeholder="Search documents, workflows, vendors…"
+            placeholder={DIRECTORY.searchPlaceholder}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />

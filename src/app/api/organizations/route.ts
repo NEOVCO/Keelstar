@@ -59,7 +59,7 @@ export async function POST(request: Request) {
         products.map((p) => ({
           organization_id: org.id,
           product_id: p.id,
-          is_enabled: true,
+          is_enabled: false,
           source: "trial",
         }))
       );

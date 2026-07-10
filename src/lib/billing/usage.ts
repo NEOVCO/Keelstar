@@ -1,6 +1,6 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { FREE_TIER_LIMITS } from "./limits";
-import { checkEntitlement } from "./checkEntitlement";
+import { hasAnyPaidModule } from "./checkEntitlement";
 import { checkUsageLimit, type UsageLimitKey } from "./checkUsageLimit";
 
 export type UsageStats = {
@@ -45,7 +45,7 @@ async function countMembers(organizationId: string): Promise<number> {
 }
 
 export async function getUsageStats(organizationId: string): Promise<UsageStats> {
-  const paid = await checkEntitlement(organizationId);
+  const paid = await hasAnyPaidModule(organizationId);
   const [vendors, w9Requests, teamMembers] = await Promise.all([
     countVendors(organizationId),
     countW9Requests(organizationId),
@@ -75,13 +75,22 @@ export function formatLimitError(limitKey: UsageLimitKey, message: string): {
   href: string;
 } {
   const labels: Record<UsageLimitKey, string> = {
-    vendors: "vendor limit",
+    vendors: "directory limit",
     w9_requests: "W-9 request limit",
     coi_requests: "COI request limit",
     coi_active_records: "active COI limit",
     contract_active_records: "active contract limit",
     vendor_packet_requests: "vendor packet request limit",
     vendor_packet_active: "active vendor packet limit",
+    policy_requests: "policy acknowledgement request limit",
+    policy_active_records: "active policy acknowledgement limit",
+    training_active_records: "active training record limit",
+    invoice_active_records: "active invoice limit",
+    invoice_submissions: "invoice submission limit",
+    signer_requests: "signature request limit",
+    signer_active_records: "active signature request limit",
+    contract_risk_scans: "contract risk scan limit",
+    contract_risk_active_records: "active contract risk scan limit",
     team_members: "team member limit",
   };
   return {

@@ -15,10 +15,15 @@ import {
   VENDOR_PACKET_MAGIC_LINK_MAX_USES,
 } from "./constants";
 import { buildVendorPacketExternalUrl, saveWorkflowMagicLinkUrl } from "./magicLinkUrl";
+import {
+  resolveVendorOutboundCc,
+  withStoredCc,
+  type VendorOutboundEmailOptions,
+} from "@/lib/email/outboundCc";
 
 export async function sendVendorPacketEmail(
   workflowId: string,
-  options?: { userId?: string; skipAuth?: boolean }
+  options?: VendorOutboundEmailOptions
 ) {
   let organizationId: string;
   let userId: string;
@@ -136,6 +141,8 @@ export async function sendVendorPacketEmail(
     itemCount: checklist.length,
   });
 
+  const cc = resolveVendorOutboundCc(metadata, options, userEmail);
+
   await sendEmail({
     organizationId,
     to: recipientEmail,
@@ -150,6 +157,7 @@ export async function sendVendorPacketEmail(
     },
     recipientType: "external",
     recipientId: externalParticipantId,
+    cc,
   });
 
   const sentAt = new Date().toISOString();
@@ -157,12 +165,16 @@ export async function sendVendorPacketEmail(
     .from("workflow_instances")
     .update({
       status: "sent",
-      metadata: {
-        ...metadata,
-        sent_at: sentAt,
-        magic_link_url: portalUrl,
-        magic_link_updated_at: sentAt,
-      },
+      metadata: withStoredCc(
+        {
+          ...metadata,
+          sent_at: sentAt,
+          magic_link_url: portalUrl,
+          magic_link_updated_at: sentAt,
+        },
+        options?.ccMe,
+        userEmail
+      ),
     })
     .eq("id", workflowId);
 

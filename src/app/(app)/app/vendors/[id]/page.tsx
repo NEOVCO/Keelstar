@@ -17,6 +17,7 @@ import { defaultDueDate, W9_WORKFLOW_TYPE } from "@/lib/w9/constants";
 import { defaultCoiDueDate, COI_WORKFLOW_TYPE } from "@/lib/coi/constants";
 import { defaultPacketDueDate, VENDOR_PACKET_WORKFLOW_TYPE, ACTIVE_VENDOR_PACKET_STATUSES } from "@/lib/vendor-packets/constants";
 import { formatDate } from "@/lib/utils/cn";
+import { DIRECTORY } from "@/lib/terminology/directory";
 import { PERMISSIONS } from "@/lib/rbac/permissions";
 import { can } from "@/lib/rbac/types";
 
@@ -79,7 +80,7 @@ export default async function AppVendorDetailPage({ params }: { params: { id: st
     <div>
       <ObjectHeader
         breadcrumbs={
-          <Breadcrumbs items={[{ label: "Vendors", href: "/app/vendors" }, { label: vendor.name }]} />
+          <Breadcrumbs items={[{ label: DIRECTORY.nav, href: "/app/vendors" }, { label: vendor.name }]} />
         }
         title={vendor.name}
         status={vendor.status}
@@ -131,7 +132,7 @@ export default async function AppVendorDetailPage({ params }: { params: { id: st
 
           <Card>
             <CardHeader>
-              <CardTitle>Edit vendor</CardTitle>
+              <CardTitle>{DIRECTORY.editEntry}</CardTitle>
             </CardHeader>
             <CardContent>
               <EditVendorForm
@@ -209,6 +210,7 @@ export default async function AppVendorDetailPage({ params }: { params: { id: st
                   vendorId={vendor.id}
                   vendorEmail={vendor.email}
                   defaultDueDate={defaultPacketDueDate().toISOString()}
+                  senderEmail={ctx.user.email}
                 />
               </CardContent>
             </Card>
@@ -224,6 +226,7 @@ export default async function AppVendorDetailPage({ params }: { params: { id: st
                   vendorId={vendor.id}
                   vendorEmail={vendor.email}
                   defaultDueDate={defaultCoiDueDate().toISOString()}
+                  senderEmail={ctx.user.email}
                 />
               </CardContent>
             </Card>
@@ -239,6 +242,7 @@ export default async function AppVendorDetailPage({ params }: { params: { id: st
                   vendorId={vendor.id}
                   vendorEmail={vendor.email}
                   defaultDueDate={defaultDueDate().toISOString()}
+                  senderEmail={ctx.user.email}
                 />
               </CardContent>
             </Card>

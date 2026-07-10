@@ -5,6 +5,7 @@ import {
   w9CollectionChecklist,
 } from "./content/w9-collection";
 import { w9CollectionFaqs } from "./content/w9-collection-faqs";
+import { getHubSolutionLinks } from "./hub-solution-links";
 
 export const w9Collection: SeoLandingPageData = {
   path: "/w9-collection/",
@@ -57,5 +58,8 @@ export const w9Collection: SeoLandingPageData = {
     { label: "W-9 Collector", href: "/products/w9-collector/" },
     { label: "W-9 request generator", href: "/tools/w9-request-generator/" },
     { label: "Vendor onboarding", href: "/vendor-onboarding/" },
+    { label: "All solutions", href: "/solutions/" },
   ],
+  solutionLinks: getHubSolutionLinks("w9-collection"),
+  lastUpdated: "2026-07-10",
 };

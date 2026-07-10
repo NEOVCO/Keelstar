@@ -33,7 +33,7 @@ export const docsNav: DocSection[] = [
       d("w9-collector", "W-9 Collector", "Collect and monitor W-9s.", ["Request W-9s, validate them on submission, and monitor for re-collection when they go stale."]),
       d("coi-tracker", "COI Tracker", "Track certificates of insurance.", ["Collect certificates, extract expiration and coverage details, and get reminders before anything lapses."]),
       d("vendor-packet", "Vendor Packet", "Collect every vendor document.", ["Bundle required documents into one onboarding flow and track what's outstanding."]),
-      d("exclusion-monitor", "Exclusion Monitor", "Screen against exclusion lists.", ["Screen vendors and employees against OIG, OFAC, and SAM, on a schedule, with dated evidence."]),
+      d("exclusion-monitor", "Exclusion Monitor", "Screen against exclusion lists.", ["Screen vendors and employees against OIG and OFAC, on a schedule, with dated evidence."]),
       d("contract-renewal-tracker", "Contract Renewal Tracker", "Monitor renewals and notice periods.", ["Extract renewal and notice dates, calculate the decision deadline, and get reminded in time."]),
       d("contract-risk-scanner", "Contract Risk Scanner", "Review contract risk.", ["Surface the clauses that carry commercial risk and produce a consistent review."]),
       d("simple-signer", "Simple Signer", "Send documents for signature.", ["Send documents for signature and keep the executed copy with its audit trail."]),

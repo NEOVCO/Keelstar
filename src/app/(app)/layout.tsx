@@ -5,8 +5,8 @@ import { AppShell } from "@/components/app-shell";
 import { createClient } from "@/lib/supabase/server";
 import { AuthenticationError, AuthorizationError } from "@/lib/rbac/types";
 import { fetchOrgEntitlements, fetchTasks } from "@/lib/app-queries";
+import { fetchInAppNotifications } from "@/lib/notifications/inbox";
 import { getOrCreateUserProfile } from "@/lib/onboarding/profile";
-import { parseOrgOnboardingSettings } from "@/lib/onboarding/org-settings";
 import { formatRelativeDate } from "@/lib/utils/cn";
 
 export const metadata: Metadata = {
@@ -39,21 +39,33 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     redirect("/login?error=workspace&redirect=/app");
   }
 
-  const [orgs, entitlements, tasks, profile] = await Promise.all([
+  const [orgs, entitlements, tasks, profile, inAppNotifications] = await Promise.all([
     getUserOrganizationsList(ctx.user.id),
     fetchOrgEntitlements(ctx.organization.id),
     fetchTasks(ctx.organization.id),
     getOrCreateUserProfile(user.id),
+    user.email
+      ? fetchInAppNotifications(ctx.organization.id, user.email, 8)
+      : Promise.resolve([]),
   ]);
 
-  const onboardingSettings = parseOrgOnboardingSettings(ctx.organization.settings);
-
-  const notifications = tasks.slice(0, 5).map((t) => ({
-    id: t.id,
+  const taskNotifications = tasks.slice(0, 5).map((t) => ({
+    id: `task-${t.id}`,
     title: t.title,
     href: `/app/workflows/${t.workflow_instance_id}`,
     time: t.due_date ? formatRelativeDate(t.due_date) : undefined,
+    unread: true,
   }));
+
+  const dbNotifications = inAppNotifications.map((n) => ({
+    id: n.id,
+    title: n.title,
+    href: n.href ?? "/app/inbox",
+    time: formatRelativeDate(n.created_at),
+    unread: !n.read_at,
+  }));
+
+  const notifications = [...dbNotifications, ...taskNotifications].slice(0, 8);
 
   return (
     <AppShell
@@ -63,7 +75,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       notifications={notifications}
       entitlements={Array.from(entitlements)}
       onboardingCompleted={profile.onboarding_completed}
-      deferProductTour={!!onboardingSettings.first_goal}
     >
       {children}
     </AppShell>

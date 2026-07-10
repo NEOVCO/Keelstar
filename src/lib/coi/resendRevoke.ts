@@ -5,7 +5,7 @@ import { revokeMagicLink } from "@/lib/magic-links/revokeMagicLink";
 import { sendCoiRequestEmail } from "./sendRequest";
 import { createAuditLog } from "@/lib/audit/createAuditLog";
 
-export async function resendCoiRequest(workflowId: string) {
+export async function resendCoiRequest(workflowId: string, options?: { ccMe?: boolean }) {
   const ctx = await requirePermission(PERMISSIONS.WORKFLOWS_CREATE);
   const supabase = createServiceClient();
 
@@ -29,7 +29,7 @@ export async function resendCoiRequest(workflowId: string) {
     }
   }
 
-  const result = await sendCoiRequestEmail(workflowId);
+  const result = await sendCoiRequestEmail(workflowId, options);
 
   await supabase
     .from("workflow_instances")

@@ -29,8 +29,9 @@ export const site = {
   tagline: "Operational workflows, without the enterprise suite.",
   description:
     "Keelstar is the operational workflow platform for collecting, approving, monitoring, and auditing the business documents that keep companies running.",
-  email: "hello@keelstar.com",
-  securityEmail: "security@keelstar.com",
+  contactEmail: "contact@keelstar.com",
+  email: "contact@keelstar.com",
+  securityEmail: "contact@keelstar.com",
   googleAnalyticsId: "G-STYT1K3X3W",
   clarityProjectId: "xd3e0j7fsb",
 };

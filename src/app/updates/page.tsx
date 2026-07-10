@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 const updates = [
-  { date: "June 2026", tag: "New", title: "Exclusion Monitor scheduling", body: "Re-screen vendors and employees against OIG, OFAC, and SAM on a recurring schedule, with dated evidence of every check." },
+  { date: "June 2026", tag: "New", title: "Exclusion Monitor scheduling", body: "Re-screen vendors and employees against OIG and OFAC on a recurring schedule, with dated evidence of every check." },
   { date: "May 2026", tag: "Improved", title: "Contract notice-period deadlines", body: "Contract Renewal Tracker now calculates the decision deadline from each contract's notice period automatically." },
   { date: "April 2026", tag: "New", title: "Audit-trail exports", body: "Export a complete, timestamped audit trail from any workflow as evidence." },
 ];

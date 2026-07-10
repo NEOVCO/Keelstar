@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PageHeader } from "@/components/navigation/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RestartTourButton } from "@/components/onboarding";
+import { site } from "@/lib/site";
 
 const LINKS = [
   { href: "/app/settings/members", title: "Members", desc: "Invite teammates and manage roles." },
@@ -34,9 +35,17 @@ export default function SettingsPage() {
           <CardTitle className="text-body font-medium">Help</CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-body-sm text-secondary">
-            New to Keelstar? Replay the guided tour of the main workspace areas.
-          </p>
+          <div className="space-y-2">
+            <p className="text-body-sm text-secondary">
+              New to Keelstar? Replay the guided tour of the main workspace areas.
+            </p>
+            <p className="text-body-sm text-secondary">
+              Need help?{" "}
+              <a href={`mailto:${site.contactEmail}`} className="text-accent hover:underline">
+                {site.contactEmail}
+              </a>
+            </p>
+          </div>
           <RestartTourButton />
         </CardContent>
       </Card>

@@ -17,7 +17,7 @@ export function VendorMagicLinkPanel({ url }: { url: string | null }) {
 
   return (
     <div className="rounded-lg border border-border bg-sunken/50 p-4">
-      <p className="text-body-sm font-medium text-primary">Vendor upload link</p>
+      <p className="text-body-sm font-medium text-primary">External upload link</p>
       <p className="mt-1 text-caption text-secondary">
         Share this secure link if email delivery fails or for local testing.
       </p>

@@ -5,6 +5,7 @@ import {
   vendorPortalChecklist,
 } from "./content/vendor-portal";
 import { vendorPortalFaqs } from "./content/vendor-portal-faqs";
+import { getHubSolutionLinks } from "./hub-solution-links";
 
 export const vendorPortal: SeoLandingPageData = {
   path: "/vendor-portal/",
@@ -58,5 +59,8 @@ export const vendorPortal: SeoLandingPageData = {
     { label: "Vendor compliance", href: "/vendor-compliance/" },
     { label: "Vendor onboarding", href: "/vendor-onboarding/" },
     { label: "W-9 collection", href: "/w9-collection/" },
+    { label: "All solutions", href: "/solutions/" },
   ],
+  solutionLinks: getHubSolutionLinks("vendor-portal"),
+  lastUpdated: "2026-07-10",
 };

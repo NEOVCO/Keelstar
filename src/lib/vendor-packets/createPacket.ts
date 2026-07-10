@@ -158,9 +158,9 @@ export async function createVendorPacket(input: z.infer<typeof createVendorPacke
   return { workflow, portalTask, vendor, recipientEmail, checklist };
 }
 
-export async function sendVendorPacket(workflowId: string) {
+export async function sendVendorPacket(workflowId: string, options?: { ccMe?: boolean }) {
   const { sendVendorPacketEmail } = await import("./sendPacket");
-  return sendVendorPacketEmail(workflowId);
+  return sendVendorPacketEmail(workflowId, options);
 }
 
 export { createVendorPacketSchema };

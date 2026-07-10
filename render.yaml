@@ -1,3 +1,11 @@
+# Keelstar Render — optimized service layout (3 services)
+#
+# Cost-optimized grouping vs the original 7-service plan:
+#   Before: 1 web + 2 always-on workers + 4 crons = 7 Render services
+#   After:  1 web + 1 always-on worker + 1 daily cron = 3 Render services
+#
+# Individual worker:* scripts remain for local debugging (npm run worker:reminders, etc.)
+
 services:
   - type: web
     name: keelstar-web
@@ -14,6 +22,38 @@ services:
         value: "20"
       - key: NODE_ENV
         value: production
-      # Starter plan has 512 MB RAM; Next.js build needs a capped heap.
       - key: NODE_OPTIONS
         value: --max-old-space-size=460
+
+  # Always-on: email queue (30s) + document extraction (60s)
+  - type: worker
+    name: keelstar-background-worker
+    runtime: node
+    plan: starter
+    repo: https://github.com/NEOVCO/Keelstar
+    branch: main
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm ci
+    startCommand: npm run worker:background
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+
+  # Daily: cleanup → module monitors → generic monitors → reminders
+  - type: cron
+    name: keelstar-daily-cron
+    runtime: node
+    plan: starter
+    repo: https://github.com/NEOVCO/Keelstar
+    branch: main
+    buildCommand: NPM_CONFIG_PRODUCTION=false npm ci
+    startCommand: npm run worker:daily
+    schedule: "0 6 * * *"
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production

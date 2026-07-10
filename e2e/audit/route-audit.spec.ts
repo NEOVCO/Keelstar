@@ -17,11 +17,14 @@ const PUBLIC_ROUTES = [
 
 const AUTH_ROUTES = [
   "/app",
+  "/app/inbox",
+  "/app/workflows",
+  "/app/documents",
+  "/app/monitors",
   "/app/vendors",
   "/app/vendors/new",
-  "/app/workflows",
-  "/app/inbox",
-  "/app/documents",
+  "/app/people",
+  "/app/reports",
   "/app/audit",
   "/app/settings",
   "/app/settings/billing",
@@ -29,6 +32,12 @@ const AUTH_ROUTES = [
   "/app/apps/w9",
   "/app/apps/coi",
   "/app/apps/contracts",
+  "/app/apps/exclusions",
+  "/app/apps/vendor-packets",
+  "/app/apps/policies",
+  "/app/apps/training",
+  "/app/apps/invoices",
+  "/app/apps/signer",
 ];
 
 test.describe("Route audit", () => {
@@ -44,6 +53,7 @@ test.describe("Route audit", () => {
   });
 
   test("authenticated app routes", async ({ page }) => {
+    test.setTimeout(120_000);
     const entries: RouteAuditEntry[] = [];
     for (const route of AUTH_ROUTES) {
       entries.push(await auditRoute(page, route));

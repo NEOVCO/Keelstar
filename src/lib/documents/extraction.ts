@@ -1,5 +1,7 @@
 import { createServiceClient } from "@/lib/supabase/service";
 import { createAuditLog } from "@/lib/audit/createAuditLog";
+import { extractTextFromVersion } from "./textExtract";
+import { extractFieldsFromText } from "./fieldHeuristics";
 
 export type ParsedField = {
   fieldKey: string;
@@ -16,13 +18,15 @@ export async function extractDocumentFields(
 
   const { data: version } = await supabase
     .from("document_versions")
-    .select("*, documents(title)")
+    .select("*, documents(title, document_type)")
     .eq("id", documentVersionId)
     .single();
 
   if (!version) throw new Error("Document version not found");
 
-  // Placeholder extraction — replace with OCR/AI pipeline
+  const doc = version.documents as { title?: string; document_type?: string | null } | null;
+  const documentType = doc?.document_type ?? null;
+
   const fields: ParsedField[] = [
     {
       fieldKey: "filename",
@@ -47,15 +51,50 @@ export async function extractDocumentFields(
     },
   ];
 
-  const title = (version.documents as { title?: string })?.title;
-  if (title) {
+  if (doc?.title) {
     fields.push({
       fieldKey: "document_title",
-      fieldValue: title,
+      fieldValue: doc.title,
       fieldType: "text",
       confidence: 0.9,
       extractionSource: "system",
     });
+  }
+
+  let extractedText = "";
+  let textSource: ParsedField["extractionSource"] = "regex";
+  if (version.storage_path) {
+    try {
+      const extraction = await extractTextFromVersion({
+        mimeType: version.mime_type,
+        storagePath: version.storage_path,
+        filename: version.filename,
+      });
+      extractedText = extraction.text;
+      if (extraction.source === "ocr") textSource = "ocr";
+      else if (extraction.source === "pdf_text" || extraction.source === "plain_text") textSource = "regex";
+    } catch {
+      extractedText = "";
+    }
+  }
+
+  if (extractedText) {
+    fields.push({
+      fieldKey: "extracted_text_preview",
+      fieldValue: extractedText.slice(0, 500),
+      fieldType: "text",
+      confidence: textSource === "ocr" ? 0.75 : 0.95,
+      extractionSource: textSource,
+    });
+
+    const heuristicFields = extractFieldsFromText(extractedText, documentType);
+    const seen = new Set(fields.map((f) => f.fieldKey));
+    for (const field of heuristicFields) {
+      if (!seen.has(field.fieldKey)) {
+        fields.push(field);
+        seen.add(field.fieldKey);
+      }
+    }
   }
 
   return fields;
@@ -78,6 +117,11 @@ export async function processDocumentVersion(documentVersionId: string): Promise
     .eq("id", documentVersionId);
 
   try {
+    await supabase
+      .from("document_parsed_fields")
+      .delete()
+      .eq("document_version_id", documentVersionId);
+
     const fields = await extractDocumentFields(documentVersionId);
 
     for (const field of fields) {

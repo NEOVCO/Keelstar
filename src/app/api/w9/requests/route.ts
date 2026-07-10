@@ -11,16 +11,17 @@ const schema = z.object({
   recipientEmail: z.string().email().optional(),
   replaceExisting: z.boolean().optional(),
   sendImmediately: z.boolean().default(true),
+  ccMe: z.boolean().optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
     const body = schema.parse(await request.json());
-    const { sendImmediately, ...requestInput } = body;
+    const { sendImmediately, ccMe, ...requestInput } = body;
     const result = await createW9Request(requestInput);
 
     if (sendImmediately) {
-      const sendResult = await sendW9Request(result.workflow.id);
+      const sendResult = await sendW9Request(result.workflow.id, { ccMe });
       return apiSuccess({
         workflow: result.workflow,
         document: result.document,

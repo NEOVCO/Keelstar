@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { createServiceClient } from "@/lib/supabase/service";
 import { createAuditLog } from "@/lib/audit/createAuditLog";
+import { syncModuleSubscription, deactivateModuleSubscription } from "@/lib/billing/syncEntitlements";
 
 export function getStripe(): Stripe {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -62,6 +63,17 @@ export async function handleStripeWebhook(
 
   try {
     switch (event.type) {
+      case "checkout.session.completed": {
+        const session = event.data.object as Stripe.Checkout.Session;
+        const orgId = session.metadata?.organizationId;
+        const subscriptionId = session.subscription as string | null;
+        if (orgId && subscriptionId) {
+          const stripe = getStripe();
+          const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+          await syncModuleSubscription(subscription, orgId);
+        }
+        break;
+      }
       case "customer.subscription.created":
       case "customer.subscription.updated": {
         const subscription = event.data.object as Stripe.Subscription;
@@ -83,6 +95,8 @@ export async function handleStripeWebhook(
           { onConflict: "stripe_subscription_id" }
         );
 
+        await syncModuleSubscription(subscription, orgId);
+
         await createAuditLog({
           organizationId: orgId,
           actorType: "system",
@@ -102,6 +116,8 @@ export async function handleStripeWebhook(
           .from("subscriptions")
           .update({ status: "cancelled" })
           .eq("stripe_subscription_id", subscription.id);
+
+        await deactivateModuleSubscription(subscription, orgId);
 
         await createAuditLog({
           organizationId: orgId,

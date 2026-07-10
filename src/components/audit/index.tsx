@@ -2,6 +2,7 @@ import { StatusBadge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils/cn";
 
 export { EvidenceExportPanel } from "./EvidenceExportPanel";
+export { AuditExportButtons } from "./AuditExportButtons";
 
 export function AuditEventRow({
   action,

@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { DIRECTORY } from "@/lib/terminology/directory";
 import {
   LayoutDashboard,
   Inbox,
@@ -31,7 +32,7 @@ export const WORKSPACE_NAV: NavItem[] = [
 ];
 
 export const RECORDS_NAV: NavItem[] = [
-  { href: "/app/vendors", label: "Vendors", icon: Users, section: "records" },
+  { href: "/app/vendors", label: DIRECTORY.nav, icon: Users, section: "records" },
   { href: "/app/people", label: "People", icon: UserCircle, section: "records" },
   { href: "/app/reports", label: "Reports", icon: BarChart3, section: "records" },
   { href: "/app/audit", label: "Audit Log", icon: Shield, section: "records" },

@@ -336,7 +336,7 @@ export const platformGuides = [
       },
       {
         heading: "Industry-specific additions",
-        body: "Healthcare adds OIG and state exclusion lists, credentialing expirations, and payer enrollment dates. Construction adds subcontractor COIs and lien waiver tracking. Government contractors add SAM representations and flow-down clause compliance. Prioritize what your contracts and regulators mention by name.",
+        body: "Healthcare adds OIG and state exclusion lists, credentialing expirations, and payer enrollment dates. Construction adds subcontractor COIs and lien waiver tracking. Prioritize what your contracts and regulators mention by name.",
       },
       {
         heading: "What not to monitor in a workflow tool",

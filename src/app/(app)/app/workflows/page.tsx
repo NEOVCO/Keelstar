@@ -6,11 +6,16 @@ import { RowActions, ResponsiveTable } from "@/components/tables/RowActions";
 import { StatusBadge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-states/EmptyState";
+import { CreateWorkflowDialog } from "@/components/workflows/CreateWorkflowDialog";
 import { requireOrganization } from "@/lib/tenant/context";
 import { fetchWorkflows, moduleLabelForType } from "@/lib/app-queries";
 import { formatDate } from "@/lib/utils/cn";
 
-export default async function WorkflowsPage() {
+export default async function WorkflowsPage({
+  searchParams,
+}: {
+  searchParams: { action?: string; type?: string };
+}) {
   const ctx = await requireOrganization();
   const workflows = await fetchWorkflows(ctx.organization.id);
 
@@ -59,9 +64,16 @@ export default async function WorkflowsPage() {
         title="Workflows"
         description="All workflow instances across modules."
         action={
-          <Link href="/app/apps/w9">
-            <Button>Start workflow</Button>
-          </Link>
+          <div className="flex gap-2">
+            <CreateWorkflowDialog
+              defaultOpen={searchParams.action === "create"}
+              defaultType={searchParams.type}
+              senderEmail={ctx.user.email}
+            />
+            <Link href="/app/apps/w9">
+              <Button>Start workflow</Button>
+            </Link>
+          </div>
         }
       />
       {!workflows.length ? (

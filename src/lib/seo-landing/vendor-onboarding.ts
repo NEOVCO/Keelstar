@@ -5,6 +5,7 @@ import {
   vendorOnboardingChecklist,
 } from "./content/vendor-onboarding";
 import { vendorOnboardingFaqs } from "./content/vendor-onboarding-faqs";
+import { getHubSolutionLinks } from "./hub-solution-links";
 
 export const vendorOnboarding: SeoLandingPageData = {
   path: "/vendor-onboarding/",
@@ -57,5 +58,8 @@ export const vendorOnboarding: SeoLandingPageData = {
     { label: "W-9 collection", href: "/w9-collection/" },
     { label: "Vendor information form template", href: "/tools/vendor-information-form-template/" },
     { label: "Vendor portal", href: "/vendor-portal/" },
+    { label: "All solutions", href: "/solutions/" },
   ],
+  solutionLinks: getHubSolutionLinks("vendor-onboarding"),
+  lastUpdated: "2026-07-10",
 };

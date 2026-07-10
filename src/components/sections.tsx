@@ -175,14 +175,16 @@ export function Section({
   children,
   className,
   tone = "bg",
+  id,
 }: {
   children: ReactNode;
   className?: string;
   tone?: "bg" | "surface" | "sunken";
+  id?: string;
 }) {
   const bg = tone === "surface" ? "bg-surface" : tone === "sunken" ? "bg-sunken" : "bg-bg";
   return (
-    <section className={`${bg} ${className ?? ""}`}>
+    <section id={id} className={`${bg} ${className ?? ""}`}>
       <Container className="py-16 sm:py-24">{children}</Container>
     </section>
   );

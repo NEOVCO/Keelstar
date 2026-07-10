@@ -8,6 +8,11 @@ import {
   COI_ENTITLEMENT,
   CONTRACT_ENTITLEMENT,
   VENDOR_PACKET_ENTITLEMENT,
+  POLICY_ENTITLEMENT,
+  TRAINING_ENTITLEMENT,
+  INVOICE_ENTITLEMENT,
+  SIGNER_ENTITLEMENT,
+  CONTRACT_RISK_ENTITLEMENT,
 } from "./limits";
 
 export type UsageLimitKey =
@@ -18,6 +23,15 @@ export type UsageLimitKey =
   | "contract_active_records"
   | "vendor_packet_requests"
   | "vendor_packet_active"
+  | "policy_requests"
+  | "policy_active_records"
+  | "training_active_records"
+  | "invoice_active_records"
+  | "invoice_submissions"
+  | "signer_requests"
+  | "signer_active_records"
+  | "contract_risk_scans"
+  | "contract_risk_active_records"
   | "team_members";
 
 export type LimitCheckResult =
@@ -99,6 +113,61 @@ async function countActiveVendorPackets(organizationId: string): Promise<number>
   return count ?? 0;
 }
 
+async function countActivePolicyRecords(organizationId: string): Promise<number> {
+  const supabase = createServiceClient();
+  const { count } = await supabase
+    .from("workflow_instances")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", organizationId)
+    .eq("type", "policy_acknowledgement")
+    .in("status", ["draft", "sent", "opened", "overdue"]);
+  return count ?? 0;
+}
+
+async function countActiveTrainingRecords(organizationId: string): Promise<number> {
+  const supabase = createServiceClient();
+  const { count } = await supabase
+    .from("workflow_instances")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", organizationId)
+    .eq("type", "training_record")
+    .in("status", ["draft", "review_needed", "active_monitoring", "expiring_soon", "expired"]);
+  return count ?? 0;
+}
+
+async function countActiveInvoiceRecords(organizationId: string): Promise<number> {
+  const supabase = createServiceClient();
+  const { count } = await supabase
+    .from("workflow_instances")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", organizationId)
+    .eq("type", "invoice_approval")
+    .in("status", ["draft", "review_needed", "submitted", "overdue"]);
+  return count ?? 0;
+}
+
+async function countActiveSignerRecords(organizationId: string): Promise<number> {
+  const supabase = createServiceClient();
+  const { count } = await supabase
+    .from("workflow_instances")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", organizationId)
+    .eq("type", "simple_signer")
+    .in("status", ["draft", "sent", "opened", "overdue"]);
+  return count ?? 0;
+}
+
+async function countActiveContractRiskRecords(organizationId: string): Promise<number> {
+  const supabase = createServiceClient();
+  const { count } = await supabase
+    .from("workflow_instances")
+    .select("id", { count: "exact", head: true })
+    .eq("organization_id", organizationId)
+    .eq("type", "contract_risk_scan")
+    .in("status", ["draft", "uploaded", "processing", "review_needed"]);
+  return count ?? 0;
+}
+
 async function countMembers(organizationId: string): Promise<number> {
   const supabase = createServiceClient();
   const { count } = await supabase
@@ -116,25 +185,21 @@ const LIMIT_ENTITLEMENT: Partial<Record<UsageLimitKey, string>> = {
   contract_active_records: CONTRACT_ENTITLEMENT,
   vendor_packet_requests: VENDOR_PACKET_ENTITLEMENT,
   vendor_packet_active: VENDOR_PACKET_ENTITLEMENT,
+  policy_requests: POLICY_ENTITLEMENT,
+  policy_active_records: POLICY_ENTITLEMENT,
+  training_active_records: TRAINING_ENTITLEMENT,
+  invoice_active_records: INVOICE_ENTITLEMENT,
+  invoice_submissions: INVOICE_ENTITLEMENT,
+  signer_requests: SIGNER_ENTITLEMENT,
+  signer_active_records: SIGNER_ENTITLEMENT,
+  contract_risk_scans: CONTRACT_RISK_ENTITLEMENT,
+  contract_risk_active_records: CONTRACT_RISK_ENTITLEMENT,
 };
-
-async function hasActiveSubscription(organizationId: string): Promise<boolean> {
-  const supabase = createServiceClient();
-  const { data: subscription } = await supabase
-    .from("subscriptions")
-    .select("status")
-    .eq("organization_id", organizationId)
-    .eq("status", "active")
-    .maybeSingle();
-  return !!subscription;
-}
 
 async function bypassesFreeLimits(
   organizationId: string,
   limitKey: UsageLimitKey
 ): Promise<boolean> {
-  if (await hasActiveSubscription(organizationId)) return true;
-
   const productKey = LIMIT_ENTITLEMENT[limitKey];
   if (productKey) return checkModuleEntitlement(organizationId, productKey);
 
@@ -150,7 +215,14 @@ async function bypassesFreeLimits(
 
 export async function incrementUsage(
   organizationId: string,
-  metricKey: "w9_requests" | "coi_requests" | "vendor_packet_requests"
+  metricKey:
+    | "w9_requests"
+    | "coi_requests"
+    | "vendor_packet_requests"
+    | "policy_requests"
+    | "invoice_submissions"
+    | "signer_requests"
+    | "contract_risk_scans"
 ): Promise<void> {
   const supabase = createServiceClient();
   const periodStart = monthStart();
@@ -260,6 +332,114 @@ export async function checkUsageLimit(
         limit: "vendor_packet_active",
         current,
         max: FREE_TIER_LIMITS.vendorPacketActive,
+      };
+    }
+  }
+
+  if (limitKey === "policy_requests") {
+    const current = await getUsageCount(organizationId, "policy_requests");
+    if (current >= FREE_TIER_LIMITS.policyRequestsPerMonth) {
+      return {
+        allowed: false,
+        limit: "policy_requests",
+        current,
+        max: FREE_TIER_LIMITS.policyRequestsPerMonth,
+      };
+    }
+  }
+
+  if (limitKey === "policy_active_records") {
+    const current = await countActivePolicyRecords(organizationId);
+    if (current >= FREE_TIER_LIMITS.policyActiveRecords) {
+      return {
+        allowed: false,
+        limit: "policy_active_records",
+        current,
+        max: FREE_TIER_LIMITS.policyActiveRecords,
+      };
+    }
+  }
+
+  if (limitKey === "training_active_records") {
+    const current = await countActiveTrainingRecords(organizationId);
+    if (current >= FREE_TIER_LIMITS.trainingActiveRecords) {
+      return {
+        allowed: false,
+        limit: "training_active_records",
+        current,
+        max: FREE_TIER_LIMITS.trainingActiveRecords,
+      };
+    }
+  }
+
+  if (limitKey === "invoice_active_records") {
+    const current = await countActiveInvoiceRecords(organizationId);
+    if (current >= FREE_TIER_LIMITS.invoiceActiveRecords) {
+      return {
+        allowed: false,
+        limit: "invoice_active_records",
+        current,
+        max: FREE_TIER_LIMITS.invoiceActiveRecords,
+      };
+    }
+  }
+
+  if (limitKey === "invoice_submissions") {
+    const current = await getUsageCount(organizationId, "invoice_submissions");
+    if (current >= FREE_TIER_LIMITS.invoiceSubmissionsPerMonth) {
+      return {
+        allowed: false,
+        limit: "invoice_submissions",
+        current,
+        max: FREE_TIER_LIMITS.invoiceSubmissionsPerMonth,
+      };
+    }
+  }
+
+  if (limitKey === "signer_requests") {
+    const current = await getUsageCount(organizationId, "signer_requests");
+    if (current >= FREE_TIER_LIMITS.signerRequestsPerMonth) {
+      return {
+        allowed: false,
+        limit: "signer_requests",
+        current,
+        max: FREE_TIER_LIMITS.signerRequestsPerMonth,
+      };
+    }
+  }
+
+  if (limitKey === "signer_active_records") {
+    const current = await countActiveSignerRecords(organizationId);
+    if (current >= FREE_TIER_LIMITS.signerActiveRecords) {
+      return {
+        allowed: false,
+        limit: "signer_active_records",
+        current,
+        max: FREE_TIER_LIMITS.signerActiveRecords,
+      };
+    }
+  }
+
+  if (limitKey === "contract_risk_scans") {
+    const current = await getUsageCount(organizationId, "contract_risk_scans");
+    if (current >= FREE_TIER_LIMITS.contractRiskScansPerMonth) {
+      return {
+        allowed: false,
+        limit: "contract_risk_scans",
+        current,
+        max: FREE_TIER_LIMITS.contractRiskScansPerMonth,
+      };
+    }
+  }
+
+  if (limitKey === "contract_risk_active_records") {
+    const current = await countActiveContractRiskRecords(organizationId);
+    if (current >= FREE_TIER_LIMITS.contractRiskActiveRecords) {
+      return {
+        allowed: false,
+        limit: "contract_risk_active_records",
+        current,
+        max: FREE_TIER_LIMITS.contractRiskActiveRecords,
       };
     }
   }

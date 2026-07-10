@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { PageHeader, Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ui/badge";
+import { site } from "@/lib/site";
 
 const INTEGRATIONS = [
   {
@@ -58,10 +58,11 @@ export default function IntegrationsSettingsPage() {
         ))}
       </div>
       <p className="mt-6 text-body-sm text-secondary">
-        Need a custom integration?{" "}
-        <Link href="/contact" className="text-accent hover:underline">
-          Contact us
-        </Link>
+        Need a custom integration? Email{" "}
+        <a href={`mailto:${site.contactEmail}`} className="text-accent hover:underline">
+          {site.contactEmail}
+        </a>
+        .
       </p>
     </div>
   );

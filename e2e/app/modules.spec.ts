@@ -14,9 +14,9 @@ test.describe("Module pages", () => {
     });
   }
 
-  test("W-9 add vendor form reachable", async ({ page }) => {
+  test("directory add form reachable", async ({ page }) => {
     await page.goto("/app/vendors/new");
-    await expect(page.getByRole("heading", { name: /vendor/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /directory/i })).toBeVisible();
   });
 
   test("contracts module has add contract form", async ({ page }) => {

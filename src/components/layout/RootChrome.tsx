@@ -38,6 +38,9 @@ function isAuthRoute(pathname: string): boolean {
   return (
     pathname.startsWith("/login") ||
     pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password") ||
+    pathname.startsWith("/invite") ||
     pathname.startsWith("/onboarding")
   );
 }

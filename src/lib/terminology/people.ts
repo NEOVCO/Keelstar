@@ -1,0 +1,28 @@
+/** User-facing labels for the workforce roster (stored in `vendors` with workforce record types). */
+export const PEOPLE = {
+  nav: "People",
+  title: "People",
+  description: "Employees and contractors for OIG screening, training records, and policy acknowledgements.",
+  add: "Add person",
+  addTitle: "Add person",
+  addDescription: "Add employees or contractors one at a time or import a spreadsheet.",
+  emptyTitle: "No people yet",
+  emptyDescription:
+    "Build your workforce roster to screen against OIG, assign policy acknowledgements, and track training certifications.",
+  importCsv: "Import CSV",
+  backTo: "Back to people",
+  teamMembersHint: "Keelstar teammates are managed separately in",
+  teamMembersLink: "Settings → Members",
+  columnName: "Name",
+  columnType: "Type",
+  columnScreening: "OIG screening",
+  editProfile: "Edit profile",
+  complianceTitle: "Compliance",
+  policiesTitle: "Policy acknowledgements",
+  policiesDescription: "Send and track signed policy acknowledgements for this person.",
+  policiesAction: "Open Policy Tracker",
+  trainingTitle: "Training records",
+  trainingDescription: "Upload certificates and monitor expiration dates.",
+  trainingAction: "Open Training Tracker",
+  screeningDefault: "Add to OIG screening roster by default when importing.",
+} as const;

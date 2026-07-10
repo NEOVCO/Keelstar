@@ -29,7 +29,7 @@ export default defineConfig({
         storageState: authFile,
       },
       dependencies: ["setup"],
-      testIgnore: [/auth\.setup\.ts/, /public\.spec\.ts/, /flows\//],
+      testIgnore: [/auth\.setup\.ts/, /public\.spec\.ts/, /flows\//, /audit\//],
     },
     {
       name: "flows",
@@ -45,6 +45,16 @@ export default defineConfig({
       name: "public",
       use: { ...devices["Desktop Chrome"] },
       testMatch: /public\.spec\.ts/,
+    },
+    {
+      name: "audit",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: authFile,
+      },
+      dependencies: ["setup"],
+      testMatch: /audit\/.*\.spec\.ts/,
+      fullyParallel: false,
     },
   ],
   webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER

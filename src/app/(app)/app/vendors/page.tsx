@@ -9,6 +9,17 @@ import { requireOrganization } from "@/lib/tenant/context";
 import { createClient } from "@/lib/supabase/server";
 import { W9_WORKFLOW_TYPE } from "@/lib/w9/constants";
 import { formatDate } from "@/lib/utils/cn";
+import { DIRECTORY } from "@/lib/terminology/directory";
+import {
+  VENDOR_RECORD_TYPE_LABELS,
+  type VendorRecordType,
+  type VendorMetadata,
+} from "@/lib/vendors/types";
+
+function recordTypeLabel(metadata: unknown): string {
+  const recordType = (metadata as VendorMetadata | null)?.record_type ?? "company";
+  return VENDOR_RECORD_TYPE_LABELS[recordType as VendorRecordType] ?? "Company";
+}
 
 export default async function VendorsPage() {
   const ctx = await requireOrganization();
@@ -44,6 +55,7 @@ export default async function VendorsPage() {
         {v.name}
       </Link>
     ),
+    type: recordTypeLabel(v.metadata),
     email: v.email ?? "—",
     status: <StatusBadge status={v.status} />,
     w9: latestByVendor.has(v.id) ? <StatusBadge status={latestByVendor.get(v.id)!} /> : "—",
@@ -53,32 +65,42 @@ export default async function VendorsPage() {
   const mobileCards = (vendors ?? []).map((v) => (
     <Link key={v.id} href={`/app/vendors/${v.id}`} className="block rounded-lg border border-border bg-surface p-4">
       <p className="font-medium text-primary">{v.name}</p>
-      <p className="text-caption text-secondary">{v.email}</p>
+      <p className="text-caption text-secondary">
+        {recordTypeLabel(v.metadata)}
+        {v.email ? ` · ${v.email}` : ""}
+      </p>
     </Link>
   ));
 
   return (
     <div>
       <PageHeader
-        title="Vendors"
-        description="Vendor directory and document compliance posture."
+        title={DIRECTORY.title}
+        description={DIRECTORY.description}
         action={
-          <Link href="/app/vendors/new">
-            <Button>Add vendor</Button>
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/app/vendors/new?mode=import">
+              <Button variant="secondary">{DIRECTORY.importCsv}</Button>
+            </Link>
+            <Link href="/app/vendors/new">
+              <Button>{DIRECTORY.add}</Button>
+            </Link>
+          </div>
         }
       />
       {!vendors?.length ? (
         <EmptyState
-          title="No vendors yet"
-          description="Add vendors to collect W-9s, track insurance, and manage onboarding documents."
-          primaryAction={{ label: "Add vendor", href: "/app/vendors/new" }}
+          title={DIRECTORY.emptyTitle}
+          description={DIRECTORY.emptyDescription}
+          primaryAction={{ label: DIRECTORY.add, href: "/app/vendors/new" }}
+          secondaryAction={{ label: DIRECTORY.importCsv, href: "/app/vendors/new?mode=import" }}
         />
       ) : (
         <ResponsiveTable mobileCards={mobileCards}>
           <DataTable
             columns={[
-              { key: "name", label: "Vendor" },
+              { key: "name", label: DIRECTORY.columnName },
+              { key: "type", label: DIRECTORY.columnType },
               { key: "email", label: "Email" },
               { key: "status", label: "Status" },
               { key: "w9", label: "W-9" },

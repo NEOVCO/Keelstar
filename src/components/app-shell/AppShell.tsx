@@ -15,16 +15,14 @@ export function AppShell({
   notifications = [],
   entitlements = [],
   onboardingCompleted = false,
-  deferProductTour = false,
   children,
 }: {
   organizationName: string;
   organizations: { id: string; name: string }[];
   userEmail?: string;
-  notifications?: Array<{ id: string; title: string; href: string; time?: string }>;
+  notifications?: Array<{ id: string; title: string; href: string; time?: string; unread?: boolean }>;
   entitlements?: string[];
   onboardingCompleted?: boolean;
-  deferProductTour?: boolean;
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -48,10 +46,7 @@ export function AppShell({
   }
 
   return (
-    <ProductTourProvider
-      onboardingCompleted={onboardingCompleted}
-      deferAutoTour={deferProductTour}
-    >
+    <ProductTourProvider onboardingCompleted={onboardingCompleted}>
       <div className="flex min-h-screen bg-bg">
       <AppSidebar
         organizationName={organizationName}

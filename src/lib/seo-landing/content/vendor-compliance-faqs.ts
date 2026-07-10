@@ -11,7 +11,7 @@ export const vendorComplianceFaqs: Faq[] = [
   },
   {
     q: "What documents should we track?",
-    a: "Most teams start with W-9s and certificates of insurance. Healthcare and government contractors often add OIG and SAM exclusion screening. Construction teams emphasize insurance limits and renewal timing.",
+    a: "Most teams start with W-9s and certificates of insurance. Healthcare and government contractors often add OIG exclusion screening. Construction teams emphasize insurance limits and renewal timing.",
   },
   {
     q: "How do compliance reminders work?",

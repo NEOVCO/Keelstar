@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 import { driver, type Driver } from "driver.js";
 import "driver.js/dist/driver.css";
 import { PRODUCT_TOUR_STEPS } from "@/lib/onboarding/steps";
-import { PRODUCT_TOUR_START_EVENT } from "@/lib/onboarding/constants";
+import { PRODUCT_TOUR_START_EVENT, TOUR_TARGETS } from "@/lib/onboarding/constants";
 
 type ProductTourContextValue = {
   startTour: (options?: { manual?: boolean }) => void;
@@ -27,6 +27,25 @@ async function markOnboardingComplete() {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ onboardingCompleted: true }),
+  });
+}
+
+function waitForTourAnchor(timeoutMs = 4000): Promise<boolean> {
+  const selector = `#${TOUR_TARGETS.navHome}`;
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const check = () => {
+      if (document.querySelector(selector)) {
+        resolve(true);
+        return;
+      }
+      if (Date.now() - started >= timeoutMs) {
+        resolve(false);
+        return;
+      }
+      requestAnimationFrame(check);
+    };
+    check();
   });
 }
 
@@ -53,11 +72,9 @@ function createTourDriver(onDone: () => void): Driver {
 
 export function ProductTourProvider({
   onboardingCompleted,
-  deferAutoTour = false,
   children,
 }: {
   onboardingCompleted: boolean;
-  deferAutoTour?: boolean;
   children: ReactNode;
 }) {
   const pathname = usePathname();
@@ -65,6 +82,10 @@ export function ProductTourProvider({
   const autoStartedRef = useRef(false);
   const [isRunning, setIsRunning] = useState(false);
   const [completed, setCompleted] = useState(onboardingCompleted);
+
+  useEffect(() => {
+    setCompleted(onboardingCompleted);
+  }, [onboardingCompleted]);
 
   const startTour = useCallback(
     (options?: { manual?: boolean }) => {
@@ -77,26 +98,35 @@ export function ProductTourProvider({
       setIsRunning(true);
       window.dispatchEvent(new Event(PRODUCT_TOUR_START_EVENT));
 
-      const instance = createTourDriver(() => {
-        setIsRunning(false);
-        setCompleted(true);
-        driverRef.current = null;
-      });
+      void (async () => {
+        const ready = await waitForTourAnchor();
+        if (!ready) {
+          setIsRunning(false);
+          autoStartedRef.current = false;
+          return;
+        }
 
-      driverRef.current = instance;
-      instance.drive();
+        const instance = createTourDriver(() => {
+          setIsRunning(false);
+          setCompleted(true);
+          driverRef.current = null;
+        });
+
+        driverRef.current = instance;
+        instance.drive();
+      })();
     },
     [completed]
   );
 
   useEffect(() => {
-    if (completed || autoStartedRef.current || deferAutoTour) return;
-    if (pathname !== "/app") return;
+    if (completed || autoStartedRef.current) return;
+    if (!pathname?.startsWith("/app")) return;
 
     autoStartedRef.current = true;
     const timer = window.setTimeout(() => startTour(), 600);
     return () => window.clearTimeout(timer);
-  }, [pathname, completed, deferAutoTour, startTour]);
+  }, [pathname, completed, startTour]);
 
   useEffect(() => {
     return () => {

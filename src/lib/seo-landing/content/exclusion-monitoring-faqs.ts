@@ -9,10 +9,7 @@ export const exclusionMonitoringFaqs: Faq[] = [
     q: "What is the OIG exclusion list?",
     a: "The HHS Office of Inspector General maintains the List of Excluded Individuals and Entities (LEIE). Parties on this list are excluded from participating in federal healthcare programs. Many providers must screen vendors and staff against it.",
   },
-  {
-    q: "Is SAM exclusion search available?",
-    a: "SAM.gov screening is supported in the product architecture but requires a SAM.gov API key to be configured for your deployment. OIG LEIE screening works out of the box using the official public database.",
-  },
+  // "Is SAM exclusion search available?" — disabled (not implementing)
   {
     q: "How often should exclusion screening run?",
     a: "Most compliance programs require monthly or quarterly re-screening—not just at onboarding. Keelstar supports scheduled re-checks so screening is continuous and provable.",

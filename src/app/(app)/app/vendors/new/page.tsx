@@ -1,18 +1,30 @@
-import { Breadcrumbs, PageHeader } from "@/components/navigation/Breadcrumbs";
-import { AddVendorForm } from "@/components/vendors/AddVendorForm";
+import { PageHeader, Breadcrumbs } from "@/components/navigation/Breadcrumbs";
+import { AddVendorsHub } from "@/components/vendors/AddVendorsHub";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
-export default function NewVendorPage() {
+export default function NewVendorPage({
+  searchParams,
+}: {
+  searchParams: { mode?: string };
+}) {
+  const initialMode = searchParams.mode === "import" ? "import" : "single";
+
   return (
     <div>
       <PageHeader
         breadcrumbs={
-          <Breadcrumbs items={[{ label: "Vendors", href: "/app/vendors" }, { label: "Add vendor" }]} />
+          <Breadcrumbs
+            items={[
+              { label: DIRECTORY.nav, href: "/app/vendors" },
+              { label: DIRECTORY.addTitle },
+            ]}
+          />
         }
-        title="Add vendor"
-        description="Create a vendor to send W-9 requests and track documents."
+        title={DIRECTORY.addTitle}
+        description={DIRECTORY.addDescription}
       />
-      <div className="max-w-md rounded-lg border border-border bg-surface p-6">
-        <AddVendorForm redirectTo="/app/vendors" />
+      <div className="max-w-2xl">
+        <AddVendorsHub initialMode={initialMode} />
       </div>
     </div>
   );

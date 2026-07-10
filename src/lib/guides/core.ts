@@ -383,7 +383,7 @@ export const coreGuides = [
           "W-9 (domestic) or appropriate W-8 (foreign)",
           "Certificate of insurance vs your contractual limits",
           "Signed MSA, SOW, or purchase terms",
-          "OIG / SAM / OFAC screening where applicable",
+          "OIG / OFAC screening where applicable",
           "Banking details verified through a controlled process",
         ],
       },

@@ -20,7 +20,7 @@ import { MODULES } from "@/lib/modules/modules";
 
 const coreNav = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/vendors", label: "Vendors", icon: Users },
+  { href: "/vendors", label: "Directory", icon: Users },
   { href: "/documents", label: "Documents", icon: FileText },
   { href: "/workflows", label: "Workflows", icon: GitBranch },
   { href: "/tasks", label: "Tasks", icon: CheckSquare },

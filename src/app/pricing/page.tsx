@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Check } from "lucide-react";
 import { Container, Eyebrow, Button, Badge } from "@/components/ui";
 import { Section, Breadcrumbs, CtaBand } from "@/components/sections";
 import { Faq } from "@/components/Faq";
-import { appSignupUrl } from "@/lib/site";
+import { appSignupUrl, site } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -47,7 +46,7 @@ const faqs = [
   { q: "How does per-workflow pricing work?", a: "Each application is priced on its own, so you only pay for the workflows you use. Add COI Tracking or contract renewals when you need them, on the same platform and login." },
   { q: "Is there a setup fee or implementation project?", a: "No. Keelstar is self-serve and live the same day. There are no consultants and no implementation fees." },
   { q: "Can I start for free?", a: "Yes. Every free tool works with no account. You only create an account when you want a workflow monitored with reminders and an audit trail." },
-  { q: "Do you offer volume pricing?", a: "Yes. Business pricing covers multiple workflows and higher volumes. Contact us and we'll put together platform pricing." },
+  { q: "Do you offer volume pricing?", a: `Yes. Business pricing covers multiple workflows and higher volumes. Email ${site.contactEmail} and we'll put together platform pricing.` },
 ];
 
 export default function PricingPage() {
@@ -96,10 +95,10 @@ export default function PricingPage() {
           ))}
         </div>
         <p className="mt-6 text-caption text-tertiary">
-          Pricing shown is representative launch pricing. See{" "}
-          <Link href="/contact/" className="text-accent hover:underline">
-            contact
-          </Link>{" "}
+          Pricing shown is representative launch pricing. Email{" "}
+          <a href={`mailto:${site.contactEmail}`} className="text-accent hover:underline">
+            {site.contactEmail}
+          </a>{" "}
           for a tailored quote.
         </p>
       </Container>

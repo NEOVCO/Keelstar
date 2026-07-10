@@ -5,6 +5,7 @@ import {
   vendorComplianceChecklist,
 } from "./content/vendor-compliance";
 import { vendorComplianceFaqs } from "./content/vendor-compliance-faqs";
+import { getHubSolutionLinks } from "./hub-solution-links";
 
 export const vendorCompliance: SeoLandingPageData = {
   path: "/vendor-compliance/",
@@ -59,5 +60,8 @@ export const vendorCompliance: SeoLandingPageData = {
     { label: "Certificate of insurance", href: "/certificate-of-insurance/" },
     { label: "Vendor portal", href: "/vendor-portal/" },
     { label: "Exclusion monitoring", href: "/exclusion-monitoring/" },
+    { label: "All solutions", href: "/solutions/" },
   ],
+  solutionLinks: getHubSolutionLinks("vendor-compliance"),
+  lastUpdated: "2026-07-10",
 };

@@ -16,7 +16,7 @@ const sections = [
   { id: "audit", title: "Audit logging", body: "Audit logging is built into every workflow. Every meaningful action — request, edit, approval, export — is recorded with an actor and timestamp, and can be exported as evidence." },
   { id: "appsec", title: "Application security", body: "We follow secure development practices, review changes before release, and monitor for issues. Security testing and dependency review are part of our process." },
   { id: "privacy", title: "Privacy and data handling", body: "You own your data. We process it to provide the service, support exports at any time, and honor deletion requests. We do not sell your data." },
-  { id: "incident", title: "Incident reporting", body: `If you believe you've found a security issue, contact us at ${site.securityEmail}. We investigate reports promptly and will keep you informed.` },
+  { id: "incident", title: "Incident reporting", body: `If you believe you've found a security issue, email ${site.contactEmail}. We investigate reports promptly and will keep you informed.` },
 ];
 
 export default function SecurityPage() {

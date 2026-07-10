@@ -21,7 +21,7 @@ const bodySchema = z.object({
   importExistingVendors: z.boolean().optional(),
   runScreening: z.boolean().optional().default(false),
   createMonthlyMonitor: z.boolean().optional().default(false),
-  sources: z.array(z.enum(["oig", "sam"])).optional(),
+  sources: z.array(z.enum(["oig"])).optional(),
 });
 
 export async function POST(request: Request) {

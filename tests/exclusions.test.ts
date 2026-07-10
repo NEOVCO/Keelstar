@@ -4,7 +4,6 @@ import {
   EXCLUSION_MONITOR_TYPE,
   EXCLUSION_ENTITLEMENT,
   getExclusionDataMode,
-  isSamConfigured,
   OIG_LEIE_CSV_URL,
   OIG_LEIE_ONLINE_SEARCH_URL,
 } from "@/lib/exclusions/constants";
@@ -87,11 +86,7 @@ describe("name normalization", () => {
   });
 });
 
-describe("SAM configuration", () => {
-  it("reports not configured without API key", () => {
-    expect(isSamConfigured()).toBe(false);
-  });
-});
+  // SAM configuration tests — disabled (not implementing)
 
 describe("exclusion billing limits", () => {
   it("defines free tier limits", () => {

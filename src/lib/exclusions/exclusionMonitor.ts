@@ -68,7 +68,7 @@ export async function runExclusionMonitor(): Promise<{
         organizationName: subject.organization_name ?? undefined,
         dateOfBirth: subject.date_of_birth ?? undefined,
         npi: subject.npi ?? undefined,
-        sources: (config.sources ?? ["oig"]) as ("oig" | "sam")[],
+        sources: (config.sources ?? ["oig"]).filter((s): s is "oig" => s === "oig"),
         saveSubject: false,
         createMonthlyMonitor: false,
         screeningSubjectId: subject.id,

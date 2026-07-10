@@ -1,13 +1,12 @@
 import type { ExclusionSource } from "../constants";
 import { oigProvider } from "./oig";
-import { samProvider } from "./sam";
 import type { ExclusionProvider } from "./types";
 
 export function getProvider(source: ExclusionSource): ExclusionProvider {
   if (source === "oig") return oigProvider;
-  return samProvider;
+  throw new Error(`Exclusion source "${source}" is not available`);
 }
 
 export function getAvailableProviders(sources: ExclusionSource[]): ExclusionProvider[] {
-  return sources.map(getProvider);
+  return sources.filter((s) => s === "oig").map(getProvider);
 }

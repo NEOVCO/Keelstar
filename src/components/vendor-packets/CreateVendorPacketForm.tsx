@@ -7,14 +7,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PACKET_CHECKLIST_ITEMS } from "@/lib/vendor-packets/constants";
 
+import { CcSenderOption } from "@/components/email/CcSenderOption";
+
 export function CreateVendorPacketForm({
   vendorId,
   vendorEmail,
   defaultDueDate,
+  senderEmail,
 }: {
   vendorId: string;
   vendorEmail?: string | null;
   defaultDueDate: string;
+  senderEmail?: string | null;
 }) {
   const router = useRouter();
   const [email, setEmail] = useState(vendorEmail ?? "");
@@ -29,6 +33,7 @@ export function CreateVendorPacketForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [limitError, setLimitError] = useState("");
+  const [ccMe, setCcMe] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -59,6 +64,7 @@ export function CreateVendorPacketForm({
         message: message || undefined,
         checklistKeys,
         sendImmediately: true,
+        ccMe: ccMe || undefined,
       }),
     });
     const data = await res.json();
@@ -104,6 +110,7 @@ export function CreateVendorPacketForm({
         <label className="mb-1 block text-body-sm text-secondary">Message (optional)</label>
         <Input value={message} onChange={(e) => setMessage(e.target.value)} />
       </div>
+      <CcSenderOption checked={ccMe} onChange={setCcMe} senderEmail={senderEmail} />
       {limitError && <UsageLimitAlert message={limitError} />}
       {error && <p className="text-body-sm text-error">{error}</p>}
       <Button type="submit" disabled={loading}>

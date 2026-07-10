@@ -11,7 +11,7 @@ export const exclusionGuides = [
     product: "exclusion-monitor",
     workflow: "screen-vendors-against-exclusion-lists",
     relatedGuides: ["what-ofac-screening-requires", "how-to-document-exclusion-screening", "how-often-to-re-screen-for-exclusions", "oig-sam-and-ofac-what-healthcare-providers-must-screen", "how-to-resolve-an-oig-list-match"],
-    relatedGlossary: ["oig-exclusion", "sam-exclusion"],
+    relatedGlossary: ["oig-exclusion"],
     faqs: [
       { q: "Who must be screened against the OIG list?", a: "Any individual or entity you pay or contract with who could bill or participate in Medicare, Medicaid, or other federal healthcare programs — including billing companies, staffing agencies, and subcontractors." },
       { q: "Is a one-time OIG check sufficient?", a: "No. The LEIE is updated regularly. A vendor cleared at onboarding can be excluded later. Continuous or scheduled re-screening with dated evidence is the standard." },
@@ -65,7 +65,7 @@ export const exclusionGuides = [
     summary:
       "What U.S. organizations must know about OFAC sanctions screening — SDN lists, ownership rules, and how it differs from healthcare exclusion checks.",
     answer:
-      "OFAC screening checks parties against U.S. Treasury sanctions lists — primarily the Specially Designated Nationals (SDN) list — before you engage them in business. You must screen vendors, customers, and counterparties using legal names and aliases, investigate potential matches, and re-screen on a schedule. OFAC is separate from OIG and SAM; healthcare exclusion screening does not satisfy sanctions obligations.",
+      "OFAC screening checks parties against U.S. Treasury sanctions lists — primarily the Specially Designated Nationals (SDN) list — before you engage them in business. You must screen vendors, customers, and counterparties using legal names and aliases, investigate potential matches, and re-screen on a schedule. OFAC is separate from OIG; healthcare exclusion screening does not satisfy sanctions obligations.",
     product: "exclusion-monitor",
     workflow: "screen-vendors-against-exclusion-lists",
     relatedGuides: ["how-to-screen-vendors-against-the-oig-list", "how-to-document-exclusion-screening", "how-often-to-re-screen-for-exclusions"],
@@ -98,8 +98,8 @@ export const exclusionGuides = [
         body: "Sanctions screening produces false positives — especially on common names. Your process must define how analysts resolve matches: compare addresses, dates of birth, country, and other identifiers; escalate true hits; and document the disposition. Blocking a payment or relationship without a documented review trail creates its own compliance risk.",
       },
       {
-        heading: "How OFAC differs from OIG and SAM",
-        body: "OIG LEIE covers federal healthcare program exclusions. SAM.gov covers debarment from federal contracts and certain assistance programs. OFAC covers sanctions and blocked parties globally. A vendor can appear on one list and not others. Healthcare providers typically screen all three; other industries may emphasize OFAC and SAM.",
+        heading: "How OFAC differs from OIG",
+        body: "OIG LEIE covers federal healthcare program exclusions. OFAC covers sanctions and blocked parties globally. A vendor can appear on one list and not others. Healthcare providers typically screen all three; other industries may emphasize OFAC.",
       },
       {
         heading: "Building a defensible program",
@@ -112,13 +112,13 @@ export const exclusionGuides = [
     slug: "how-to-screen-employees-for-exclusions",
     title: "How to Screen Employees for Exclusions",
     summary:
-      "How U.S. healthcare and human services employers screen employees and contractors against OIG, SAM, and state exclusion lists.",
+      "How U.S. healthcare and human services employers screen employees and contractors against OIG and state exclusion lists.",
     answer:
-      "Screen every employee, contractor, and volunteer who could bill or interact with federal healthcare programs at hire and on a recurring schedule. Search the OIG LEIE, SAM.gov exclusions, and applicable state Medicaid exclusion lists using legal name and aliases. Document each check with a date and result — hiring someone who is excluded exposes your organization to significant penalties.",
+      "Screen every employee, contractor, and volunteer who could bill or interact with federal healthcare programs at hire and on a recurring schedule. Search the OIG LEIE and applicable state Medicaid exclusion lists using legal name and aliases. Document each check with a date and result — hiring someone who is excluded exposes your organization to significant penalties.",
     product: "exclusion-monitor",
     workflow: "screen-vendors-against-exclusion-lists",
     relatedGuides: ["how-to-screen-vendors-against-the-oig-list", "how-to-document-exclusion-screening", "how-often-to-re-screen-for-exclusions"],
-    relatedGlossary: ["oig-exclusion", "sam-exclusion"],
+    relatedGlossary: ["oig-exclusion"],
     sections: [
       {
         heading: "Why employee screening is non-negotiable in healthcare",
@@ -130,10 +130,9 @@ export const exclusionGuides = [
       },
       {
         heading: "Which lists to check",
-        body: "At minimum, search the OIG LEIE and SAM.gov exclusion records. Many states maintain separate Medicaid exclusion lists that do not sync automatically with OIG. If you operate in or serve patients from multiple states, your policy should define which state lists apply to each employee based on work location and payer mix.",
+        body: "At minimum, search the OIG LEIE. Many states maintain separate Medicaid exclusion lists that do not sync automatically with OIG. If you operate in or serve patients from multiple states, your policy should define which state lists apply to each employee based on work location and payer mix.",
         bullets: [
           "OIG LEIE — federal healthcare program exclusions",
-          "SAM.gov — federal contract and assistance debarments",
           "State Medicaid exclusion lists where applicable",
           "OFAC SDN when employees handle international payments or vendors",
         ],
@@ -157,13 +156,13 @@ export const exclusionGuides = [
     slug: "how-to-document-exclusion-screening",
     title: "How to Document Exclusion Screening",
     summary:
-      "What evidence U.S. compliance teams should retain for OIG, OFAC, and SAM screening — and what auditors reject.",
+      "What evidence U.S. compliance teams should retain for OIG and OFAC screening — and what auditors reject.",
     answer:
       "For every exclusion check, record who was screened, which lists were searched, the search date, list version or source, names and identifiers used, the result, and who performed the review. Potential matches need a documented disposition. Spreadsheets without timestamps or inbox screenshots do not survive CMS, payer, or internal audits.",
     product: "exclusion-monitor",
     workflow: "screen-vendors-against-exclusion-lists",
     relatedGuides: ["how-to-screen-vendors-against-the-oig-list", "what-ofac-screening-requires", "how-often-to-re-screen-for-exclusions", "what-makes-a-good-audit-trail"],
-    relatedGlossary: ["oig-exclusion", "ofac-sdn-list", "sam-exclusion"],
+    relatedGlossary: ["oig-exclusion", "ofac-sdn-list"],
     faqs: [
       { q: "How long should we keep screening records?", a: "Retention periods vary by regulator and contract, but many healthcare organizations retain exclusion screening evidence for at least six years — often aligned with federal healthcare record retention expectations. Confirm with your compliance policy." },
       { q: "Is a screenshot of a clear search enough?", a: "It is better than nothing, but weak on attribution and continuity. A structured log with date, searcher, names checked, and disposition is stronger. Automated workflows produce this by default." },
@@ -179,7 +178,7 @@ export const exclusionGuides = [
         bullets: [
           "Legal name and aliases or DBAs searched",
           "Date and time of the search",
-          "List source (OIG LEIE, OFAC SDN, SAM.gov, state list)",
+          "List source (OIG LEIE, OFAC SDN, state list)",
           "Result: clear, potential match, or confirmed match",
           "Reviewer name or system identity",
           "Disposition notes for any match investigation",
@@ -208,7 +207,7 @@ export const exclusionGuides = [
     slug: "how-often-to-re-screen-for-exclusions",
     title: "How Often to Re-screen for Exclusions",
     summary:
-      "How U.S. compliance teams set OIG, OFAC, and SAM re-screening frequency for vendors and employees.",
+      "How U.S. compliance teams set OIG and OFAC re-screening frequency for vendors and employees.",
     answer:
       "Re-screen vendors and employees on a fixed schedule — monthly or quarterly is common for healthcare organizations, with annual minimums for lower-risk relationships. Exclusions and sanctions lists update continuously; a clear result at onboarding expires the moment a party is added to a list. Your written policy should define frequency by risk tier and require automated reminders.",
     product: "exclusion-monitor",

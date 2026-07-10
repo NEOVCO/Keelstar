@@ -128,9 +128,9 @@ export async function createCoiRequest(input: z.infer<typeof createCoiRequestSch
   return { workflow, document, task, vendor, recipientEmail };
 }
 
-export async function sendCoiRequest(workflowId: string) {
+export async function sendCoiRequest(workflowId: string, options?: { ccMe?: boolean }) {
   const { sendCoiRequestEmail } = await import("./sendRequest");
-  return sendCoiRequestEmail(workflowId);
+  return sendCoiRequestEmail(workflowId, options);
 }
 
 export { createCoiRequestSchema };

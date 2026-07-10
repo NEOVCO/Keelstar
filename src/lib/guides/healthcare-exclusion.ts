@@ -3,24 +3,24 @@ import { guide } from "./helpers";
 export const healthcareExclusionGuides = [
   guide({
     slug: "oig-sam-and-ofac-what-healthcare-providers-must-screen",
-    title: "OIG, SAM, and OFAC: What Healthcare Providers Must Screen",
+    title: "OIG and OFAC: What Healthcare Providers Must Screen",
     summary:
       "A practical map of which U.S. exclusion and sanctions lists Medicare and Medicaid providers should check — and why checking only one list is not enough.",
     answer:
-      "U.S. healthcare providers should screen vendors and staff against the OIG LEIE, SAM.gov exclusions, applicable state Medicaid exclusion lists, and OFAC sanctions — each list serves a different purpose and updates independently. A clear OIG result does not clear SAM or OFAC. Document every check with a date and tie it to the vendor or employee record.",
+      "U.S. healthcare providers should screen vendors and staff against the OIG LEIE, applicable state Medicaid exclusion lists, and OFAC sanctions — each list serves a different purpose and updates independently. A clear OIG result does not clear OFAC. Document every check with a date and tie it to the vendor or employee record.",
     product: "exclusion-monitor",
     workflow: "screen-vendors-against-exclusion-lists",
     relatedGuides: [
       "how-to-screen-vendors-against-the-oig-list",
       "what-ofac-screening-requires",
-      "how-to-screen-vendors-against-sam-gov",
+      // "how-to-screen-vendors-against-sam-gov",
       "how-to-check-state-medicaid-exclusion-lists",
     ],
-    relatedGlossary: ["oig-exclusion", "sam-exclusion", "ofac-sdn-list"],
+    relatedGlossary: ["oig-exclusion", "ofac-sdn-list"],
     faqs: [
       {
         q: "Which list is most important for a clinic or medical practice?",
-        a: "OIG LEIE and your state Medicaid exclusion list are usually the highest priority for patient-facing providers. SAM matters if you hold federal contracts or grants. OFAC applies to all U.S. persons regardless of industry.",
+        a: "OIG LEIE and your state Medicaid exclusion list are usually the highest priority for patient-facing providers. OFAC applies to all U.S. persons regardless of industry.",
       },
       {
         q: "Can one screening tool cover all lists?",
@@ -37,10 +37,6 @@ export const healthcareExclusionGuides = [
         body: "The List of Excluded Individuals and Entities is maintained by HHS OIG. Excluded parties cannot furnish items or services paid by Medicare, Medicaid, or other federal healthcare programs. This is the list CMS surveyors and payer auditors ask about most often for providers billing federal programs.",
       },
       {
-        heading: "SAM.gov — federal contract and assistance debarment",
-        body: "The System for Award Management tracks parties debarred, suspended, or otherwise excluded from receiving federal contracts or certain types of federal financial assistance. Hospitals with NIH grants, FQHCs, and vendors selling to government healthcare entities need SAM screening even when OIG is clear.",
-      },
-      {
         heading: "State Medicaid exclusion lists",
         body: "Most states maintain their own Medicaid exclusion or sanction lists. A provider can be excluded in Texas but not yet on the OIG LEIE — or vice versa. Multi-state operators and telehealth providers serving patients across state lines must define which state lists apply to each relationship.",
       },
@@ -52,8 +48,8 @@ export const healthcareExclusionGuides = [
         heading: "Build a screening matrix",
         body: "Document which lists you check for each relationship type — employee, clinical contractor, billing vendor, facilities vendor — and at what frequency. A one-page matrix attached to your compliance policy prevents the common failure mode where AP screens OIG but HR never checks state lists.",
         bullets: [
-          "Employees and clinical staff → OIG, state Medicaid, SAM (if applicable), OFAC",
-          "Billing and RCM vendors → OIG, SAM, OFAC, state lists where they touch claims",
+          "Employees and clinical staff → OIG, state Medicaid, OFAC",
+          "Billing and RCM vendors → OIG, OFAC, state lists where they touch claims",
           "Pure facilities vendors → risk-based; often COI-heavy, exclusion-light unless contract requires",
           "Staffing agencies → screen agency and placed workers; verify agency's own program",
         ],
@@ -65,8 +61,9 @@ export const healthcareExclusionGuides = [
     ],
   }),
 
-  guide({
-    slug: "how-to-screen-vendors-against-sam-gov",
+  /* DISABLED — SAM guide (not implementing)
+guide({
+    slug: // "how-to-screen-vendors-against-sam-gov",
     title: "How to Screen Vendors Against SAM.gov",
     summary:
       "How U.S. healthcare and government-funded organizations search SAM.gov exclusions before engaging vendors and grant partners.",
@@ -79,7 +76,7 @@ export const healthcareExclusionGuides = [
       "how-to-screen-vendors-against-the-oig-list",
       "how-to-document-exclusion-screening",
     ],
-    relatedGlossary: ["sam-exclusion"],
+    relatedGlossary: ["oig-exclusion"],
     faqs: [
       {
         q: "Is SAM registration the same as SAM exclusion screening?",
@@ -113,6 +110,7 @@ export const healthcareExclusionGuides = [
       },
     ],
   }),
+  */
 
   guide({
     slug: "how-to-check-state-medicaid-exclusion-lists",
@@ -128,7 +126,7 @@ export const healthcareExclusionGuides = [
       "how-to-screen-employees-for-exclusions",
       "how-to-screen-vendors-against-the-oig-list",
     ],
-    relatedGlossary: ["oig-exclusion", "sam-exclusion"],
+    relatedGlossary: ["oig-exclusion"],
     faqs: [
       {
         q: "Do I need every state if we only operate in one?",
@@ -278,9 +276,9 @@ export const healthcareExclusionGuides = [
     slug: "how-to-screen-medical-staffing-vendors-for-exclusions",
     title: "How to Screen Medical Staffing Vendors for Exclusions",
     summary:
-      "How hospitals, clinics, and staffing firms screen agency placements against OIG, state, and SAM lists before they touch patients or claims.",
+      "How hospitals, clinics, and staffing firms screen agency placements against OIG and state lists before they touch patients or claims.",
     answer:
-      "Screen the staffing agency as a vendor and each placed clinician before start — OIG LEIE, applicable state Medicaid lists, and SAM where federal contracts apply. Do not accept agency attestations without your own dated checks. Re-screen travelers and locums on the same cadence as direct employees because exclusions can occur mid-assignment.",
+      "Screen the staffing agency as a vendor and each placed clinician before start — OIG LEIE, applicable state Medicaid lists, . Do not accept agency attestations without your own dated checks. Re-screen travelers and locums on the same cadence as direct employees because exclusions can occur mid-assignment.",
     product: "exclusion-monitor",
     workflow: "screen-vendors-against-exclusion-lists",
     relatedGuides: [
@@ -302,7 +300,7 @@ export const healthcareExclusionGuides = [
       },
       {
         heading: "Screen the agency and the individual",
-        body: "The agency is a vendor — check OIG, SAM, and OFAC on the entity. Each placement is an individual — run LEIE and state lists on legal name, maiden names, and aliases before schedule release. Contract should require agency notification within 24 hours if a worker becomes excluded.",
+        body: "The agency is a vendor — check OIG and OFAC on the entity. Each placement is an individual — run LEIE and state lists on legal name, maiden names, and aliases before schedule release. Contract should require agency notification within 24 hours if a worker becomes excluded.",
       },
       {
         heading: "Credentialing vs exclusion screening",
@@ -327,7 +325,7 @@ export const healthcareExclusionGuides = [
     slug: "how-to-add-exclusion-screening-to-vendor-onboarding",
     title: "How to Add Exclusion Screening to Vendor Onboarding",
     summary:
-      "How U.S. healthcare operations teams gate vendor onboarding until OIG, SAM, and state exclusion checks are complete.",
+      "How U.S. healthcare operations teams gate vendor onboarding until OIG and state exclusion checks are complete.",
     answer:
       "Add exclusion screening as a hard gate in your vendor packet — alongside W-9 and COI — before contract signature, system access, or first payment. Define which lists apply by vendor type, assign an owner, block PO creation until clear, and schedule re-screening at onboarding time. Document every check on the vendor record.",
     product: "exclusion-monitor",
@@ -337,7 +335,7 @@ export const healthcareExclusionGuides = [
       "how-to-screen-vendors-against-the-oig-list",
       "oig-sam-and-ofac-what-healthcare-providers-must-screen",
     ],
-    relatedGlossary: ["oig-exclusion", "sam-exclusion"],
+    relatedGlossary: ["oig-exclusion"],
     sections: [
       {
         heading: "Where screening fits in the packet",
@@ -347,7 +345,7 @@ export const healthcareExclusionGuides = [
         heading: "Define tiers by vendor type",
         body: "Not every office supply vendor needs monthly OIG checks. Tier vendors by federal program touchpoint.",
         bullets: [
-          "Tier 1 — claims, PHI, clinical services: full OIG, state, SAM, OFAC before access",
+          "Tier 1 — claims, PHI, clinical services: full OIG, state, OFAC before access",
           "Tier 2 — facilities with site access: OIG + COI, annual or quarterly re-screen",
           "Tier 3 — administrative, no patient contact: risk assessment documented annually",
         ],

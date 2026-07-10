@@ -10,8 +10,16 @@ import { trackEvent } from "@/lib/analytics/track";
 import { scheduleW9Reminders } from "./scheduleReminders";
 import { W9_MAGIC_LINK_PURPOSE, W9_MAGIC_LINK_EXPIRY_DAYS } from "./constants";
 import { buildW9ExternalUrl } from "./magicLinkUrl";
+import {
+  resolveVendorOutboundCc,
+  withStoredCc,
+  type VendorOutboundEmailOptions,
+} from "@/lib/email/outboundCc";
 
-export async function sendW9RequestEmail(workflowId: string, options?: { userId?: string; skipAuth?: boolean }) {
+export async function sendW9RequestEmail(
+  workflowId: string,
+  options?: VendorOutboundEmailOptions
+) {
   let organizationId: string;
   let userId: string;
   let userEmail: string;
@@ -42,8 +50,8 @@ export async function sendW9RequestEmail(workflowId: string, options?: { userId?
   if (error || !workflow) throw new Error("W-9 request not found");
 
   const vendor = workflow.vendors as { id: string; name: string; email: string | null } | null;
-  const metadata = workflow.metadata as Record<string, string | null>;
-  const recipientEmail = metadata.recipient_email ?? vendor?.email;
+  const metadata = workflow.metadata as Record<string, unknown>;
+  const recipientEmail = (metadata.recipient_email as string) ?? vendor?.email;
   if (!recipientEmail) throw new Error("Recipient email required");
 
   const { data: task } = await supabase
@@ -114,10 +122,12 @@ export async function sendW9RequestEmail(workflowId: string, options?: { userId?
     organizationName: org?.name ?? "Organization",
     vendorName: vendor?.name ?? "Vendor",
     dueDate: workflow.due_date ? new Date(workflow.due_date).toLocaleDateString() : "—",
-    message: metadata.message ?? undefined,
+    message: (metadata.message as string) ?? undefined,
     magicLinkUrl: w9Url,
-    requesterName: metadata.requester_name ?? undefined,
+    requesterName: (metadata.requester_name as string) ?? undefined,
   });
+
+  const cc = resolveVendorOutboundCc(metadata, options, userEmail);
 
   await sendEmail({
     organizationId,
@@ -130,10 +140,11 @@ export async function sendW9RequestEmail(workflowId: string, options?: { userId?
       dueDate: workflow.due_date ?? "",
       actionUrl: w9Url,
       magicLinkUrl: w9Url,
-      message: metadata.message ?? "",
+      message: (metadata.message as string) ?? "",
     },
     recipientType: "external",
     recipientId: externalParticipantId,
+    cc,
   });
 
   const sentAt = new Date().toISOString();
@@ -141,7 +152,11 @@ export async function sendW9RequestEmail(workflowId: string, options?: { userId?
     .from("workflow_instances")
     .update({
       status: "sent",
-      metadata: { ...metadata, sent_at: sentAt, magic_link_url: w9Url, magic_link_updated_at: sentAt },
+      metadata: withStoredCc(
+        { ...metadata, sent_at: sentAt, magic_link_url: w9Url, magic_link_updated_at: sentAt },
+        options?.ccMe,
+        userEmail
+      ),
     })
     .eq("id", workflowId);
 

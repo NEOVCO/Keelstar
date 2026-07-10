@@ -5,7 +5,7 @@ import { revokeMagicLink } from "@/lib/magic-links/revokeMagicLink";
 import { sendW9RequestEmail } from "./sendRequest";
 import { createAuditLog } from "@/lib/audit/createAuditLog";
 
-export async function resendW9Request(workflowId: string) {
+export async function resendW9Request(workflowId: string, options?: { ccMe?: boolean }) {
   const ctx = await requirePermission(PERMISSIONS.WORKFLOWS_CREATE);
   const supabase = createServiceClient();
 
@@ -29,7 +29,7 @@ export async function resendW9Request(workflowId: string) {
     }
   }
 
-  const result = await sendW9RequestEmail(workflowId);
+  const result = await sendW9RequestEmail(workflowId, options);
 
   await supabase
     .from("workflow_instances")

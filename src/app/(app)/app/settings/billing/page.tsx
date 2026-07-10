@@ -1,9 +1,12 @@
 import { PageHeader, Breadcrumbs } from "@/components/navigation/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { requireOrganization } from "@/lib/tenant/context";
 import { getUsageStats } from "@/lib/billing/usage";
+import { listOrgEntitlements, listOrgModuleSubscriptions } from "@/lib/billing/syncEntitlements";
 import { FREE_TIER_LIMITS } from "@/lib/billing/limits";
+import { BillingUpgradePanel } from "@/components/billing/BillingUpgradePanel";
+import { DIRECTORY } from "@/lib/terminology/directory";
+import { site } from "@/lib/site";
 
 function UsageRow({ label, current, max }: { label: string; current: number; max: number }) {
   const atLimit = Number.isFinite(max) && current >= max;
@@ -19,7 +22,11 @@ function UsageRow({ label, current, max }: { label: string; current: number; max
 
 export default async function BillingSettingsPage() {
   const ctx = await requireOrganization();
-  const usage = await getUsageStats(ctx.organization.id);
+  const [usage, entitlements, subscriptions] = await Promise.all([
+    getUsageStats(ctx.organization.id),
+    listOrgEntitlements(ctx.organization.id),
+    listOrgModuleSubscriptions(ctx.organization.id),
+  ]);
 
   return (
     <div>
@@ -28,21 +35,14 @@ export default async function BillingSettingsPage() {
           <Breadcrumbs items={[{ label: "Settings", href: "/app/settings" }, { label: "Billing" }]} />
         }
         title="Billing"
-        description="Plan, usage limits, and upgrade."
-        action={
-          usage.plan === "free" ? (
-            <Button disabled title="Stripe checkout coming soon">
-              Upgrade plan
-            </Button>
-          ) : undefined
-        }
+        description="Subscribe per module — $49/month or $490/year (2 months free)."
       />
-      <Card>
+      <Card className="mb-6">
         <CardHeader>
-          <CardTitle>{usage.plan === "paid" ? "Paid plan" : "Free plan"}</CardTitle>
+          <CardTitle>{usage.plan === "paid" ? "Active subscriptions" : "Free plan"}</CardTitle>
         </CardHeader>
         <CardContent>
-          <UsageRow label="Vendors" current={usage.vendors.current} max={usage.vendors.max} />
+          <UsageRow label={DIRECTORY.usageLabel} current={usage.vendors.current} max={usage.vendors.max} />
           <UsageRow
             label="W-9 requests (this month)"
             current={usage.w9Requests.current}
@@ -51,12 +51,21 @@ export default async function BillingSettingsPage() {
           <UsageRow label="Team members" current={usage.teamMembers.current} max={usage.teamMembers.max} />
           {usage.plan === "free" && (
             <p className="mt-4 text-caption text-secondary">
-              Free tier includes up to {FREE_TIER_LIMITS.vendors} vendors and{" "}
-              {FREE_TIER_LIMITS.w9RequestsPerMonth} W-9 requests per month.
+              Free tier includes up to {FREE_TIER_LIMITS.vendors} directory records and{" "}
+              {FREE_TIER_LIMITS.w9RequestsPerMonth} W-9 requests per month. Subscribe to a module for unlimited
+              usage on that module.
             </p>
           )}
         </CardContent>
       </Card>
+      <BillingUpgradePanel entitlements={entitlements as never} subscriptions={subscriptions as never} />
+      <p className="mt-6 text-body-sm text-secondary">
+        Billing questions? Email{" "}
+        <a href={`mailto:${site.contactEmail}`} className="text-accent hover:underline">
+          {site.contactEmail}
+        </a>
+        .
+      </p>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { formatRelativeDate, formatDate } from "@/lib/utils/cn";
 import { VENDOR_PACKET_WORKFLOW_TYPE } from "@/lib/vendor-packets/constants";
 import { computePacketProgress } from "@/lib/vendor-packets/completion";
 import { getModuleBySlug } from "@/lib/modules/modules";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
 export async function VendorPacketModulePage() {
   const ctx = await requireOrganization();
@@ -88,14 +89,14 @@ export async function VendorPacketModulePage() {
               description="Collect W-9, COI, and other onboarding documents through one secure portal link."
               action={
                 <Link href="/app/vendors">
-                  <Button size="sm">Choose a vendor</Button>
+                  <Button size="sm">Choose from directory</Button>
                 </Link>
               }
             />
           ) : (
             <DataTable
               columns={[
-                { key: "vendor", label: "Vendor" },
+                { key: "vendor", label: DIRECTORY.columnName },
                 { key: "status", label: "Status" },
                 { key: "due", label: "Due" },
                 { key: "updated", label: "Updated" },

@@ -72,7 +72,7 @@ export default async function ExclusionSubjectPage({ params }: { params: { id: s
             <CardHeader><CardTitle>Profile</CardTitle></CardHeader>
             <CardContent className="space-y-2 text-body-sm">
               <p><span className="text-secondary">Type:</span> {subject.subject_type}</p>
-              {vendor?.name && <p><span className="text-secondary">Vendor:</span> {vendor.name}</p>}
+              {vendor?.name && <p><span className="text-secondary">Directory:</span> {vendor.name}</p>}
               {subject.npi && <p><span className="text-secondary">NPI:</span> {subject.npi}</p>}
               <p><span className="text-secondary">Updated:</span> {formatDate(subject.updated_at)}</p>
             </CardContent>

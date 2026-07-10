@@ -5,17 +5,20 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { UsageLimitAlert } from "@/components/billing/UsageLimitAlert";
+import { DIRECTORY } from "@/lib/terminology/directory";
 
 export function EditVendorForm({
   vendorId,
   initialName,
   initialEmail,
   initialPhone,
+  archiveRedirectTo = "/app/vendors",
 }: {
   vendorId: string;
   initialName: string;
   initialEmail?: string | null;
   initialPhone?: string | null;
+  archiveRedirectTo?: string;
 }) {
   const router = useRouter();
   const [name, setName] = useState(initialName);
@@ -40,7 +43,7 @@ export function EditVendorForm({
 
     if (!data.success) {
       if (res.status === 402) setLimitError(data.error ?? "Usage limit reached");
-      else setError(data.error ?? "Failed to update vendor");
+      else setError(data.error ?? DIRECTORY.failedUpdate);
       setLoading(false);
       return;
     }
@@ -50,23 +53,23 @@ export function EditVendorForm({
   }
 
   async function handleArchive() {
-    if (!confirm("Archive this vendor? They will be hidden from the default list.")) return;
+    if (!confirm(DIRECTORY.archiveConfirm)) return;
     setLoading(true);
     const res = await fetch(`/api/vendors/${vendorId}`, { method: "DELETE" });
     const data = await res.json();
     if (!data.success) {
-      setError(data.error ?? "Failed to archive vendor");
+      setError(data.error ?? DIRECTORY.failedArchive);
       setLoading(false);
       return;
     }
-    router.push("/app/vendors");
+    router.push(archiveRedirectTo);
     router.refresh();
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="mb-1 block text-body-sm text-secondary">Vendor name</label>
+        <label className="mb-1 block text-body-sm text-secondary">Name</label>
         <Input value={name} onChange={(e) => setName(e.target.value)} required />
       </div>
       <div>
@@ -84,7 +87,7 @@ export function EditVendorForm({
           {loading ? "Saving…" : "Save changes"}
         </Button>
         <Button type="button" variant="secondary" disabled={loading} onClick={handleArchive}>
-          Archive vendor
+          {DIRECTORY.archiveEntry}
         </Button>
       </div>
     </form>

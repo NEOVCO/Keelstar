@@ -15,7 +15,6 @@ export function BulkImportSubjectsForm({ vendorCount }: { vendorCount: number })
   const [csv, setCsv] = useState("");
   const [runScreening, setRunScreening] = useState(true);
   const [createMonitor, setCreateMonitor] = useState(true);
-  const [includeSam, setIncludeSam] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [summary, setSummary] = useState<string | null>(null);
@@ -31,7 +30,7 @@ export function BulkImportSubjectsForm({ vendorCount }: { vendorCount: number })
         ...payload,
         runScreening,
         createMonthlyMonitor: createMonitor,
-        sources: includeSam ? ["oig", "sam"] : ["oig"],
+        sources: ["oig"],
       }),
     });
     const json = await res.json();
@@ -59,8 +58,8 @@ export function BulkImportSubjectsForm({ vendorCount }: { vendorCount: number })
   return (
     <div className="space-y-4 rounded-lg border border-border bg-surface p-6">
       <p className="text-caption text-secondary">
-        Bulk-add vendors and employees to your screening roster. Subjects stay in your workspace for
-        re-checks and monthly monitors. Paste CSV or import all active vendors.
+        Bulk-add directory entries and employees to your screening roster. Subjects stay in your workspace for
+        re-checks and monthly monitors. Paste CSV or import all active directory entries.
       </p>
 
       {error && <p className="text-body-sm text-error">{error}</p>}
@@ -74,7 +73,7 @@ export function BulkImportSubjectsForm({ vendorCount }: { vendorCount: number })
           disabled={!!loading || vendorCount === 0}
           onClick={() => runImport({ importExistingVendors: true })}
         >
-          {loading === "import" ? "Working…" : `Import ${vendorCount} vendor(s)`}
+          {loading === "import" ? "Working…" : `Import ${vendorCount} directory ${vendorCount === 1 ? "entry" : "entries"}`}
         </Button>
         <Button
           type="button"
@@ -108,11 +107,6 @@ export function BulkImportSubjectsForm({ vendorCount }: { vendorCount: number })
         <input type="checkbox" checked={createMonitor} onChange={(e) => setCreateMonitor(e.target.checked)} />
         Create monthly monitor for each new subject
       </label>
-      <label className="flex items-center gap-2 text-body-sm text-secondary">
-        <input type="checkbox" checked={includeSam} onChange={(e) => setIncludeSam(e.target.checked)} />
-        Include SAM (if configured)
-      </label>
-
       <Button
         type="button"
         disabled={!!loading || !csv.trim()}

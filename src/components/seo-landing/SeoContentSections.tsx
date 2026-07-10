@@ -65,10 +65,14 @@ export function SeoContentSections({ sections, whoItsFor, checklist }: Props) {
             Need a tracked version?{" "}
             <Link href="/vendor-portal/" className="font-medium text-accent hover:underline">
               Set up a vendor portal
-            </Link>{" "}
-            or{" "}
+            </Link>
+            ,{" "}
             <Link href="/vendor-onboarding/" className="font-medium text-accent hover:underline">
               vendor onboarding workflow
+            </Link>
+            , or browse{" "}
+            <Link href="/solutions/" className="font-medium text-accent hover:underline">
+              all solution guides
             </Link>
             .
           </p>

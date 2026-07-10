@@ -1,0 +1,18 @@
+Campaign,Campaign state,Campaign daily budget,Locations,Ad group,Keyword,Criterion type,Max CPC
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,[oig exclusion list search],Exact,4.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig exclusion list search""",Phrase,4.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,[oig check],Exact,4.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig check""",Phrase,3.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig exclusion list check""",Phrase,3.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig exclusion list screening""",Phrase,3.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig exclusion screening""",Phrase,3.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig exclusion monitoring""",Phrase,3.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""oig screening""",Phrase,3.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""leie database search""",Phrase,3.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,OIG Exclusion Monitoring,"""exclusion screening services""",Phrase,2.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,Vendor Compliance Platform,"""supplier compliance software""",Phrase,3.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,Vendor Compliance Platform,"""healthcare vendor compliance""",Phrase,2.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,Vendor Compliance Platform,"""vendor document management""",Phrase,2.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,COI and W-9 Collection,"""certificate of insurance management software""",Phrase,2.50
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,COI and W-9 Collection,"""coi tracking system""",Phrase,2.00
+[DRAFT] Keelstar | US Search | Vendor Compliance,paused,15.00,United States,COI and W-9 Collection,"""w9 collection""",Phrase,2.00

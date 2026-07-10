@@ -30,7 +30,7 @@ const intentTiles = [
   { label: "Send policy acknowledgments", href: "/workflows/send-policy-acknowledgments/", icon: FileSignature },
 ];
 
-const stripTools = ["w9-request-generator", "acord-analyzer", "oig-search", "ofac-search", "sam-search", "contract-renewal-extractor"];
+const stripTools = ["w9-request-generator", "acord-analyzer", "oig-search", "ofac-search", "contract-renewal-extractor"];
 
 const clusters = ["Vendor Compliance", "Contract Operations", "HR Compliance", "Finance Operations", "Platform"] as const;
 

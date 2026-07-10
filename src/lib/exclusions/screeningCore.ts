@@ -15,7 +15,7 @@ export const screenInputSchema = z.object({
   organizationName: z.string().max(300).optional(),
   dateOfBirth: z.string().optional(),
   npi: z.string().max(20).optional(),
-  sources: z.array(z.enum(["oig", "sam"])).min(1).default(["oig"]),
+  sources: z.array(z.enum(["oig"])).min(1).default(["oig"]),
   saveSubject: z.boolean().optional().default(true),
   createMonthlyMonitor: z.boolean().optional().default(false),
   runType: z.enum(["ad_hoc", "scheduled", "manual_rerun"]).optional().default("ad_hoc"),

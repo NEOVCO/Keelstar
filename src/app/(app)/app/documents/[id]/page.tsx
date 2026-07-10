@@ -7,11 +7,16 @@ import {
   DocumentVersionHistory,
   DocumentActions,
   ExtractionReviewPanel,
-  ParsedFieldRow,
 } from "@/components/documents";
+import { ParsedFieldsEditor } from "@/components/documents/ParsedFieldsEditor";
 import { AuditTimeline } from "@/components/audit";
 import { requireOrganization } from "@/lib/tenant/context";
-import { fetchDocument, fetchDocumentVersions, fetchWorkflowAudit } from "@/lib/app-queries";
+import {
+  fetchDocument,
+  fetchDocumentVersions,
+  fetchDocumentParsedFields,
+  fetchWorkflowAudit,
+} from "@/lib/app-queries";
 import { getSignedUrl } from "@/lib/documents/upload";
 
 export default async function DocumentDetailPage({ params }: { params: { id: string } }) {
@@ -34,8 +39,7 @@ export default async function DocumentDetailPage({ params }: { params: { id: str
     ? await fetchWorkflowAudit(ctx.organization.id, doc.workflow_instance_id)
     : await fetchWorkflowAudit(ctx.organization.id, doc.id);
 
-  const metadata = (doc.metadata ?? {}) as Record<string, unknown>;
-  const fields = (metadata.extracted_fields as Array<{ label: string; value: string; confidence: string }>) ?? [];
+  const parsedFields = latest?.id ? await fetchDocumentParsedFields(latest.id) : [];
 
   return (
     <div>
@@ -59,25 +63,16 @@ export default async function DocumentDetailPage({ params }: { params: { id: str
             </CardContent>
           </Card>
 
-          {fields.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Extracted fields</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ExtractionReviewPanel>
-                  {fields.map((f) => (
-                    <ParsedFieldRow
-                      key={f.label}
-                      label={f.label}
-                      value={f.value}
-                      confidence={(f.confidence as "high" | "medium" | "low") ?? "medium"}
-                    />
-                  ))}
-                </ExtractionReviewPanel>
-              </CardContent>
-            </Card>
-          )}
+          <Card>
+            <CardHeader>
+              <CardTitle>Extracted fields</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ExtractionReviewPanel>
+                <ParsedFieldsEditor documentId={doc.id} fields={parsedFields} />
+              </ExtractionReviewPanel>
+            </CardContent>
+          </Card>
 
           <Card>
             <CardHeader>

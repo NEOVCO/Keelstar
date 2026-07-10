@@ -9,6 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { formatRelativeDate, formatDate } from "@/lib/utils/cn";
 import { COI_WORKFLOW_TYPE } from "@/lib/coi/constants";
 import { getModuleBySlug } from "@/lib/modules/modules";
+import { COI_DIRECTORY } from "@/lib/terminology/directory";
 
 export async function CoiModulePage() {
   const ctx = await requireOrganization();
@@ -66,7 +67,7 @@ export async function CoiModulePage() {
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {[
           { label: "Missing", value: missing },
-          { label: "Pending vendor", value: pending },
+          { label: COI_DIRECTORY.pendingLabel, value: pending },
           { label: "Review needed", value: review },
           { label: "Expiring soon", value: expiring },
           { label: "Expired", value: expired },
@@ -86,7 +87,7 @@ export async function CoiModulePage() {
           {!items.length ? (
             <EmptyState
               title="Track your first certificate of insurance"
-              description="Request a COI from a vendor, review the certificate, and get reminders before coverage expires."
+              description={COI_DIRECTORY.emptyDescription}
               action={
                 <Link href="/app/vendors">
                   <Button size="sm">Request COI</Button>
@@ -96,7 +97,7 @@ export async function CoiModulePage() {
           ) : (
             <DataTable
               columns={[
-                { key: "vendor", label: "Vendor" },
+                { key: "vendor", label: COI_DIRECTORY.partyColumn },
                 { key: "status", label: "Status" },
                 { key: "expiration", label: "Expiration" },
                 { key: "updated", label: "Updated" },

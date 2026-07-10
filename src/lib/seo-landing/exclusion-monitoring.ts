@@ -4,15 +4,16 @@ import {
   exclusionMonitoringWhoItsFor,
 } from "./content/exclusion-monitoring";
 import { exclusionMonitoringFaqs } from "./content/exclusion-monitoring-faqs";
+import { getHubSolutionLinks } from "./hub-solution-links";
 
 export const exclusionMonitoring: SeoLandingPageData = {
   path: "/exclusion-monitoring/",
-  metaTitle: "OIG & SAM Exclusion Monitoring",
+  metaTitle: "OIG Exclusion Monitoring",
   metaDescription:
     "Screen vendors and contractors against the OIG LEIE exclusion list on a schedule. Keep dated audit records, review potential matches, and export evidence for compliance reviews.",
   breadcrumb: "Exclusion Monitoring",
   eyebrow: "Vendor compliance",
-  h1: "OIG and SAM exclusion monitoring",
+  h1: "OIG exclusion monitoring",
   hero:
     "Screen vendors and contractors against the OIG LEIE exclusion list, re-run checks on a schedule, and keep dated records of every screen—with disposition history when potential matches appear.",
   problemTitle: "Why continuous screening matters",
@@ -57,5 +58,8 @@ export const exclusionMonitoring: SeoLandingPageData = {
     { label: "OIG exclusion search (free tool)", href: "/tools/oig-exclusion-search/" },
     { label: "Vendor compliance", href: "/vendor-compliance/" },
     { label: "Screen vendors workflow", href: "/workflows/screen-vendors-against-exclusion-lists/" },
+    { label: "All solutions", href: "/solutions/" },
   ],
+  solutionLinks: getHubSolutionLinks("exclusion-monitoring"),
+  lastUpdated: "2026-07-10",
 };
