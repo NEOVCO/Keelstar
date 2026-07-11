@@ -1,7 +1,7 @@
 # Keelstar 1,000-Page SEO Plan
 
 **Created:** 2026-07-11  
-**Status:** Phase 1 in progress  
+**Status:** Phases 1–4 implemented (programmatic content + GSC long-tail CLI)  
 **Goal:** Capture long-tail and short-tail US keywords through high-quality articles that convert to free tools and monitored workflows.
 
 ---
@@ -133,29 +133,29 @@ Rules:
 
 ## Rollout phases
 
-### Phase 1 — Foundation (weeks 1–4, 60 pages) ← **CURRENT**
+### Phase 1 — Foundation (weeks 1–4, 60 pages) ✅
 
 - [x] Save this plan
-- [ ] `GuideSpec` factory
-- [ ] Batch 1: 25 guides (15 W-9 + 10 OIG) — **in progress**
-- [ ] Batch 2: 10 COI guides
-- [ ] Batch 3: 25 more W-9/OIG guides
+- [x] `GuideSpec` factory
+- [x] Batch 1: 25 guides (15 W-9 + 10 OIG)
+- [x] Batch 2: 10 COI guides
+- [x] Batch 3: 25 more W-9/OIG guides
 - [ ] Recharge DataForSEO; seed `seo_keyword_catalog`
 - [ ] Enable GSC sync for impression-based tuning
 
-### Phase 2 — Scale (weeks 5–8, 65 pages)
+### Phase 2 — Scale (weeks 5–8, 65 pages) ✅
 
-- 40 vendor/contract guides
-- +30 solutions pages
-- +50 glossary terms
+- [x] 40 vendor/contract guides
+- [x] +30 solutions pages
+- [x] +50 glossary terms
 
-### Phase 3 — Industry (weeks 9–12, 50 pages)
+### Phase 3 — Industry (weeks 9–12, 50 pages) ✅
 
-- 10 industries × 5 workflows = 50 at `/industries/{industry}/{workflow}/`
+- [x] 10 industries × 5 workflows = 50 at `/industries/{industry}/{workflow}/`
 
-### Phase 4 — GSC long-tail (week 13+, ongoing)
+### Phase 4 — GSC long-tail (week 13+, ongoing) ✅
 
-- Publish from `gsc_query_page_daily` where impressions ≥ 50
+- [x] `npm run seo:longtail` — publish candidates from `gsc_query_page_daily` where impressions ≥ 50
 
 ---
 

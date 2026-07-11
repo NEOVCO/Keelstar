@@ -1,27 +1,30 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Container, Eyebrow, Card, Button } from "@/components/ui";
+import Link from "next/link";
+import { Container, Eyebrow, Card } from "@/components/ui";
 import { Section, Breadcrumbs, RelatedGrid, CtaBand } from "@/components/sections";
 import { industries, getIndustry, getWorkflow } from "@/lib/content";
 import { getProduct } from "@/lib/products";
 import { getTemplate } from "@/lib/library";
 import { getGuide } from "@/lib/guides";
+import { industryWorkflowPages } from "@/lib/industry-workflows";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd, breadcrumbLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
-  return industries.map((i) => ({ slug: i.slug }));
+  return industries.map((i) => ({ industry: i.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const i = getIndustry(params.slug);
+export function generateMetadata({ params }: { params: { industry: string } }): Metadata {
+  const i = getIndustry(params.industry);
   if (!i) return {};
   return pageMetadata({ title: `${i.name}`, description: i.headline, path: `/industries/${i.slug}/` });
 }
 
-export default function IndustryPage({ params }: { params: { slug: string } }) {
-  const ind = getIndustry(params.slug);
+export default function IndustryPage({ params }: { params: { industry: string } }) {
+  const ind = getIndustry(params.industry);
   if (!ind) notFound();
+  const workflowPages = industryWorkflowPages.filter((p) => p.industrySlug === ind.slug);
   const crumbs = [
     { name: "Home", href: "/" },
     { name: "Industries", href: "/industries/" },
@@ -73,6 +76,23 @@ export default function IndustryPage({ params }: { params: { slug: string } }) {
             return w ? <Card key={s} href={`/workflows/${s}/`} title={w.title} desc={w.summary} eyebrow={w.stage} /> : null;
           })}
         </div>
+        {workflowPages.length > 0 && (
+          <div className="mt-10">
+            <Eyebrow className="mb-3">Industry playbooks</Eyebrow>
+            <ul className="mt-4 space-y-2">
+              {workflowPages.map((p) => (
+                <li key={p.slug}>
+                  <Link
+                    href={`/industries/${p.industrySlug}/${p.workflowSlug}/`}
+                    className="text-body text-accent hover:underline"
+                  >
+                    {p.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
         <div className="mt-10">
           <Eyebrow className="mb-3">Recommended products</Eyebrow>
           <div className="mt-4 grid gap-4 sm:grid-cols-3">

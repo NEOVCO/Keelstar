@@ -6,6 +6,7 @@ import { vendorPageSpecs } from "./vendor-pages";
 import { contractPageSpecs } from "./contract-pages";
 import { invoicePageSpecs } from "./invoice-pages";
 import { policyPageSpecs } from "./policy-pages";
+import { phase2PageSpecs } from "./phase2-pages";
 
 export const allSeoPageSpecs: SeoPageSpec[] = [
   ...w9PageSpecs,
@@ -15,4 +16,5 @@ export const allSeoPageSpecs: SeoPageSpec[] = [
   ...contractPageSpecs,
   ...invoicePageSpecs,
   ...policyPageSpecs,
+  ...phase2PageSpecs,
 ];

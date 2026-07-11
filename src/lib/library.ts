@@ -1,4 +1,5 @@
 import type { Faq } from "./products";
+import { phase2GlossaryTerms } from "./glossary/phase2-terms";
 
 /* ----------------------------- Glossary ----------------------------- */
 export type GlossaryTerm = {
@@ -95,6 +96,15 @@ export const glossary: GlossaryTerm[] = [
     g(slug, term, def, `Getting ${term.toLowerCase()} right keeps the related records accurate and reduces audit and compliance risk.`)
   ),
   ...makeGlossaryFiller(),
+  ...phase2GlossaryTerms.map((t) =>
+    g(t.slug, t.term, t.definition, t.why, {
+      examples: t.examples,
+      product: t.product,
+      workflow: t.workflow,
+      guide: t.guide,
+      related: t.related,
+    })
+  ),
 ];
 
 export function getTerm(slug: string) {

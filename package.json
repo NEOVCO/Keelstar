@@ -29,6 +29,7 @@
     "worker:daily": "tsx --tsconfig workers/tsconfig.json workers/daily/index.ts",
     "audit:seo-size": "tsx scripts/audit-seo-page-size.ts",
     "seo:sync": "tsx scripts/seo-sync.ts",
+    "seo:longtail": "tsx scripts/seo-longtail.ts",
     "seo:seed": "tsx scripts/seo-sync.ts seed-catalog",
     "stripe:setup": "tsx scripts/stripe-setup-products.ts"
   },

@@ -1,7 +1,7 @@
 import { guide } from "./helpers";
 import type { Guide, GuideFaq, GuideSection } from "./types";
 
-export type GuideCluster = "w9" | "oig" | "coi";
+export type GuideCluster = "w9" | "oig" | "coi" | "vendor" | "contract";
 
 const CLUSTER_DEFAULTS: Record<
   GuideCluster,
@@ -22,6 +22,16 @@ const CLUSTER_DEFAULTS: Record<
     workflow: "track-coi-expirations",
     defaultRelatedGlossary: ["certificate-of-insurance"],
   },
+  vendor: {
+    product: "vendor-packet",
+    workflow: "build-vendor-onboarding-packets",
+    defaultRelatedGlossary: ["vendor-onboarding"],
+  },
+  contract: {
+    product: "contract-renewal-tracker",
+    workflow: "monitor-contract-renewals",
+    defaultRelatedGlossary: ["auto-renewal-clause", "notice-period"],
+  },
 };
 
 /** Spec for programmatic guide generation (Phase 1+ SEO scale). */
@@ -40,6 +50,7 @@ export type GuideArticleSpec = {
 };
 
 export const PHASE1_UPDATED = "2026-07-11";
+export const PHASE2_UPDATED = "2026-07-12";
 
 export function createGuide(spec: GuideArticleSpec): Guide {
   const defaults = CLUSTER_DEFAULTS[spec.cluster];
