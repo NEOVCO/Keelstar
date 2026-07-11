@@ -33,6 +33,17 @@ Programmatic SEO landing pages generated from `src/lib/seo-landing/clusters/` vi
 
 Dynamic pages live at `/solutions/{slug}/` (e.g. `/solutions/w9-request-from-vendor/`).
 
+### Programmatic guides (Phase 1 — 25 new)
+
+Factory: `src/lib/guides/create-guide.ts` + `src/lib/guides/clusters/`.
+
+| Cluster | Batch 1 | Manifest |
+|---------|--------:|----------|
+| W-9 | 15 | `docs/seo/phase1-manifest.jsonl` |
+| OIG | 10 | same |
+
+See [SEO_1000_PAGE_PLAN.md](./SEO_1000_PAGE_PLAN.md) for the full 1,000-page roadmap.
+
 | Route | Primary keyword |
 |-------|-----------------|
 | `/tools/w9-request-generator/` | w9 request |

@@ -1,4 +1,6 @@
 import type { Guide } from "./types";
+import { assertNoSlugCollisions } from "./create-guide";
+import { phase1Guides } from "./clusters";
 import { coreGuides } from "./core";
 import { w9Guides } from "./w9";
 import { coiGuides } from "./coi";
@@ -10,8 +12,9 @@ import { healthcareExclusionGuides } from "./healthcare-exclusion";
 import { platformGuides } from "./platform";
 
 export type { Guide, GuideSection, GuideFaq } from "./types";
+export { phase1GuideSpecs } from "./clusters";
 
-export const guides: Guide[] = [
+const handwrittenGuides: Guide[] = [
   ...coreGuides,
   ...w9Guides,
   ...coiGuides,
@@ -25,6 +28,10 @@ export const guides: Guide[] = [
   ...healthcareExclusionGuides,
   ...platformGuides,
 ];
+
+assertNoSlugCollisions(phase1Guides, handwrittenGuides.map((g) => g.slug));
+
+export const guides: Guide[] = [...handwrittenGuides, ...phase1Guides];
 
 export function getGuide(slug: string) {
   return guides.find((x) => x.slug === slug);
