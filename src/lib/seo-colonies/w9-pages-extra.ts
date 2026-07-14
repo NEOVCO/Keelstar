@@ -1,0 +1,111 @@
+import type { ColonyPage } from "./types";
+import { W9_HEAD_SOLUTION, W9_HUB, W9_PRODUCT } from "./w9";
+
+const s = (slug: string) => `/solutions/${slug}/`;
+const g = (slug: string) => `/guides/${slug}/`;
+const term = (slug: string) => `/glossary/${slug}/`;
+const industry = (industrySlug: string, workflowSlug: string) =>
+  `/industries/${industrySlug}/${workflowSlug}/`;
+
+export const W9_PAGES_EXTRA: ColonyPage[] = [
+  {
+    tier: "guide",
+    path: g("how-to-prepare-for-1099-filing-season"),
+    slug: "how-to-prepare-for-1099-filing-season",
+    title: "How to Prepare for 1099 Filing Season",
+    primaryKeyword: "1099 filing season",
+    difficulty: "hard",
+    linkUp: [W9_HUB, W9_PRODUCT, W9_HEAD_SOLUTION],
+    linkSideways: [g("how-to-handle-a-missing-w-9-at-year-end"), s("w9-year-end-audit-packet")],
+  },
+  {
+    tier: "guide",
+    path: g("how-to-handle-a-missing-w-9-at-year-end"),
+    slug: "how-to-handle-a-missing-w-9-at-year-end",
+    title: "How to Handle a Missing W-9 at Year-End",
+    primaryKeyword: "missing w9 year end",
+    difficulty: "hard",
+    linkUp: [W9_HUB, W9_HEAD_SOLUTION, W9_PRODUCT],
+    linkSideways: [g("how-to-prepare-for-1099-filing-season"), g("how-to-bulk-request-w9s-from-vendors")],
+  },
+  {
+    tier: "guide",
+    path: g("what-is-backup-withholding-and-how-to-avoid-it"),
+    slug: "what-is-backup-withholding-and-how-to-avoid-it",
+    title: "What Is Backup Withholding and How to Avoid It",
+    primaryKeyword: "avoid backup withholding",
+    difficulty: "medium",
+    linkUp: [W9_HEAD_SOLUTION, W9_HUB, term("backup-withholding")],
+    linkSideways: [g("how-to-validate-a-vendor-tin"), s("w9-backup-withholding-controls")],
+  },
+  {
+    tier: "guide",
+    path: g("how-to-collect-w9s-before-first-payment"),
+    slug: "how-to-collect-w9s-before-first-payment",
+    title: "How to Collect W-9s Before First Payment",
+    primaryKeyword: "collect w9 before payment",
+    difficulty: "medium",
+    linkUp: [W9_HEAD_SOLUTION, W9_HUB, W9_PRODUCT],
+    linkSideways: [g("how-to-request-a-w-9-from-a-new-vendor"), s("w9-validation-before-payment")],
+  },
+  {
+    tier: "guide",
+    path: g("how-to-handle-w9-for-llc-vendors"),
+    slug: "how-to-handle-w9-for-llc-vendors",
+    title: "How to Handle W-9 for LLC Vendors",
+    primaryKeyword: "w9 llc vendor",
+    difficulty: "medium",
+    linkUp: [W9_HEAD_SOLUTION, W9_HUB, s("w9-llc-classification-check")],
+    linkSideways: [g("how-to-fix-a-tin-mismatch-on-a-w9"), g("what-is-irs-form-w9")],
+  },
+  {
+    tier: "guide",
+    path: g("how-to-fix-a-tin-mismatch-on-a-w9"),
+    slug: "how-to-fix-a-tin-mismatch-on-a-w9",
+    title: "How to Fix a TIN Mismatch on a W-9",
+    primaryKeyword: "tin mismatch w9",
+    difficulty: "medium",
+    linkUp: [W9_HEAD_SOLUTION, W9_HUB, g("how-to-validate-a-vendor-tin")],
+    linkSideways: [term("payee-name-mismatch"), g("how-to-re-collect-stale-w-9s")],
+  },
+  {
+    tier: "guide",
+    path: g("w9-vs-w8-which-form"),
+    slug: "w9-vs-w8-which-form",
+    title: "W-9 vs W-8: Which Form Does Your Vendor Need?",
+    primaryKeyword: "w9 vs w8",
+    difficulty: "medium",
+    linkUp: [W9_HUB, W9_HEAD_SOLUTION, g("what-is-irs-form-w9")],
+    linkSideways: [g("how-to-request-a-w-9-from-a-new-vendor"), term("w-9")],
+  },
+  {
+    tier: "guide",
+    path: g("when-to-issue-a-1099-to-a-vendor"),
+    slug: "when-to-issue-a-1099-to-a-vendor",
+    title: "When to Issue a 1099 to a Vendor",
+    primaryKeyword: "when to issue 1099 vendor",
+    difficulty: "medium",
+    linkUp: [W9_HUB, W9_HEAD_SOLUTION, term("1099-nec")],
+    linkSideways: [g("how-to-prepare-for-1099-filing-season"), g("how-to-collect-w9s-from-vendors")],
+  },
+  {
+    tier: "industry",
+    path: industry("healthcare", "collect-w9s"),
+    slug: "healthcare-collect-w9s",
+    title: "Collect W-9s for Healthcare",
+    primaryKeyword: "healthcare vendor w9 collection",
+    difficulty: "medium",
+    linkUp: [W9_HUB, W9_HEAD_SOLUTION, W9_PRODUCT],
+    linkSideways: [g("how-to-collect-w9s-from-vendors"), s("w9-validation-before-payment")],
+  },
+  {
+    tier: "industry",
+    path: industry("professional-services", "collect-w9s"),
+    slug: "professional-services-collect-w9s",
+    title: "Collect W-9s for Professional Services",
+    primaryKeyword: "professional services w9 collection",
+    difficulty: "medium",
+    linkUp: [W9_HUB, W9_HEAD_SOLUTION, W9_PRODUCT],
+    linkSideways: [g("how-to-collect-w9s-from-vendors"), s("vendor-w9-management")],
+  },
+];

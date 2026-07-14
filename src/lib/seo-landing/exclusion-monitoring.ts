@@ -63,5 +63,6 @@ export const exclusionMonitoring: SeoLandingPageData = {
   ],
   solutionLinks: getHubSolutionLinks("exclusion-monitoring"),
   colonyGuideLinks: OIG_HUB_COLONY_GUIDES,
+  colonyGuideTitle: "OIG screening guides",
   lastUpdated: "2026-07-10",
 };

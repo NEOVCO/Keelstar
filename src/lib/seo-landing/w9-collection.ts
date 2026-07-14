@@ -1,4 +1,5 @@
 import type { SeoLandingPageData } from "./types";
+import { W9_HUB_COLONY_GUIDES } from "@/lib/seo-colonies";
 import {
   w9CollectionSections,
   w9CollectionWhoItsFor,
@@ -61,5 +62,7 @@ export const w9Collection: SeoLandingPageData = {
     { label: "All solutions", href: "/solutions/" },
   ],
   solutionLinks: getHubSolutionLinks("w9-collection"),
+  colonyGuideLinks: W9_HUB_COLONY_GUIDES,
+  colonyGuideTitle: "W-9 collection guides",
   lastUpdated: "2026-07-10",
 };

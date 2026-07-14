@@ -1,9 +1,10 @@
-import { getColonyFunnelForGuide, isOigColonyGuide } from "@/lib/seo-colonies";
+import { getAnyColonyFunnelForGuide } from "@/lib/seo-colonies";
 import { ColonyFunnelLinks } from "@/components/guides/ColonyFunnelLinks";
 
 type Props = { slug: string };
 
 export function GuideColonyFunnel({ slug }: Props) {
-  if (!isOigColonyGuide(slug)) return null;
-  return <ColonyFunnelLinks links={getColonyFunnelForGuide(slug)} />;
+  const funnel = getAnyColonyFunnelForGuide(slug);
+  if (!funnel) return null;
+  return <ColonyFunnelLinks title={funnel.title} links={funnel.links} />;
 }

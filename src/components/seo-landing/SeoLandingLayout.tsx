@@ -19,7 +19,7 @@ const TOC_ITEMS = [
   { id: "how-it-works", label: "How it works" },
   { id: "benefits", label: "Benefits" },
   { id: "related-solutions", label: "Related guides" },
-  { id: "colony-guides", label: "OIG guides" },
+  { id: "colony-guides", label: "Colony guides" },
   { id: "faq", label: "FAQ" },
 ] as const;
 
@@ -155,7 +155,7 @@ export function SeoLandingLayout({ page }: Props) {
       {page.colonyGuideLinks && page.colonyGuideLinks.length > 0 && (
         <SolutionsGuideLinks
           id="colony-guides"
-          title="OIG screening guides"
+          title={page.colonyGuideTitle ?? "Related guides"}
           links={page.colonyGuideLinks}
         />
       )}

@@ -33,6 +33,8 @@ export type SeoLandingPageData = {
   solutionLinks?: { label: string; href: string }[];
   /** Colony guide spokes surfaced on hub landings */
   colonyGuideLinks?: { label: string; href: string }[];
+  /** Section title for colony guide links on hub landings */
+  colonyGuideTitle?: string;
   /** ISO date for freshness signals (LLM + search) */
   lastUpdated?: string;
   comingSoon?: boolean;
