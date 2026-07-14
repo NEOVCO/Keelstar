@@ -6,6 +6,7 @@ import { certificateOfInsurance } from "./certificate-of-insurance";
 import { exclusionMonitoring } from "./exclusion-monitoring";
 import { buildPagesFromSpecs } from "./create-page";
 import { allSeoPageSpecs } from "./clusters";
+import { CONTRACT_HUB_COLONY_GUIDES } from "@/lib/seo-colonies/contract";
 
 export const seoLandingPages = {
   "vendor-portal": vendorPortal,
@@ -33,6 +34,14 @@ export const RESERVED_SLUGS = new Set<string>([
 const dynamicSpecs = allSeoPageSpecs.filter((spec) => !RESERVED_SLUGS.has(spec.slug));
 
 export const dynamicSeoLandingPages = buildPagesFromSpecs(dynamicSpecs);
+
+if (dynamicSeoLandingPages["contract-renewal-tracking"]) {
+  dynamicSeoLandingPages["contract-renewal-tracking"] = {
+    ...dynamicSeoLandingPages["contract-renewal-tracking"],
+    colonyGuideLinks: CONTRACT_HUB_COLONY_GUIDES,
+    colonyGuideTitle: "Contract renewal guides",
+  };
+}
 
 export function getDynamicSeoLandingPage(slug: string) {
   return dynamicSeoLandingPages[slug];

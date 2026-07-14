@@ -1,4 +1,5 @@
 import type { SeoLandingPageData } from "./types";
+import { PORTAL_HUB_COLONY_GUIDES } from "@/lib/seo-colonies";
 import {
   vendorPortalSections,
   vendorPortalWhoItsFor,
@@ -62,5 +63,7 @@ export const vendorPortal: SeoLandingPageData = {
     { label: "All solutions", href: "/solutions/" },
   ],
   solutionLinks: getHubSolutionLinks("vendor-portal"),
+  colonyGuideLinks: PORTAL_HUB_COLONY_GUIDES,
+  colonyGuideTitle: "Vendor portal guides",
   lastUpdated: "2026-07-10",
 };

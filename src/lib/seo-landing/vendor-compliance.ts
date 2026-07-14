@@ -1,4 +1,5 @@
 import type { SeoLandingPageData } from "./types";
+import { COMPLIANCE_HUB_COLONY_GUIDES } from "@/lib/seo-colonies";
 import {
   vendorComplianceSections,
   vendorComplianceWhoItsFor,
@@ -63,5 +64,7 @@ export const vendorCompliance: SeoLandingPageData = {
     { label: "All solutions", href: "/solutions/" },
   ],
   solutionLinks: getHubSolutionLinks("vendor-compliance"),
+  colonyGuideLinks: COMPLIANCE_HUB_COLONY_GUIDES,
+  colonyGuideTitle: "Vendor compliance guides",
   lastUpdated: "2026-07-10",
 };
