@@ -25,11 +25,28 @@ export {
   getW9ColonyFunnelForGuide,
   isW9ColonyGuide,
 } from "./w9-helpers";
+export {
+  coiColony,
+  COI_HUB_COLONY_GUIDES,
+  COI_PAGES,
+} from "./coi-colony";
+export {
+  COI_HUB,
+  COI_PRODUCT,
+  COI_HEAD_SOLUTION,
+  COI_HEAD_TOOL,
+} from "./coi";
+export {
+  getCoiColonyPage,
+  getCoiColonyFunnelForGuide,
+  isCoiColonyGuide,
+} from "./coi-helpers";
 import type { ColonyLink } from "./types";
 import { getColonyFunnelForGuide, isOigColonyGuide } from "./oig-helpers";
+import { getCoiColonyFunnelForGuide, isCoiColonyGuide } from "./coi-helpers";
 import { getW9ColonyFunnelForGuide, isW9ColonyGuide } from "./w9-helpers";
 
-/** Resolve funnel links for any colony guide (OIG or W-9). */
+/** Resolve funnel links for any colony guide (OIG, W-9, or COI). */
 export function getAnyColonyFunnelForGuide(slug: string): {
   title: string;
   links: ColonyLink[];
@@ -39,6 +56,9 @@ export function getAnyColonyFunnelForGuide(slug: string): {
   }
   if (isW9ColonyGuide(slug)) {
     return { title: "W-9 colony funnel", links: getW9ColonyFunnelForGuide(slug) };
+  }
+  if (isCoiColonyGuide(slug)) {
+    return { title: "COI colony funnel", links: getCoiColonyFunnelForGuide(slug) };
   }
   return null;
 }

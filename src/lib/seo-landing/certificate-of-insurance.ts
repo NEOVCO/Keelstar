@@ -1,4 +1,5 @@
 import type { SeoLandingPageData } from "./types";
+import { COI_HUB_COLONY_GUIDES } from "@/lib/seo-colonies";
 import {
   certificateOfInsuranceSections,
   certificateOfInsuranceWhoItsFor,
@@ -60,5 +61,7 @@ export const certificateOfInsurance: SeoLandingPageData = {
     { label: "All solutions", href: "/solutions/" },
   ],
   solutionLinks: getHubSolutionLinks("certificate-of-insurance"),
+  colonyGuideLinks: COI_HUB_COLONY_GUIDES,
+  colonyGuideTitle: "COI tracking guides",
   lastUpdated: "2026-07-10",
 };
