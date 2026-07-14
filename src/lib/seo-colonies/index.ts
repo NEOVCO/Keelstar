@@ -41,12 +41,29 @@ export {
   getCoiColonyFunnelForGuide,
   isCoiColonyGuide,
 } from "./coi-helpers";
+export {
+  vendorColony,
+  VENDOR_HUB_COLONY_GUIDES,
+  VENDOR_PAGES,
+} from "./vendor-colony";
+export {
+  VENDOR_HUB,
+  VENDOR_PRODUCT,
+  VENDOR_HEAD_SOLUTION,
+  VENDOR_HEAD_TOOL,
+} from "./vendor";
+export {
+  getVendorColonyPage,
+  getVendorColonyFunnelForGuide,
+  isVendorColonyGuide,
+} from "./vendor-helpers";
 import type { ColonyLink } from "./types";
 import { getColonyFunnelForGuide, isOigColonyGuide } from "./oig-helpers";
 import { getCoiColonyFunnelForGuide, isCoiColonyGuide } from "./coi-helpers";
 import { getW9ColonyFunnelForGuide, isW9ColonyGuide } from "./w9-helpers";
+import { getVendorColonyFunnelForGuide, isVendorColonyGuide } from "./vendor-helpers";
 
-/** Resolve funnel links for any colony guide (OIG, W-9, or COI). */
+/** Resolve funnel links for any colony guide (OIG, W-9, COI, or Vendor). */
 export function getAnyColonyFunnelForGuide(slug: string): {
   title: string;
   links: ColonyLink[];
@@ -59,6 +76,9 @@ export function getAnyColonyFunnelForGuide(slug: string): {
   }
   if (isCoiColonyGuide(slug)) {
     return { title: "COI colony funnel", links: getCoiColonyFunnelForGuide(slug) };
+  }
+  if (isVendorColonyGuide(slug)) {
+    return { title: "Vendor colony funnel", links: getVendorColonyFunnelForGuide(slug) };
   }
   return null;
 }

@@ -1,4 +1,5 @@
 import type { SeoLandingPageData } from "./types";
+import { VENDOR_HUB_COLONY_GUIDES } from "@/lib/seo-colonies";
 import {
   vendorOnboardingSections,
   vendorOnboardingWhoItsFor,
@@ -61,5 +62,7 @@ export const vendorOnboarding: SeoLandingPageData = {
     { label: "All solutions", href: "/solutions/" },
   ],
   solutionLinks: getHubSolutionLinks("vendor-onboarding"),
+  colonyGuideLinks: VENDOR_HUB_COLONY_GUIDES,
+  colonyGuideTitle: "Vendor onboarding guides",
   lastUpdated: "2026-07-10",
 };
