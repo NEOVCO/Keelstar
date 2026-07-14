@@ -6,16 +6,18 @@ type LinkItem = { label: string; href: string };
 type Props = {
   links: LinkItem[];
   title?: string;
+  id?: string;
 };
 
 export function SolutionsGuideLinks({
   links,
   title = "Related solution guides",
+  id = "related-solutions",
 }: Props) {
   if (!links.length) return null;
 
   return (
-    <Section tone="surface" id="related-solutions">
+    <Section tone="surface" id={id}>
       <h2 className="text-h2">{title}</h2>
       <p className="mt-3 max-w-3xl text-body text-secondary">
         Step-by-step guides for specific workflows. Each page explains the problem, what good looks like, and how

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Container, Eyebrow, Button } from "@/components/ui";
 import { Breadcrumbs } from "@/components/sections";
 import { guides, getGuide, getRelatedGuides } from "@/lib/guides";
+import { GuideColonyFunnel } from "@/components/guides/GuideColonyFunnel";
 import { getProduct } from "@/lib/products";
 import { getWorkflow } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -120,6 +121,7 @@ export default function GuidePage({ params }: { params: { slug: string } }) {
                   </Button>
                 )}
               </div>
+              <GuideColonyFunnel slug={g.slug} />
             </div>
           </article>
 

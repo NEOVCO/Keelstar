@@ -19,6 +19,7 @@ const TOC_ITEMS = [
   { id: "how-it-works", label: "How it works" },
   { id: "benefits", label: "Benefits" },
   { id: "related-solutions", label: "Related guides" },
+  { id: "colony-guides", label: "OIG guides" },
   { id: "faq", label: "FAQ" },
 ] as const;
 
@@ -30,9 +31,11 @@ export function SeoLandingLayout({ page }: Props) {
   ];
 
   const lastUpdated = page.lastUpdated ?? "2026-07-10";
-  const toc = TOC_ITEMS.filter(
-    (item) => item.id !== "related-solutions" || (page.solutionLinks && page.solutionLinks.length > 0),
-  );
+  const toc = TOC_ITEMS.filter((item) => {
+    if (item.id === "related-solutions") return page.solutionLinks && page.solutionLinks.length > 0;
+    if (item.id === "colony-guides") return page.colonyGuideLinks && page.colonyGuideLinks.length > 0;
+    return true;
+  });
 
   return (
     <article itemScope itemType="https://schema.org/WebPage">
@@ -147,6 +150,14 @@ export function SeoLandingLayout({ page }: Props) {
 
       {page.solutionLinks && page.solutionLinks.length > 0 && (
         <SolutionsGuideLinks links={page.solutionLinks} />
+      )}
+
+      {page.colonyGuideLinks && page.colonyGuideLinks.length > 0 && (
+        <SolutionsGuideLinks
+          id="colony-guides"
+          title="OIG screening guides"
+          links={page.colonyGuideLinks}
+        />
       )}
 
       {page.comingSoon && (

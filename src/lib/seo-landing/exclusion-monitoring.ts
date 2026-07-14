@@ -1,4 +1,5 @@
 import type { SeoLandingPageData } from "./types";
+import { OIG_HUB_COLONY_GUIDES } from "@/lib/seo-colonies";
 import {
   exclusionMonitoringSections,
   exclusionMonitoringWhoItsFor,
@@ -61,5 +62,6 @@ export const exclusionMonitoring: SeoLandingPageData = {
     { label: "All solutions", href: "/solutions/" },
   ],
   solutionLinks: getHubSolutionLinks("exclusion-monitoring"),
+  colonyGuideLinks: OIG_HUB_COLONY_GUIDES,
   lastUpdated: "2026-07-10",
 };
